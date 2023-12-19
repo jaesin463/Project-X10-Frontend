@@ -1,6 +1,7 @@
 import { useState } from "react";
-import Login from "../components/login";
-import Legist from "../components/regist";
+import Container from "../components/Container";
+import Login from "../components/Login";
+import Regist from "../components/Regist";
 
 export default function WelcomePage() {
   const [login, setLogin] = useState(true);
@@ -9,7 +10,7 @@ export default function WelcomePage() {
   };
   return (
     <>
-      <div>
+      <Container>
         {login ? (
           <div>
             <Login />
@@ -18,13 +19,13 @@ export default function WelcomePage() {
           </div>
         ) : (
           <div>
-            <Legist />
+            <Regist />
             <p>혹시 이미 회원이신가요?</p>
             <button onClick={change}>로그인</button>
           </div>
         )}
         웰컴페이지입니다.
-      </div>
+      </Container>
     </>
   );
 }

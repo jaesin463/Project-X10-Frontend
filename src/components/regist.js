@@ -1,4 +1,6 @@
-export default function Legist() {
+import styles from "./Regist.module.css";
+
+export default function Regist() {
   return (
     <>
       <div>
