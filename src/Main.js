@@ -17,11 +17,14 @@ function Main() {
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<WelcomePage />} />
-          <Route path="my" element={<MyMainPage />} />
-          <Route path="edit" element={<MyInfoEditPage />} />
+          <Route path="my">
+            <Route path=":userid">
+              <Route index element={<MyMainPage />} />
+              <Route path="edit" element={<MyInfoEditPage />} />
+            </Route>
+          </Route>
           <Route path="study">
-            {/* 여기 수정해야함 */}
-            <Route path="groupid">
+            <Route path=":groupid">
               <Route index element={<StudyGroupPage />} />
               <Route path="edit" element={<StudyGroupEditPage />} />
               <Route path="create" element={<QuestionCreatePage />} />
