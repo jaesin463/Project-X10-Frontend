@@ -1,0 +1,80 @@
+.FlexRow {
+  display: flex;
+  flex-direction: row;
+}
+.mainbox {
+  display: flex;
+  flex-direction: row;
+}
+.mainleft {
+  flex: 2;
+}
+.mainright {
+  flex: 3;
+}
+.문제리스트 {
+  border: 2px solid blue;
+  padding: 20px;
+}
+.문제리스트헤더 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 2px solid rebeccapurple;
+}
+.문제집생성 {
+  border: 2px solid rebeccapurple;
+  padding: 20px;
+  width: 100%;
+}
+.열고닫기 {
+  display: flex;
+  align-items: end;
+}
+.랭킹메인 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 40px;
+  border: solid 2px red;
+}
+.room {
+  display: flex;
+  justify-content: space-around;
+  border: 2px solid orange;
+}
+.head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  border: 2px solid rebeccapurple;
+}
+.문제방 {
+  height: 300px;
+  border: 2px solid black;
+}
+.랭킹 {
+  height: 300px;
+  border: 2px solid black;
+}
+.소문제집전체 {
+  display: flex;
+  flex-direction: column;
+}
+.소문제집틀 {
+  display: flex;
+  flex-direction: row;
+  border: 2px solid green;
+}
+.소문제집메인 {
+  flex: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.보이거나안보이거나 {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}

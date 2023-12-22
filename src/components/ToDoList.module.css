@@ -1,0 +1,95 @@
+:root {
+  --primary-100: #2563eb;
+  --primary-200: #598ef3;
+  --primary-300: #d3e6fe;
+  --primary-400: #e7effa;
+  --accent-100: #d946ef;
+  --accent-200: #fae8ff;
+  --text-100: #000000;
+  --text-200: #2c2c2c;
+  --text-300: #666666;
+  --bg-100: #f8fbff;
+  --bg-200: #eef1f5;
+  --bg-300: #c5c8cc;
+  --bg-400: #ffffff;
+  --header2: #eef1f5;
+  --done: #84d7a7;
+}
+* {
+  box-sizing: border-box;
+}
+.ul {
+  margin: 0;
+  padding: 10px;
+}
+
+.li {
+  list-style: none;
+  text-align: left;
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: solid 1px var(--bg-300);
+  margin: 5px;
+  min-height: 28.09px;
+}
+.li:hover {
+  border: solid 1px var(--primary-200);
+  background-color: var(--primary-400);
+}
+.libox {
+  display: flex;
+  justify-content: space-between;
+}
+/* .before {
+    background-color: var(--bg-300);
+  }
+  .progress {
+    background-color: var(--bg-300);
+  }
+  .done {
+    background-color: var(--bg-300);
+  } */
+
+.box {
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
+  padding: 20px;
+  background-color: var(--bg-400);
+}
+
+.list {
+  width: 32%;
+  text-align: center;
+}
+
+.add {
+  margin: 5px;
+  position: relative;
+}
+
+.add input {
+  border: solid 1px var(--bg-300);
+  padding: 10px;
+  border-radius: 10px;
+  width: 221.66px;
+  margin: 0 10px;
+}
+
+.button {
+  position: absolute;
+  right: 25px;
+  top: 23%;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.button:hover {
+  right: 22px;
+  top: 5px;
+  font-size: 30px;
+}
+.none {
+  display: none;
+}

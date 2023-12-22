@@ -1,0 +1,226 @@
+const BASE_URL = "http://localhost:8080";
+
+// 로그인
+export async function loginUser(user) {
+  try {
+    const response = await fetch(BASE_URL + "/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+// 회원가입
+export async function signupUser(user) {
+  try {
+    const response = await fetch(BASE_URL + "/users/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//유저가 속한 그룹들 조회
+export async function userGroup(userid) {
+  try {
+    const response = await fetch(BASE_URL + "/groups/readAll/" + userid, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//그룹 내 유저 전체조회
+export async function userIngroup(groupid) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/groups/readAllMember/" + groupid,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//스터디내 과목조회
+export async function subjectIngroup(groupid) {
+  try {
+    const response = await fetch(BASE_URL + "/subject/readAll/" + groupid, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//과목내소문제집조회
+export async function workbookInsubject(subjectid) {
+  try {
+    const response = await fetch(BASE_URL + "/workbook/readAll/" + subjectid, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+// 과목생성
+export const createSubject = async (subject) => {
+  try {
+    const response = await fetch(BASE_URL + "/subject/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(subject),
+    });
+
+    // 서버에서 오류 응답 처리
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+
+    // // 정상적인 경우 응답 데이터 반환
+    // return response.json();
+  } catch (error) {
+    throw new Error("Error creating subject: " + error.message);
+  }
+};
+
+//todolist
+export async function getToDoList(userId) {
+  try {
+    const response = await fetch(BASE_URL + "/todolist/AllTodo/" + userId, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+export async function addToDoList(todo) {
+  try {
+    const response = await fetch(BASE_URL + "/todolist/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(todo),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+export async function updateToDoList(todo) {
+  try {
+    const response = await fetch(BASE_URL + "/todolist/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(todo),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log("잘 업뎃됨ㅋ");
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+export async function deleteToDoList(todo) {
+  try {
+    const response = await fetch(BASE_URL + "/todolist/delete/" + todo, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
