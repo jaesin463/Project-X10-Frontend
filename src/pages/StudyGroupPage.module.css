@@ -1,35 +1,110 @@
+:root {
+  --primary-100: #2563eb;
+  --primary-200: #598ef3;
+  --primary-300: #d3e6fe;
+  --accent-100: #d946ef;
+  --accent-200: #fae8ff;
+  --text-100: #000000;
+  --text-200: #2c2c2c;
+  --text-300: #666666;
+  --bg-100: #f8fbff;
+  --bg-200: #eef1f5;
+  --bg-300: #c5c8cc;
+  --bg-400: #ffffff;
+  --bg-500: #d8d8d8;
+  --header2: #eef1f5;
+}
+
 .FlexRow {
   display: flex;
   flex-direction: row;
 }
+
+.tranBtn {
+  height: 30px;
+  outline: none;
+  border: none;
+  background-color: var(--primary-200);
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 5px 0 5px 0;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-right: 10px;
+}
+.editBtn {
+  height: 30px;
+  /* padding: 0.75rem 2rem; */
+  outline: none;
+  border: none;
+  background-color: var(--primary-200);
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 5px 0 5px 0;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.exitBtn {
+  height: 30px;
+  /* padding: 0.75rem 2rem; */
+  outline: none;
+  border: none;
+  background-color: #dd0f73;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 5px 0 5px 0;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.exitBtn:hover {
+  background-color: #c11042;
+}
+
 .mainbox {
+  margin: 30px 0 70px;
   display: flex;
-  flex-direction: row;
+  gap: 20px;
 }
 .mainleft {
-  flex: 2;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 .mainright {
   flex: 3;
 }
 .문제리스트 {
-  border: 2px solid blue;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.과목 {
+  border: solid 2.5px var(--primary-300);
+  border-radius: 10px;
+  box-shadow: 0 0 15px 0px var(--bg-500);
+  background-color: var(--bg-400);
 }
 .문제리스트헤더 {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  border: 2px solid rebeccapurple;
+  padding: 10px;
 }
-.문제집생성 {
-  border: 2px solid rebeccapurple;
-  padding: 20px;
-  width: 100%;
+.과목제목 {
+  font-size: 20px;
+  margin: 15px;
+}
+.과목설명 {
+  font-size: 16px;
+  margin: 15px;
+  color: var(--text-200);
 }
 .열고닫기 {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
+}
+.여닫이 {
+  margin: 0 15px;
 }
 .랭킹메인 {
   display: flex;
@@ -40,32 +115,175 @@
 }
 .room {
   display: flex;
-  justify-content: space-around;
-  border: 2px solid orange;
+  justify-content: space-between;
+  background-color: var(--primary-300);
+  padding: 10px;
+  border-radius: 5px;
+  height: 120px;
+}
+
+.roomleft {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.roomright {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.hr {
+  margin-top: 10px;
+  border: none;
+  border-bottom: solid 2px var(--accent-200);
+}
+.방이름 {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+.문제집이름 {
+  font-size: 14px;
+  color: var(--text-300);
+}
+
+.방버튼 {
+  width: 100%;
+  height: 30px;
+  /* padding: 0.75rem 2rem; */
+  outline: none;
+  border: none;
+  background-color: var(--primary-200);
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.tranBtn:hover,
+.editBtn:hover,
+.방버튼:hover {
+  background-color: var(--primary-100);
 }
 .head {
+  position: absolute;
+  bottom: 0;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: flex-end;
   width: 100%;
-  border: 2px solid rebeccapurple;
+  background: linear-gradient(0deg, #f9f9f9 0%, rgba(255, 255, 255, 0) 100%);
+  height: 250px;
+  padding: 20px 100px;
 }
-.문제방 {
-  height: 300px;
-  border: 2px solid black;
+.header {
+  width: 100%;
+  position: relative;
 }
+.groupimgCover {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.groupimg {
+  width: 100%;
+}
+
+.buttons {
+  position: relative;
+}
+
+.study {
+  position: absolute;
+  top: 40px;
+  left: 0px;
+  padding: 10px;
+  background-color: rgba(255, 255, 192, 0.1);
+  border: solid 2px var(--primary-200);
+  border-radius: 10px;
+  backdrop-filter: blur(25px);
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10;
+}
+
+.title {
+  text-shadow: 0 0 5px var(--text-300);
+  width: 750px;
+}
+
+.studylist {
+  border: solid 1px var(--primary-300);
+  width: 200px;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--bg-200);
+}
+.groupName {
+  margin: 0;
+  padding: 0;
+}
+
+.문제방,
 .랭킹 {
-  height: 300px;
-  border: 2px solid black;
+  border: solid 2.5px var(--primary-300);
+  border-radius: 10px;
+  box-shadow: 0 0 15px 0px var(--bg-500);
+  background-color: var(--bg-400);
+  padding: 10px;
 }
+
+.만들기버튼 {
+  width: 100%;
+  height: 40px;
+  padding: 0.75rem 2rem;
+  outline: none;
+  border: none;
+  background-color: var(--primary-200);
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 10px 0 10px 0;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.만들기버튼:hover {
+  background-color: var(--accent-100);
+}
+
 .소문제집전체 {
   display: flex;
   flex-direction: column;
 }
 .소문제집틀 {
   display: flex;
-  flex-direction: row;
-  border: 2px solid green;
+  border: solid 2.5px var(--primary-300);
+  border-radius: 10px;
+  box-shadow: 0 0 15px 0px var(--bg-500);
+  background-color: var(--primary-300);
+  padding: 10px;
+  margin: 10px 20px;
+}
+
+.문제집생성 {
+  border: solid 1px var(--bg-300);
+  border-radius: 10px;
+  box-shadow: 0 0 15px 0px var(--bg-500);
+  background-color: var(--bg-400);
+  padding: 10px;
+  margin: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 .소문제집메인 {
   flex: 5;

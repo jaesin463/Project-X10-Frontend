@@ -1,0 +1,99 @@
+.main {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  height: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.둘중하나만 {
+  width: 100%;
+}
+.left {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  border: 2px solid black;
+  height: 800px;
+  overflow-y: auto;
+}
+.people {
+  margin-top: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.누구 {
+  margin: 10px;
+}
+.나 {
+  margin: 10px;
+  color: blue;
+}
+.문제 {
+  width: 70%;
+  /* height: 10%; */
+  border: 2px solid blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 20px;
+}
+.문제리스트 {
+  border: 2px solid red;
+  padding: 20px;
+}
+.difficultyButtons {
+  display: flex;
+  justify-content: space-around;
+}
+.레벨라벨 {
+  display: flex;
+  flex-direction: column;
+}
+.문제내기창 {
+  padding: 10px;
+  width: 100%;
+  border: 2px solid brown;
+}
+.right {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid black;
+  overflow-y: auto;
+}
+.업데이트폼 {
+  padding: 20px;
+  border: 2px solid burlywood;
+}
+.이름문제수 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.난이도 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 20px;
+  width: 60%;
+  border: 2px solid goldenrod;
+}
+.title {
+  width: 100%;
+  height: 20%;
+
+  padding: 20px;
+  border: 2px solid green;
+}
+
+.make {
+  width: 100%;
+  height: 100%;
+  border: 2px solid violet;
+  padding: 20px;
+}

@@ -16,7 +16,7 @@ export default function WelcomePage() {
           <div
             className={styles.left}
             style={{
-              height: login ? "450px" : "",
+              minHeight: login ? "450px" : "500px",
             }}
           >
             {login ? (

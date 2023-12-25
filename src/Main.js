@@ -10,10 +10,12 @@ import SolveExplanationPage from "./pages/SolveExplanationPage";
 import SolvePage from "./pages/SolvePage";
 import SolveReadyPage from "./pages/SolveReadyPage";
 import SolveResultPage from "./pages/SolveResultPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 function Main() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<WelcomePage />} />
@@ -27,7 +29,7 @@ function Main() {
             <Route path=":groupid">
               <Route index element={<StudyGroupPage />} />
               <Route path="edit" element={<StudyGroupEditPage />} />
-              <Route path="create" element={<QuestionCreatePage />} />
+              <Route path=":workbookid" element={<QuestionCreatePage />} />
               <Route path="solveexplane" element={<SolveExplanationPage />} />
               <Route path="solve" element={<SolvePage />} />
               <Route path="ready" element={<SolveReadyPage />} />

@@ -1,0 +1,83 @@
+.그룹이미지디브 {
+  border: 2px solid red;
+  height: 120px;
+  display: flex;
+}
+.이미지 {
+  width: 100%;
+  position: relative;
+}
+.수정버튼위치 {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.그룹이름디브 {
+  border: 2px solid orange;
+  height: 70px;
+  display: flex;
+}
+.그룹이름 {
+  width: 100%;
+  position: relative;
+}
+.그룹설명디브 {
+  height: 120px;
+  border: 2px solid yellow;
+  display: flex;
+}
+.그룹설명 {
+  width: 100%;
+  position: relative;
+}
+.그룹멤버디브 {
+  border: 2px solid green;
+  height: 45px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.멤버들디브 {
+  border: 2px solid blue;
+  display: flex;
+  height: 160px;
+}
+.유저정보 {
+  display: flex;
+  flex-direction: column;
+  border: solid 2px black;
+  border-radius: 10px;
+  width: 140px;
+}
+.userList {
+  border: 2px solid purple;
+  height: 100%;
+  display: flex;
+  flex: 2.5;
+  overflow-x: auto;
+}
+.userInfo {
+  border: 2px solid saddlebrown;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.인포탑 {
+  display: flex;
+  align-items: center;
+  border: solid 2px red;
+  flex: 3;
+}
+.레벨과이름디브 {
+  display: flex;
+  flex-direction: column;
+}
+
+.인포바텀 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid 2px green;
+  flex: 1;
+}
