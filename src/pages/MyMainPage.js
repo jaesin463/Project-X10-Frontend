@@ -1,15 +1,22 @@
 import Container from "../components/Container";
 import ToDoList from "../components/ToDoList";
+import Progress from "../components/Progress";
 import styles from "./MyMainPage.module.css";
 import ex from "../assets/ex.jpeg";
 import classNames from "classnames";
 import { userGroup, userIngroup } from "../api/api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Modal from "react-modal";
+import plus from "../assets/plus.png";
+import StudyGroupCreate from "../components/StudyGroupCreate";
+import Slider from "../components/slider";
 
 export default function MyMainPage() {
   const [userGroups, setUserGroups] = useState([]);
   const [groupMembers, setGroupMembers] = useState({});
+  const [focus, setFocus] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const loginUser = JSON.parse(localStorage.getItem("loginUser"));
 
@@ -63,12 +70,44 @@ export default function MyMainPage() {
       <Container>
         <div className={styles.FlexColumn}>
           <h1>{loginUser.userName}님 환영합니다.</h1>
-          <div className={styles.cara}>캐러셀이 들어갈곳입니다</div>
-          <h2>스터디그룹 목록</h2>
+          <div className={styles.cara}>
+            <Slider />
+          </div>
+          <div className={styles.FlexRow}>
+            <div className={styles.qustion}>
+              <h3>최근 푼 문제 | 예정 된 문제</h3>
+              <div></div>
+            </div>
+            <div
+              className={styles.level}
+              onMouseOver={() => setFocus(true)}
+              onMouseOut={() => setFocus(false)}
+            >
+              <Progress persent={(loginUser.userSolvedQuestion % 100) * 0.01} />
+              <p className={styles.lv}>
+                Lv. {Math.floor(loginUser.userSolvedQuestion / 100) + 1}
+              </p>
+              <p className={styles.nextLv}>
+                {(Math.floor(loginUser.userSolvedQuestion / 100) + 1) * 100}
+              </p>
+              <p className={styles.prevLv}>
+                {Math.floor(loginUser.userSolvedQuestion / 100) * 100}
+              </p>
+              {focus && (
+                <div className={styles.lvBox}>
+                  <p className={styles.sq}>
+                    {" "}
+                    푼 문제 수 : {loginUser.userSolvedQuestion}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+          <h2 className={styles.list}>스터디그룹 목록</h2>
           <div className={styles.study}>
             {userGroups.map((group, index) => (
-              <Link to={`../../study/${group.groupId}`}>
-                <div key={index} className={styles.studylist}>
+              <Link to={`../../study/${group.groupId}`} key={index}>
+                <div className={styles.studylist}>
                   <div className={styles.groupimgCover}>
                     <img
                       src={ex}
@@ -91,18 +130,51 @@ export default function MyMainPage() {
             ))}
             {userGroups.length < 10 && (
               <>
-                <div className={styles.studyadd}>!! 스터디 추가하기 !!</div>
+                <div
+                  className={styles.studyadd}
+                  onClick={() => setModalIsOpen(true)}
+                >
+                  <p>새로운 스터디그룹 만들기</p>
+                  <img
+                    src={plus}
+                    alt="plus"
+                    width="50px"
+                    height="50px"
+                    className={styles.img}
+                  ></img>
+                </div>
+
+                <Modal
+                  appElement={document.getElementById("root")}
+                  isOpen={modalIsOpen}
+                  onRequestClose={() => setModalIsOpen(false)}
+                  style={{
+                    overlay: { backgroundColor: "rgba(0, 0, 0, 0.2)" },
+                    content: {
+                      boxShadow: "0 0 15px 0px var(--bg-500)",
+                      backgroundColor: "var(--bg-400)",
+                      border: "solid 2.5px var(--bg-400)",
+                      borderRadius: "10px",
+                      width: "600px",
+                      height: "400px",
+                      margin: "auto",
+                      position: "fixed",
+                      top: "0",
+                      bottom: "0",
+                      left: "0",
+                      right: "0",
+                    },
+                  }}
+                >
+                  <StudyGroupCreate
+                    userId={loginUser.userId}
+                    setModalIsOpen={setModalIsOpen}
+                    setUserGroups={setUserGroups}
+                    userGroups={userGroups}
+                  />
+                </Modal>
               </>
             )}
-          </div>
-          <div className={styles.FlexRow}>
-            <div className={styles.qustion}>최근푼 문제가 들어갈 곳입니다</div>
-            <div className={styles.level}>
-              <span>당신의 레벨은 ?!</span>
-              <br />
-              <p>{loginUser.userLevel}</p>
-              <p>{loginUser.userSolvedQuestion}</p>
-            </div>
           </div>
           <h2>투두리스트</h2>
           <div className={classNames(styles.todo)}>

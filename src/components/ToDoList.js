@@ -8,6 +8,8 @@ import {
 } from "../api/api";
 import styles from "./ToDoList.module.css";
 import classNames from "classnames";
+import plus from "../assets/plus.png";
+import minus from "../assets/minus.png";
 
 const TodoList = ({ userId }) => {
   const [todoList, setTodoList] = useState([]);
@@ -100,7 +102,7 @@ const TodoList = ({ userId }) => {
         const state = item === "t" ? 0 : item === "i" ? 1 : 2;
         console.log("드래그한곳:", item);
         if (evt.item.children[0] && evt.item.children[1]) {
-          const todo = evt.item.children[0].textContent.slice(0, -1);
+          const todo = evt.item.children[0].textContent;
           const id = parseInt(evt.item.children[1].textContent);
           console.log("드래그 중인 아이템의 텍스트 내용:", todo, id);
           handleUpdateTodo(id, state, todo);
@@ -122,7 +124,7 @@ const TodoList = ({ userId }) => {
           const state = item === "t" ? 0 : item === "i" ? 1 : 2;
           console.log("드래그한곳:", item);
           if (evt.item.children[0] && evt.item.children[1]) {
-            const todo = evt.item.children[0].textContent.slice(0, -1);
+            const todo = evt.item.children[0].textContent;
             const id = parseInt(evt.item.children[1].textContent);
             console.log("드래그 중인 아이템의 텍스트 내용:", todo, id);
             handleUpdateTodo(id, state, todo);
@@ -145,7 +147,7 @@ const TodoList = ({ userId }) => {
           const state = item === "t" ? 0 : item === "i" ? 1 : 2;
           console.log("드래그한곳:", item);
           if (evt.item.children[0] && evt.item.children[1]) {
-            const todo = evt.item.children[0].textContent.slice(0, -1);
+            const todo = evt.item.children[0].textContent;
             const id = parseInt(evt.item.children[1].textContent);
             console.log("드래그 중인 아이템의 텍스트 내용:", todo, id);
             handleUpdateTodo(id, state, todo);
@@ -175,7 +177,14 @@ const TodoList = ({ userId }) => {
             >
               <div className={styles.libox}>
                 <div>{item.todo}</div>
-                <div onClick={() => handleDeleteTodo(item)}>-</div>
+                <img
+                  onClick={() => handleDeleteTodo(item)}
+                  src={minus}
+                  alt="minus"
+                  width="20px"
+                  height="20px"
+                  className={styles.img}
+                ></img>
               </div>
               <div className={styles.none}>{item.todoId}</div>
             </li>
@@ -188,9 +197,13 @@ const TodoList = ({ userId }) => {
             onChange={(e) => setNewTodo(e.target.value)}
             placeholder="새로운 할일 추가"
           />
-          <div onClick={handleAddTodo} className={styles.button}>
-            +
-          </div>
+          <img
+            onClick={handleAddTodo}
+            className={styles.button}
+            src={plus}
+            alt="plus"
+            width="25px"
+          ></img>
         </div>
       </div>
       <div className={styles.list}>
@@ -203,7 +216,14 @@ const TodoList = ({ userId }) => {
             >
               <div className={styles.libox}>
                 <div>{item.todo}</div>
-                <div onClick={() => handleDeleteTodo(item)}>-</div>
+                <img
+                  onClick={() => handleDeleteTodo(item)}
+                  src={minus}
+                  alt="minus"
+                  width="20px"
+                  height="20px"
+                  className={styles.img}
+                ></img>
               </div>
               <div className={styles.none}>{item.todoId}</div>
             </li>
@@ -220,7 +240,14 @@ const TodoList = ({ userId }) => {
             >
               <div className={styles.libox}>
                 <div>{item.todo}</div>
-                <div onClick={() => handleDeleteTodo(item)}>-</div>
+                <img
+                  onClick={() => handleDeleteTodo(item)}
+                  src={minus}
+                  alt="minus"
+                  width="20px"
+                  height="20px"
+                  className={styles.img}
+                ></img>
               </div>
               <div className={styles.none}>{item.todoId}</div>
             </li>

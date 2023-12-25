@@ -224,3 +224,236 @@ export async function deleteToDoList(todo) {
     throw error;
   }
 }
+
+// 그룹생성
+export async function groupCreate(group) {
+  try {
+    const response = await fetch(BASE_URL + "/groups/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(group),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//워크북안에 퀴즈조회
+export async function questionInworkbook(workbookid) {
+  try {
+    const response = await fetch(BASE_URL + "/question/readAll/" + workbookid, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//유저이름을 가져오고싶어서 만든 api
+export async function userName(userid) {
+  try {
+    const response = await fetch(BASE_URL + "/users/read/" + userid, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//워크북정보가져오기
+export async function workbookInfo(workbookid) {
+  try {
+    const response = await fetch(BASE_URL + "/workbook/read/" + workbookid, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//퀴즈생성
+export async function makeQuestion(question) {
+  try {
+    const response = await fetch(BASE_URL + "/question/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(question),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // 서버로부터 반환된 JSON 데이터를 파싱하고 반환
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//객관식선지생성
+export async function makeMultipleChoice(multipleChoice) {
+  try {
+    const response = await fetch(BASE_URL + "/multiplechoice/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(multipleChoice),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//퀴즈상세정보
+export async function questionInfo(questionId) {
+  try {
+    const response = await fetch(BASE_URL + "/question/read/" + questionId, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//객관식상세정보
+export async function answerInfo(questionId) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/multiplechoice/readAll/" + questionId,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//객관식답안수정
+export async function updateMulti(multipleChoice) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/multiplechoice/update/" + multipleChoice.multipleChoiceId,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(multipleChoice),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log("잘 업뎃됨ㅋ");
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+//문제수정
+export async function updateQuestion(question) {
+  try {
+    console.log("문제수정하려고하는 문제정보 :", question);
+    const response = await fetch(BASE_URL + "/question/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(question),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(
+        "HTTP error! Status:",
+        response.status,
+        "Error:",
+        errorText
+      );
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log("잘 업뎃됨ㅋ");
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//문제삭제하기
+export async function deleteQuestion(questionId) {
+  try {
+    const response = await fetch(BASE_URL + "/question/delete/" + questionId, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}

@@ -1,25 +1,37 @@
 import Container from "../components/Container";
 import styles from "./StudyGroupPage.module.css";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
   subjectIngroup,
   workbookInsubject,
   userIngroup,
   createSubject,
+  userGroup,
 } from "../api/api";
 import { useEffect, useState } from "react";
+import ex from "../assets/ex.jpeg";
+import arrow from "../assets/arrow.png";
 
 export default function StudyGroupPage() {
   const { groupid } = useParams();
-  console.log(groupid);
 
   const [subjectG, setSubjectG] = useState([]);
   const [workbookS, setWorkbookS] = useState([]);
   const [groupMembers, setGroupMembers] = useState([]);
   const [toggleList, setToggleList] = useState([]);
+  const [toggle, setToggle] = useState(false);
+
+  const [userGroups, setUserGroups] = useState([]);
+  const [nowGroup, setNowGroup] = useState({});
+
+  const [rotation, setRotation] = useState([]);
 
   const [st, setSubjectTitle] = useState("");
   const [sc, setSubjectContent] = useState("");
+
+  console.log(workbookS);
+
+  const loginUser = JSON.parse(localStorage.getItem("loginUser"));
 
   const handleRegist = async (e) => {
     e.preventDefault();
@@ -60,8 +72,25 @@ export default function StudyGroupPage() {
   };
 
   useEffect(() => {
+    userGroup(loginUser.userId)
+      .then((groups) => {
+        setUserGroups(groups);
+        for (let g of groups) {
+          if (g.groupId === +groupid) {
+            setNowGroup(g);
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("에러 발생:", error);
+      });
+  }, [loginUser.userId, groupid]);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
+        //유저의 모든 그룹
+
         // 현재 스터디 그룹의 멤버 목록을 가져옵니다.
         const members = await userIngroup(groupid);
         console.log("스터디내그룹원들:", members);
@@ -83,6 +112,7 @@ export default function StudyGroupPage() {
         setWorkbookS(workbooks);
         // 초기에 모든 소문제집을 닫은 상태로 초기화합니다.
         setToggleList(Array(subjects.length).fill(false));
+        setRotation(Array(subjects.length).fill(0));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -92,38 +122,87 @@ export default function StudyGroupPage() {
   }, [groupid]);
 
   const clickto = (index) => {
-    // 특정 소문제집의 토글 상태를 변경합니다.
     const newToggleList = [...toggleList];
+    const newRotation = [...rotation];
     newToggleList[index] = !newToggleList[index];
+    newRotation[index] = newRotation[index] + 180;
+    console.log(newRotation);
     setToggleList(newToggleList);
+    setRotation(newRotation);
   };
 
   return (
     <>
-      <Container>
+      <div className={styles.header}>
+        <div className={styles.groupimgCover}>
+          <img src={ex} alt="dd" className={styles.groupimg}></img>
+        </div>
         <div className={styles.head}>
-          <div>스터디그룹입니다</div>
-          <div>
-            <button>나의그룹</button>
-            <button>그룹설정</button>
-            <button>그룹나가기</button>
+          <div className={styles.title}>
+            <h1>{nowGroup.groupName} 스터디그룹입니다</h1>
+            <p>{nowGroup.groupDetail}</p>
+          </div>
+          <div className={styles.buttons}>
+            <button
+              onClick={() => setToggle(!toggle)}
+              className={styles.tranBtn}
+            >
+              그룹이동
+            </button>
+            {toggle && (
+              <div className={styles.study}>
+                <div>내그룹</div>
+                {userGroups.map((group, index) => (
+                  <div key={index}>
+                    {group.groupName !== nowGroup.groupName ? (
+                      <Link
+                        to={`../../study/${group.groupId}`}
+                        onClick={() => setToggle(false)}
+                      >
+                        <div className={styles.studylist}>
+                          <h2 className={styles.groupName}>
+                            {group.groupName}
+                          </h2>
+                          <div>이동하기</div>
+                        </div>
+                      </Link>
+                    ) : (
+                      <div className={styles.studylist}>
+                        <h2 className={styles.groupName}>{group.groupName}</h2>
+                        <div>현위치</div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+            {nowGroup.groupLeaderId === loginUser.userId ? (
+              <Link to={"edit"}>
+                <button className={styles.editBtn}>그룹설정</button>
+              </Link>
+            ) : (
+              <button className={styles.exitBtn}>그룹나가기</button>
+            )}
           </div>
         </div>
+      </div>
+      <Container>
         <div className={styles.mainbox}>
           <div className={styles.mainleft}>
             <div className={styles.문제방}>
-              <button>문제방 만들기</button>
-              <p>생성된 방 리스트</p>
+              <button className={styles.만들기버튼}>문제방 만들기</button>
+              <hr className={styles.hr}></hr>
+              <h3>생성된 방 리스트</h3>
               <div>
                 <div className={styles.room}>
                   <div className={styles.roomleft}>
-                    <div>방이름</div>
-                    <div>문제집이름</div>
+                    <div className={styles.방이름}>방이름</div>
+                    <div className={styles.문제집이름}>문제집이름</div>
                   </div>
                   <div className={styles.roomright}>
                     <div>참여한사람들이미지</div>
                     <div>
-                      <button> 4/5 입장하기</button>
+                      <button className={styles.방버튼}> 4/5 입장하기</button>
                     </div>
                   </div>
                 </div>
@@ -152,16 +231,32 @@ export default function StudyGroupPage() {
           <div className={styles.mainright}>
             <div className={styles.문제리스트}>
               {subjectG.map((subject, subjectIndex) => (
-                <div key={subjectIndex}>
+                <div key={subjectIndex} className={styles.과목}>
                   <div className={styles.문제리스트헤더}>
                     <div>
-                      <p>{subject?.subjectTitle}</p>
-                      <p>{subject?.subjectContent}</p>
+                      <div className={styles.과목제목}>
+                        {subject?.subjectTitle}
+                      </div>
+                      <div className={styles.과목설명}>
+                        {subject?.subjectContent}
+                      </div>
                     </div>
                     <div className={styles.열고닫기}>
-                      <button onClick={() => clickto(subjectIndex)}>
-                        {toggleList[subjectIndex] ? "닫기" : "열기"}
-                      </button>
+                      <img
+                        className={styles.여닫이}
+                        src={arrow}
+                        alt="arrow"
+                        onClick={() => {
+                          clickto(subjectIndex);
+                        }}
+                        width="30"
+                        height="30"
+                        value={rotation}
+                        style={{
+                          transform: `rotate(${rotation[subjectIndex]}deg)`,
+                          transition: "transform 0.3s ease-in-out",
+                        }}
+                      ></img>
                     </div>
                   </div>
                   {toggleList[subjectIndex] && (
@@ -174,10 +269,14 @@ export default function StudyGroupPage() {
                           >
                             <div className={styles.소문제집메인}>
                               <span>{workbook.workbookTitle}</span>
-                              <span>{workbook.workbookContent}</span>
+                              <span>{workbook.workbookDetail}</span>
+                              <span>{workbook.workbookDeadline}까지</span>
+                              <span>1인당 {workbook.workbookQuota}문제</span>
                             </div>
                             <div className={styles.보이거나안보이거나}>
-                              <button>문제내러가기버튼</button>
+                              <Link to={`${workbook.workbookId}`}>
+                                <button>문제내러가기버튼</button>
+                              </Link>
                               <div>
                                 <span>
                                   문제를 냈거나 마우스를 올리지 않으면 이미지가
@@ -212,7 +311,7 @@ export default function StudyGroupPage() {
                   </label>
                 </div>
                 <div className={styles.regist_div}>
-                  <input
+                  <textarea
                     placeholder=" "
                     type="text"
                     name="subjectContent"

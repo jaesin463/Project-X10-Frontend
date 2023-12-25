@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import styles from "./Regist.module.css";
 import { signupUser } from "../api/api"; // API 호출 함수로 수정
 
