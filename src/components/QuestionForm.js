@@ -87,7 +87,7 @@ const QuestionForm = ({
               <input
                 type="radio"
                 name="questionA"
-                checked={mcisanswer1 === 1}
+                checked={mcisanswer1 === true}
                 onChange={() => handleMCAnswerChange(1)}
                 value={mcisanswer1}
               />
@@ -104,7 +104,7 @@ const QuestionForm = ({
               <input
                 type="radio"
                 name="questionA"
-                checked={mcisanswer2 === 1}
+                checked={mcisanswer2 === true}
                 onChange={() => handleMCAnswerChange(2)}
                 value={mcisanswer2}
               />
@@ -121,7 +121,7 @@ const QuestionForm = ({
               <input
                 type="radio"
                 name="questionA"
-                checked={mcisanswer3 === 1}
+                checked={mcisanswer3 === true}
                 onChange={() => handleMCAnswerChange(3)}
                 value={mcisanswer3}
               />
@@ -138,7 +138,7 @@ const QuestionForm = ({
               <input
                 type="radio"
                 name="questionA"
-                checked={mcisanswer4 === 1}
+                checked={mcisanswer4 === true}
                 onChange={() => handleMCAnswerChange(4)}
                 value={mcisanswer4}
               />
@@ -155,7 +155,7 @@ const QuestionForm = ({
               <input
                 type="radio"
                 name="questionA"
-                checked={mcisanswer5 === 1}
+                checked={mcisanswer5 === true}
                 onChange={() => handleMCAnswerChange(5)}
                 value={mcisanswer5}
               />
