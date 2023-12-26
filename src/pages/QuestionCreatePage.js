@@ -85,11 +85,11 @@ export default function QuestionCreatePage() {
 
   const handleMCAnswerChange = (answerIndex) => {
     // 선택된 보기에 대한 상태를 설정합니다.
-    setMCisanswer1(answerIndex === 1 ? 1 : 0);
-    setMCisanswer2(answerIndex === 2 ? 1 : 0);
-    setMCisanswer3(answerIndex === 3 ? 1 : 0);
-    setMCisanswer4(answerIndex === 4 ? 1 : 0);
-    setMCisanswer5(answerIndex === 5 ? 1 : 0);
+    setMCisanswer1(answerIndex === 1 ? true : false);
+    setMCisanswer2(answerIndex === 2 ? true : false);
+    setMCisanswer3(answerIndex === 3 ? true : false);
+    setMCisanswer4(answerIndex === 4 ? true : false);
+    setMCisanswer5(answerIndex === 5 ? true : false);
 
     // 비동기로 동작하는 상태 업데이트를 확인하기 위해 useEffect 사용
   };
@@ -129,7 +129,7 @@ export default function QuestionCreatePage() {
       const multipleChoice1 = {
         questionId: questionId,
         choiceContent: mccontent1,
-        isAnswer: mcisanswer1,
+        answer: mcisanswer1,
       };
       console.log(mcisanswer1);
       const response1 = await makeMultipleChoice(multipleChoice1);
@@ -137,25 +137,25 @@ export default function QuestionCreatePage() {
       const multipleChoice2 = {
         questionId: questionId,
         choiceContent: mccontent2,
-        isAnswer: mcisanswer2,
+        answer: mcisanswer2,
       };
       const response2 = await makeMultipleChoice(multipleChoice2);
       const multipleChoice3 = {
         questionId: questionId,
         choiceContent: mccontent3,
-        isAnswer: mcisanswer3,
+        answer: mcisanswer3,
       };
       const response3 = await makeMultipleChoice(multipleChoice3);
       const multipleChoice4 = {
         questionId: questionId,
         choiceContent: mccontent4,
-        isAnswer: mcisanswer4,
+        answer: mcisanswer4,
       };
       const response4 = await makeMultipleChoice(multipleChoice4);
       const multipleChoice5 = {
         questionId: questionId,
         choiceContent: mccontent5,
-        isAnswer: mcisanswer5,
+        answer: mcisanswer5,
       };
       const response5 = await makeMultipleChoice(multipleChoice5);
     } catch (error) {
@@ -187,7 +187,7 @@ export default function QuestionCreatePage() {
         multipleChoiceId: mcid1,
         questionId: nowQid,
         choiceContent: mccontent1,
-        // isAnswer: 0,
+        answer: mcisanswer1,
       };
       const response1 = await updateMulti(multipleChoice1);
 
@@ -195,28 +195,28 @@ export default function QuestionCreatePage() {
         multipleChoiceId: mcid2,
         questionId: nowQid,
         choiceContent: mccontent2,
-        // isAnswer: 0,
+        answer: mcisanswer2,
       };
       const response2 = await updateMulti(multipleChoice2);
       const multipleChoice3 = {
         multipleChoiceId: mcid3,
         questionId: nowQid,
         choiceContent: mccontent3,
-        // isAnswer: 0,
+        answer: mcisanswer3,
       };
       const response3 = await updateMulti(multipleChoice3);
       const multipleChoice4 = {
         multipleChoiceId: mcid4,
         questionId: nowQid,
         choiceContent: mccontent4,
-        // isAnswer: 0,
+        answer: mcisanswer4,
       };
       const response4 = await updateMulti(multipleChoice4);
       const multipleChoice5 = {
         multipleChoiceId: mcid5,
         questionId: nowQid,
         choiceContent: mccontent5,
-        // isAnswer: 0,
+        answer: mcisanswer5,
       };
       const response5 = await updateMulti(multipleChoice5);
     } catch (error) {
@@ -273,35 +273,35 @@ export default function QuestionCreatePage() {
   };
 
   //문제수정용함수들
-  const [nowType, setNowType] = useState();
+  // const [nowType, setNowType] = useState();
   const [nowQid, setNowQid] = useState();
 
   const typeClick = async (questionId) => {
     setShowUpdateForm(true);
     setShowAddForm(false);
-    const response = await questionInfo(questionId);
-    console.log(response);
-    setNowQid(response.questionId);
-    setSelectedType(response.questionType);
-    setQtitle(response.questionQ);
-    setQexplain(response.questionExplain);
-    setQdifficult(response.questionDifficulty);
-    setQanswer(response.questionA);
-    setQmaker(response.questionMaker);
 
-    console.log("답은 ???", qanswer);
-    console.log("만든사람은? : ", response.qmaker);
-    const typenumber = selectedType;
-    console.log("타입넘버는>?", typenumber);
-    if (typenumber === 1) {
-      const answer = await answerInfo(questionId);
-      // console.log(answer);
-      answer.forEach((item, index) => {
-        //보기들 다 바꾸는거
-        // console.log(`Index: ${index}`, item);
-        mccontents[index](item.choiceContent);
-        mcids[index](item.multipleChoiceId);
-      });
+    try {
+      const response = await questionInfo(questionId);
+      const { questionType, questionId: nowQid, ...questionData } = response;
+
+      setNowQid(nowQid);
+      setSelectedType(questionType);
+      setQtitle(questionData.questionQ);
+      setQexplain(questionData.questionExplain);
+      setQdifficult(questionData.questionDifficulty);
+      setQanswer(questionData.questionA);
+      setQmaker(questionData.questionMaker);
+
+      if (questionType === 1) {
+        const answer = await answerInfo(questionId);
+        answer.forEach((item, index) => {
+          mccontents[index](item.choiceContent);
+          mcids[index](item.multipleChoiceId);
+          mcanswers[index](item.answer);
+        });
+      }
+    } catch (error) {
+      console.error("에러:", error);
     }
   };
 
@@ -368,6 +368,11 @@ export default function QuestionCreatePage() {
     setMCcontent3("");
     setMCcontent4("");
     setMCcontent5("");
+    setMCisanswer1(false);
+    setMCisanswer2(false);
+    setMCisanswer3(false);
+    setMCisanswer4(false);
+    setMCisanswer5(false);
     console.log(qmaker);
   };
   const Oclick = (e) => {

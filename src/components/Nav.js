@@ -17,7 +17,7 @@ function Nav() {
   return (
     <div className={styles.nav}>
       <Container className={styles.container}>
-        <Link to={"/"}>
+        <Link to={islogin ? `my/${loginUser.userId}` : "/"}>
           <img src={logo} alt="xten Logo" width="60px" />
         </Link>
         <ul className={styles.menu}>

@@ -40,4 +40,5 @@ a:visited {
 .body {
   position: relative;
   flex-grow: 1;
+  margin-top: 63px;
 }

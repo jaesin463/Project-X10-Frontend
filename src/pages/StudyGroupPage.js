@@ -271,7 +271,7 @@ export default function StudyGroupPage() {
                               <span>{workbook.workbookTitle}</span>
                               <span>{workbook.workbookDetail}</span>
                               <span>{workbook.workbookDeadline}까지</span>
-                              <span>1인당 {workbook.workbookQuota}문제</span>
+                              <span>총 {workbook.workbookQuota}문제</span>
                             </div>
                             <div className={styles.보이거나안보이거나}>
                               <Link to={`${workbook.workbookId}`}>
