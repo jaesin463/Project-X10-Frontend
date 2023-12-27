@@ -28,9 +28,18 @@ const StudyGroupCreate = ({
     handleChange(name, value);
   };
 
+  // 폼 제출 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
-    groupCreate(value);
+    const formData = new FormData();
+    formData.append("groupLeaderId", value.groupLeaderId);
+    formData.append("groupName", value.groupName);
+    formData.append("groupDetail", value.groupDetail);
+    formData.append("groupImg", value.groupImg);
+
+    const result = await groupCreate(value);
+    if (!result) return;
+
     setModalIsOpen(false);
     setUserGroups([...userGroups, value]);
   };
