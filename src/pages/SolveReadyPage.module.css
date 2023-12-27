@@ -1,0 +1,56 @@
+.방이름디브 {
+  width: 100%;
+  border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+}
+
+.밑에큰디브 {
+  width: 100%;
+  height: 600px;
+  border: solid 2px yellow;
+  display: flex;
+}
+.준비멤버디브 {
+  width: 70%;
+  height: 100%;
+  border: 2px solid orange;
+  display: flex;
+  flex-wrap: wrap; /* 여러 행으로 나누도록 설정 */
+}
+.이미지 {
+  border: 2px solid salmon;
+}
+.대기멤버 {
+  width: 50%;
+  box-sizing: border-box;
+  border: 2px solid blue;
+  flex: 0 0 50%; /* flex-grow, flex-shrink, flex-basis 순서로 설정 */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.레벨이름 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid brown;
+}
+.정보디브 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.준비중디브 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid green;
+}
+.설정파일디브 {
+  width: 30%;
+  height: 300px;
+  border: 2px solid green;
+}

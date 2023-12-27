@@ -34,8 +34,8 @@ function Main() {
                 path=":solveid/solveexplane"
                 element={<SolveExplanationPage />}
               />
-              <Route path=":solveid/solve" element={<SolvePage />} />
-              <Route path=":solveid/ready" element={<SolveReadyPage />} />
+              <Route path=":quizroomId/ready" element={<SolveReadyPage />} />
+              <Route path=":quizroomId/solve" element={<SolvePage />} />
               <Route path=":solveid/result" element={<SolveResultPage />} />
             </Route>
           </Route>
