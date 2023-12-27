@@ -46,6 +46,29 @@ export async function signupUser(user) {
   }
 }
 
+// 회원정보 수정
+export async function editUser(user) {
+  try {
+    const response = await fetch(BASE_URL + "/users/update", {
+      method: "PUT",
+      headers: {
+        accept: "*/*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    const data = await response.json();
+    console.log(data);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
 //유저가 속한 그룹들 조회
 export async function userGroup(userid) {
   try {
@@ -204,7 +227,6 @@ export async function updateToDoList(todo) {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    console.log("잘 업뎃됨ㅋ");
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
@@ -214,6 +236,23 @@ export async function deleteToDoList(todo) {
   try {
     const response = await fetch(BASE_URL + "/todolist/delete/" + todo, {
       method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+// 그룹생성
+export async function groupCreate(group) {
+  try {
+    const response = await fetch(BASE_URL + "/groups/create", {
+      method: "POST",
+      body: group,
     });
 
     if (!response.ok) {
