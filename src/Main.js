@@ -30,10 +30,13 @@ function Main() {
               <Route index element={<StudyGroupPage />} />
               <Route path="edit" element={<StudyGroupEditPage />} />
               <Route path=":workbookid" element={<QuestionCreatePage />} />
-              <Route path="solveexplane" element={<SolveExplanationPage />} />
-              <Route path="solve" element={<SolvePage />} />
-              <Route path="ready" element={<SolveReadyPage />} />
-              <Route path="result" element={<SolveResultPage />} />
+              <Route
+                path=":solveid/solveexplane"
+                element={<SolveExplanationPage />}
+              />
+              <Route path=":quizroomId/ready" element={<SolveReadyPage />} />
+              <Route path=":quizroomId/solve" element={<SolvePage />} />
+              <Route path=":solveid/result" element={<SolveResultPage />} />
             </Route>
           </Route>
         </Route>

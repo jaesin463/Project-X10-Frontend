@@ -225,26 +225,6 @@ export async function deleteToDoList(todo) {
   }
 }
 
-// 그룹생성
-export async function groupCreate(group) {
-  try {
-    const response = await fetch(BASE_URL + "/groups/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(group),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
-  }
-}
-
 //워크북안에 퀴즈조회
 export async function questionInworkbook(workbookid) {
   try {
@@ -452,6 +432,45 @@ export async function deleteQuestion(questionId) {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//퀴즈룸준비방에 있는 사람들을 조회하자
+export async function quizreadyroomInfomember(quizRoomId) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/userquizroom/userAll/" + quizRoomId,
+      {
+        method: "GET",
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//퀴즈룸에대한 정보를 가져오자
+export async function quizroomInfo(quizRoomId) {
+  try {
+    const response = await fetch(BASE_URL + "/quizroom/detail/" + quizRoomId, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
