@@ -1,3 +1,20 @@
+:root {
+  --primary-100: #2563eb;
+  --primary-200: #598ef3;
+  --primary-300: #d3e6fe;
+  --accent-100: #d946ef;
+  --accent-200: #fae8ff;
+  --text-100: #000000;
+  --text-200: #2c2c2c;
+  --text-300: #666666;
+  --bg-100: #f8fbff;
+  --bg-200: #eef1f5;
+  --bg-300: #c5c8cc;
+  --bg-400: #ffffff;
+  --bg-500: #d8d8d8;
+  --header2: #eef1f5;
+}
+
 .nav {
   position: relative;
   z-index: 100;
@@ -14,19 +31,19 @@
   justify-content: space-between;
 }
 
-ul.menu {
+.menu {
   display: flex;
   align-items: center;
   padding: 0;
   margin: 0;
-  list-style: none;
+  gap: 30px;
+  position: relative;
 }
 
-ul.menu > li:not(:last-child) {
-  margin-right: 30px;
-}
-
-ul.menu a:hover,
-ul.menu a:active {
-  text-decoration: underline;
+.toggle {
+  background-color: var(--bg-300);
+  padding: 20px;
+  position: absolute;
+  top: 50px;
+  right: 10px;
 }

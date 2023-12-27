@@ -18,7 +18,9 @@ export default function MyMainPage() {
   const [focus, setFocus] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const loginUser = JSON.parse(localStorage.getItem("loginUser"));
+  const [loginUser, setLoginUser] = useState(
+    JSON.parse(localStorage.getItem("loginUser"))
+  );
 
   // 그룹들어가는 함수
 
@@ -63,7 +65,7 @@ export default function MyMainPage() {
       .catch((error) => {
         console.error("에러 발생:", error);
       });
-  }, [loginUser.userId]);
+  }, [loginUser]);
 
   return (
     <>
