@@ -14,8 +14,6 @@ const QuestionForm = ({
   setQdifficult,
   qexplian,
   setQexplain,
-  qmaker,
-  currentUser,
   mccontent1,
   setMCcontent1,
   mccontent2,
