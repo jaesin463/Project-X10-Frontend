@@ -49,18 +49,20 @@ export default function QuestionCreatePage() {
   const [qexplian, setQexplain] = useState("");
   const [qdifficult, setQdifficult] = useState();
   const [qmaker, setQmaker] = useState("");
-  const [qsave, setQsave] = useState(1);
+
   //객관식답안지
   const [mccontent1, setMCcontent1] = useState("");
   const [mccontent2, setMCcontent2] = useState("");
   const [mccontent3, setMCcontent3] = useState("");
   const [mccontent4, setMCcontent4] = useState("");
   const [mccontent5, setMCcontent5] = useState("");
+
   const [mcisanswer1, setMCisanswer1] = useState();
   const [mcisanswer2, setMCisanswer2] = useState();
   const [mcisanswer3, setMCisanswer3] = useState();
   const [mcisanswer4, setMCisanswer4] = useState();
   const [mcisanswer5, setMCisanswer5] = useState();
+
   const [mcid1, setMCid1] = useState();
   const [mcid2, setMCid2] = useState();
   const [mcid3, setMCid3] = useState();
@@ -93,16 +95,6 @@ export default function QuestionCreatePage() {
 
     // 비동기로 동작하는 상태 업데이트를 확인하기 위해 useEffect 사용
   };
-  useEffect(() => {
-    console.log(
-      "MC Answers:",
-      mcisanswer1,
-      mcisanswer2,
-      mcisanswer3,
-      mcisanswer4,
-      mcisanswer5
-    );
-  }, [mcisanswer1, mcisanswer2, mcisanswer3, mcisanswer4, mcisanswer5]);
 
   //문제제출객관식용
   const regist0 = async (e) => {
@@ -118,7 +110,7 @@ export default function QuestionCreatePage() {
         questionExplain: qexplian,
         questionDifficulty: qdifficult,
         questionMaker: qmaker,
-        questionSave: qsave,
+        questionSave: 1,
         questionImg: null,
       };
       const response = await makeQuestion(question);
@@ -132,32 +124,33 @@ export default function QuestionCreatePage() {
         answer: mcisanswer1,
       };
       console.log(mcisanswer1);
-      const response1 = await makeMultipleChoice(multipleChoice1);
+      await makeMultipleChoice(multipleChoice1);
 
       const multipleChoice2 = {
         questionId: questionId,
         choiceContent: mccontent2,
         answer: mcisanswer2,
       };
-      const response2 = await makeMultipleChoice(multipleChoice2);
+
+      await makeMultipleChoice(multipleChoice2);
       const multipleChoice3 = {
         questionId: questionId,
         choiceContent: mccontent3,
         answer: mcisanswer3,
       };
-      const response3 = await makeMultipleChoice(multipleChoice3);
+      await makeMultipleChoice(multipleChoice3);
       const multipleChoice4 = {
         questionId: questionId,
         choiceContent: mccontent4,
         answer: mcisanswer4,
       };
-      const response4 = await makeMultipleChoice(multipleChoice4);
+      await makeMultipleChoice(multipleChoice4);
       const multipleChoice5 = {
         questionId: questionId,
         choiceContent: mccontent5,
         answer: mcisanswer5,
       };
-      const response5 = await makeMultipleChoice(multipleChoice5);
+      await makeMultipleChoice(multipleChoice5);
     } catch (error) {
       console.error("에러:", error);
     }
@@ -178,10 +171,10 @@ export default function QuestionCreatePage() {
         questionExplain: qexplian,
         questionDifficulty: qdifficult,
         questionMaker: qmaker,
-        questionSave: qsave,
+        questionSave: 1,
         questionImg: null,
       };
-      const response = await updateQuestion(question);
+      await updateQuestion(question);
 
       const multipleChoice1 = {
         multipleChoiceId: mcid1,
@@ -189,7 +182,7 @@ export default function QuestionCreatePage() {
         choiceContent: mccontent1,
         answer: mcisanswer1,
       };
-      const response1 = await updateMulti(multipleChoice1);
+      await updateMulti(multipleChoice1);
 
       const multipleChoice2 = {
         multipleChoiceId: mcid2,
@@ -197,28 +190,28 @@ export default function QuestionCreatePage() {
         choiceContent: mccontent2,
         answer: mcisanswer2,
       };
-      const response2 = await updateMulti(multipleChoice2);
+      await updateMulti(multipleChoice2);
       const multipleChoice3 = {
         multipleChoiceId: mcid3,
         questionId: nowQid,
         choiceContent: mccontent3,
         answer: mcisanswer3,
       };
-      const response3 = await updateMulti(multipleChoice3);
+      await updateMulti(multipleChoice3);
       const multipleChoice4 = {
         multipleChoiceId: mcid4,
         questionId: nowQid,
         choiceContent: mccontent4,
         answer: mcisanswer4,
       };
-      const response4 = await updateMulti(multipleChoice4);
+      await updateMulti(multipleChoice4);
       const multipleChoice5 = {
         multipleChoiceId: mcid5,
         questionId: nowQid,
         choiceContent: mccontent5,
         answer: mcisanswer5,
       };
-      const response5 = await updateMulti(multipleChoice5);
+      await updateMulti(multipleChoice5);
     } catch (error) {
       console.error("에러:", error);
     }
@@ -238,7 +231,7 @@ export default function QuestionCreatePage() {
         questionExplain: qexplian,
         questionDifficulty: qdifficult,
         questionMaker: qmaker,
-        questionSave: qsave,
+        questionSave: 1,
         questionImg: null,
       };
       const response = await makeQuestion(question);
@@ -263,10 +256,10 @@ export default function QuestionCreatePage() {
         questionExplain: qexplian,
         questionDifficulty: qdifficult,
         questionMaker: qmaker,
-        questionSave: qsave,
+        questionSave: 1,
         questionImg: null,
       };
-      const response = await updateQuestion(question);
+      await updateQuestion(question);
     } catch (error) {
       console.error("에러:", error);
     }
@@ -353,7 +346,7 @@ export default function QuestionCreatePage() {
     };
 
     fetchDataAndSetState();
-  }, []);
+  }, [groupid, workbookid]);
 
   const handleTypeButtonClick = (type) => {
     setSelectedType(type);
@@ -425,7 +418,6 @@ export default function QuestionCreatePage() {
     creator,
     questions: question.filter((q) => q.questionMaker === creator),
   }));
-  // console.log("그룹퀘스쳔", groupedQuestions);
 
   const totalSubmittedQuestions = alluser.reduce((total, user) => {
     const userGroupedQuestions = groupedQuestions.find(
@@ -437,24 +429,24 @@ export default function QuestionCreatePage() {
   const [showAddForm, setShowAddForm] = useState(true);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
 
+  //추가폼으로 보이는곳
   const handleShowAddForm = () => {
     setSelectedType(0);
     setShowAddForm(true);
     setShowUpdateForm(false);
   };
 
+  //업데이트폼으로 보이는 곳
   const handleShowUpdateForm = () => {
     setShowUpdateForm(true);
     setShowAddForm(false);
   };
 
   //문제삭제하기
-  // const clickDelete = async (questionId) => {
-  //   e.preventDefault();
-
-  //     const response = await deleteQuestion(questionId);
-  //   }
-  // };
+  const clickDelete = async (e) => {
+    await deleteQuestion(e);
+    //삭제는 잘 되지만 업데이트가 되지 않음
+  };
 
   return (
     <>
@@ -496,6 +488,9 @@ export default function QuestionCreatePage() {
                               <div>
                                 유형: {getQuestionTypeString(q.questionType)}
                               </div>
+                              <button onClick={() => clickDelete(q.questionId)}>
+                                ddd
+                              </button>
                             </div>
                           ))}
                         {currentUser === user.userId && (

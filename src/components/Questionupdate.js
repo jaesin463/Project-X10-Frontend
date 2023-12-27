@@ -11,8 +11,6 @@ const UpdateForm = ({
   setQexplain,
   qanswer,
   setQanswer,
-  qmaker,
-  currentUser,
   mccontent1,
   setMCcontent1,
   mccontent2,
@@ -29,16 +27,11 @@ const UpdateForm = ({
   mcisanswer4,
   mcisanswer5,
   handleMCAnswerChange,
-  regist0,
-  regist1,
   Oclick,
   Xclick,
   checkClick,
   update0,
   update1,
-  showUpdateForm,
-  setShowUpdateForm,
-  handleShowUpdateForm,
 }) => {
   return (
     <div className={styles.업데이트폼}>
