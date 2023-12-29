@@ -3,16 +3,20 @@ import { WorkBookCreates } from "../api/api";
 import styles from "./WorkBookCreate.module.css";
 
 const WorkBookCreate = ({
+  groupId,
   subjectId,
   setModalIsOpen,
   setWorkbookS,
   workbookS,
 }) => {
+  console.log(groupId);
+  console.log(subjectId);
+  console.log(workbookS);
+
   const [value, setValue] = useState({
     subjectId: subjectId,
     workbookTitle: "",
     workbookDetail: "",
-    workbookDate: "",
     workbookDeadline: "",
     workbookQuota: 0,
   });
@@ -31,16 +35,15 @@ const WorkBookCreate = ({
 
   // 폼 제출 핸들러
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const result = await WorkBookCreates(value);
-    if (!result) return;
-
     setModalIsOpen(false);
     setWorkbookS([...workbookS, value]);
+    console.log(workbookS);
+    e.preventDefault();
+    const result = await WorkBookCreates(value, groupId);
+    if (!result) return;
   };
   console.log(value.groupImg);
 
-  //아래부분 수정해야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   return (
     <>
       <div className={styles.create}>새로운 문제집 만들기</div>
@@ -48,49 +51,52 @@ const WorkBookCreate = ({
         <form onSubmit={handleSubmit}>
           <div className={styles.inputs}>
             <div className={styles.flex}>
-              <label htmlFor="groupName" className={styles.label}>
+              <label htmlFor="workbookTitle" className={styles.label}>
                 문제집이름
               </label>
               <input
+                type="text"
                 placeholder="그룹이름"
-                name="groupName"
-                value={value.groupName}
+                name="workbookTitle"
+                value={value.workbookTitle}
                 onChange={handleInputChange}
                 className={styles.input}
               ></input>
             </div>
             <div className={styles.flex}>
-              <label htmlFor="groupDetail" className={styles.label}>
+              <label htmlFor="workbookDetail" className={styles.label}>
                 문제집설명
               </label>
               <textarea
                 placeholder="그룹설명"
-                name="groupDetail"
-                value={value.groupDetail}
+                name="workbookDetail"
+                value={value.workbookDetail}
                 onChange={handleInputChange}
                 className={styles.textarea}
               ></textarea>
             </div>
             <div className={styles.flex}>
-              <label htmlFor="groupName" className={styles.label}>
+              <label htmlFor="workbookDeadline" className={styles.label}>
                 출제기한
               </label>
               <input
-                placeholder="그룹이름"
-                name="groupName"
-                value={value.groupName}
+                type="date"
+                placeholder="출제기한"
+                name="workbookDeadline"
+                value={value.workbookDeadline}
                 onChange={handleInputChange}
                 className={styles.input}
               ></input>
             </div>
             <div className={styles.flex}>
-              <label htmlFor="groupName" className={styles.label}>
+              <label htmlFor="workbookQuota" className={styles.label}>
                 문제수
               </label>
               <input
-                placeholder="그룹이름"
-                name="groupName"
-                value={value.groupName}
+                type="text"
+                placeholder="문제수"
+                name="workbookQuota"
+                value={value.workbookQuota}
                 onChange={handleInputChange}
                 className={styles.input}
               ></input>

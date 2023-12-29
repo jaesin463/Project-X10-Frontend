@@ -1,6 +1,7 @@
 import Container from "../components/Container";
 import styles from "./StudyGroupPage.module.css";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import Modal from "react-modal";
+import { useParams, Link, useNavigate, Navigate } from "react-router-dom";
 import {
   subjectIngroup,
   workbookInsubject,
@@ -10,10 +11,10 @@ import {
   allquizroomInfo,
   enterQuizroom,
   makeQuizroom,
+  quizroomInfo,
 } from "../api/api";
 import WorkBookCreate from "../components/WorkBookCreate";
 import { useEffect, useState } from "react";
-import Modal from "react-modal";
 import ex from "../assets/ex.jpeg";
 import arrow from "../assets/arrow.png";
 
@@ -39,9 +40,9 @@ export default function StudyGroupPage() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalIsOpen2, setModalIsOpen2] = useState(false);
   const [quizRoomTitle, setQuizRoomTitle] = useState("");
-  const [quizRoomWorkbookId, setQuizRoomWorkbookId] = useState();
-  const [quizRoomTimeLimit, setQuizRoomTimeLimit] = useState();
-  const [quizRoomMaxNum, setQuizRoomMaxNum] = useState();
+  const [quizRoomWorkbookId, setQuizRoomWorkbookId] = useState("");
+  const [quizRoomTimeLimit, setQuizRoomTimeLimit] = useState("");
+  const [quizRoomMaxNum, setQuizRoomMaxNum] = useState("");
   const modalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -59,9 +60,9 @@ export default function StudyGroupPage() {
     setModalIsOpen2(false);
     // 모달이 닫힐 때 입력 필드 초기화
     setQuizRoomTitle("");
-    setQuizRoomWorkbookId();
-    setQuizRoomTimeLimit();
-    setQuizRoomMaxNum();
+    setQuizRoomWorkbookId("");
+    setQuizRoomTimeLimit("");
+    setQuizRoomMaxNum("");
   };
 
   const handleTitleChange = (e) => {
@@ -93,13 +94,13 @@ export default function StudyGroupPage() {
       };
 
       // Quizroom 생성 API 호출
-      const response = await makeQuizroom(newQuizroom);
+      await makeQuizroom(newQuizroom);
 
       // Quizroom 생성 후 필요한 로직 추가 (예: 페이지 새로고침)
-      console.log("Quizroom 생성 완료:", response);
 
       // 모달 닫기
       closeModal();
+      navigate(`/study/${groupid}/${response}/ready`);
     } catch (error) {
       console.error("Quizroom 생성 에러:", error);
     }
@@ -164,8 +165,7 @@ export default function StudyGroupPage() {
         subjectTitle: st,
         subjectContent: sc,
       };
-      const response = await createSubject(subject);
-      // console.log(response);
+      await createSubject(subject);
 
       // 과목 생성 후 다시 해당 그룹의 과목 목록을 업데이트합니다.
       const updatedSubjects = await subjectIngroup(groupid);
@@ -393,7 +393,8 @@ export default function StudyGroupPage() {
                           }
                           className={styles.방버튼}
                         >
-                          4/{quizroom.quizRoomMaxNum} 입장하기
+                          {quizroom.quizRoomCurrentP}/{quizroom.quizRoomMaxNum}{" "}
+                          입장하기
                         </button>
                         {/* </Link> */}
                       </div>
@@ -510,6 +511,7 @@ export default function StudyGroupPage() {
                           }}
                         >
                           <WorkBookCreate
+                            groupId={groupid}
                             subjectId={subject.subjectId}
                             setModalIsOpen={setModalIsOpen}
                             setWorkbookS={setWorkbookS}
