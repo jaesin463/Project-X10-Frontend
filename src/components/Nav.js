@@ -22,6 +22,11 @@ function Nav() {
     if (loginUser) setIslogin(true);
     else setIslogin(false);
   }, [loginUser, location.pathname]);
+  
+  // 페이지 이동 시 토글 닫기
+  useEffect(() => {
+    setToggle(false);
+  }, [location.pathname]);
 
   return (
     <div className={styles.nav}>
@@ -38,17 +43,17 @@ function Nav() {
                 width="50"
               ></img>
               <div>알림</div>
-              <div onClick={() => setToggle(!toggle)} className={styles.div}>
+              <div onClick={() => setToggle(!toggle)} className={`${styles.div} ${styles.pointer}`}>
                 설정
               </div>
               {toggle && (
                 <div className={styles.toggle}>
                   <Link to={`my/${loginUser.userId}/edit`}>
-                    <button onClick={() => setToggle(false)}>
+                    <button onClick={() => setToggle(false)} className={styles.togglebtn}>
                       회원정보수정
                     </button>
                   </Link>
-                  <button onClick={logout}>로그아웃</button>
+                  <button onClick={logout} className={styles.togglebtn}>로그아웃</button>
                 </div>
               )}
             </div>

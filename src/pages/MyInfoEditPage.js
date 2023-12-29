@@ -42,11 +42,12 @@ export default function MyInfoEditPage() {
     formData2.append("userImg", value.userImg);
 
     const result = await profileUpdate(formData2, id);
+    localStorage.setItem("loginUser", JSON.stringify(result));
     if (!result) return;
   };
   return (
-    <Container>
-      <div>회원 정보 수정 페이지입니다.</div>
+    <Container className={styles.container}>
+      <div className={styles.title}>회원 정보 수정</div>
       <form onSubmit={handleProfile}>
         <FileInput
           className="ReviewForm-preview"
@@ -54,11 +55,14 @@ export default function MyInfoEditPage() {
           value={value.userImg}
           onChange={handleChange}
         />
-        <button>수정</button>
+        <button className={styles.profilebtn}>프로필 이미지 변경</button>
       </form>
       <div className={styles.regist_form}>
         <form onSubmit={handleEdit} className={styles.form}>
           <div className={styles.regist_div}>
+            <label htmlFor=" " className={styles.label}>
+              아이디
+            </label>
             <input
               disabled
               placeholder=" "
@@ -68,11 +72,11 @@ export default function MyInfoEditPage() {
               onChange={(e) => setId(e.target.value)}
               className={styles.input}
             />
-            <label htmlFor=" " className={styles.label}>
-              아이디
-            </label>
           </div>
           <div className={styles.regist_div}>
+            <label htmlFor=" " className={styles.label}>
+              비밀번호
+            </label>
             <input
               placeholder=" "
               type="password"
@@ -81,11 +85,17 @@ export default function MyInfoEditPage() {
               onChange={(e) => setPw(e.target.value)}
               className={styles.input}
             />
-            <label htmlFor=" " className={styles.label}>
-              비밀번호
-            </label>
           </div>
           <div className={styles.regist_div}>
+            <label htmlFor=" " className={styles.label}>
+              {check === 0 ? (
+                <>비밀번호확인</>
+              ) : check === 1 ? (
+                <>비밀번호가 일치합니다</>
+              ) : (
+                <>비밀번호가 일치하지 않아요</>
+              )}
+            </label>
             <input
               placeholder=" "
               type="password"
@@ -103,60 +113,49 @@ export default function MyInfoEditPage() {
               }}
               className={styles.input}
             />
+          </div>
+          <div className={styles.regist_div}>
             <label htmlFor=" " className={styles.label}>
-              {check === 0 ? (
-                <>비밀번호확인</>
-              ) : check === 1 ? (
-                <>비밀번호가 일치합니다</>
-              ) : (
-                <>비밀번호가 일치하지 않아요</>
-              )}
+              이름
             </label>
+            <input
+              disabled
+              placeholder=" "
+              type="text"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className={styles.input}
+            />
           </div>
-          <div>
-            <div className={styles.regist_div}>
-              <input
-                disabled
-                placeholder=" "
-                type="text"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className={styles.input}
-              />
-              <label htmlFor=" " className={styles.label}>
-                이름
-              </label>
-            </div>
-            <div className={styles.regist_div}>
-              <input
-                placeholder=" "
-                type="text"
-                name="nickname"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-                className={styles.input}
-              />
-              <label htmlFor=" " className={styles.label}>
-                닉네임
-              </label>
-            </div>
-            <div className={styles.regist_div}>
-              <input
-                disabled
-                placeholder=" "
-                type="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={styles.input}
-              />
-              <label htmlFor=" " className={styles.label}>
-                이메일
-              </label>
-            </div>
+          <div className={styles.regist_div}>
+            <label htmlFor=" " className={styles.label}>
+              닉네임
+            </label>
+            <input
+              placeholder=" "
+              type="text"
+              name="nickname"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              className={styles.input}
+            />
           </div>
-          <input type="submit" className={styles.button} value="회원정보수정" />
+          <div className={styles.regist_div}>
+            <label htmlFor=" " className={styles.label}>
+              이메일
+            </label>
+            <input
+              disabled
+              placeholder=" "
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={styles.input}
+            />
+          </div>
+          <button type="submit" className={styles.button}>회원정보수정</button>
         </form>
       </div>
     </Container>

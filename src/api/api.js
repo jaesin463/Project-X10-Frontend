@@ -707,6 +707,9 @@ export async function profileUpdate(formData, user) {
   if (!response.ok) {
     throw new Error("프로필을 업데이트하는데에 실패했습니다.");
   }
+
+  const data = await response.json();
+    return data;
 }
 
 //최근에 푼 문제집
