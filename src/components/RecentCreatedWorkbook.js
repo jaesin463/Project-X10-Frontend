@@ -1,14 +1,30 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import "./RecentCreatedWorkbook.css";
 
 const RecentCreatedWorkbook = ({ data }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % data.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + data.length) % data.length);
+  };
+
   return (
-    <div>
+    <div className="recent-created-workbook">
       <h3>최근에 만들어진 문제집 목록</h3>
-      <ul>
-        {data && data.map((workbook) => (
-          <li key={workbook.workbookId}>{workbook.workbookTitle}</li>
-        ))}
-      </ul>
+      <div className="carousel">
+        {data && data.length > 0 && (
+          <div className="workbook">
+            <h4>{data[currentIndex].workbookTitle}</h4>
+            {/* 여기에 문제집 정보를 보여주는 내용 추가 */}
+          </div>
+        )}
+      </div>
+      <button onClick={handlePrev}>이전</button>
+      <button onClick={handleNext}>다음</button>
     </div>
   );
 };
