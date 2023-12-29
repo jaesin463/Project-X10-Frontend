@@ -1,5 +1,6 @@
 import Container from "../components/Container";
 import styles from "./StudyGroupPage.module.css";
+import WorkBookCreate from "../components/WorkBookCreate";
 import { useParams, Link } from "react-router-dom";
 import {
   subjectIngroup,
@@ -9,6 +10,7 @@ import {
   userGroup,
 } from "../api/api";
 import { useEffect, useState } from "react";
+import Modal from "react-modal";
 import ex from "../assets/ex.jpeg";
 import arrow from "../assets/arrow.png";
 
@@ -28,6 +30,8 @@ export default function StudyGroupPage() {
 
   const [st, setSubjectTitle] = useState("");
   const [sc, setSubjectContent] = useState("");
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   console.log(workbookS);
 
@@ -288,7 +292,38 @@ export default function StudyGroupPage() {
                         )
                       )}
                       <div className={styles.문제집생성}>
-                        <button>+ 소문제집 추가하기</button>
+                        <button onClick={() => setModalIsOpen(true)}>
+                          + 소문제집 추가하기
+                        </button>
+                        <Modal
+                          appElement={document.getElementById("root")}
+                          isOpen={modalIsOpen}
+                          onRequestClose={() => setModalIsOpen(false)}
+                          style={{
+                            overlay: { backgroundColor: "rgba(0, 0, 0, 0.2)" },
+                            content: {
+                              boxShadow: "0 0 15px 0px var(--bg-500)",
+                              backgroundColor: "var(--bg-400)",
+                              border: "solid 2.5px var(--bg-400)",
+                              borderRadius: "10px",
+                              width: "600px",
+                              height: "400px",
+                              margin: "auto",
+                              position: "fixed",
+                              top: "0",
+                              bottom: "0",
+                              left: "0",
+                              right: "0",
+                            },
+                          }}
+                        >
+                          <WorkBookCreate
+                            subjectId={subject.subjectId}
+                            setModalIsOpen={setModalIsOpen}
+                            setWorkbookS={setWorkbookS}
+                            workbookS={workbookS}
+                          />
+                        </Modal>
                       </div>
                     </div>
                   )}

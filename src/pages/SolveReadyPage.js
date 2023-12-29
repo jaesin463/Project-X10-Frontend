@@ -50,7 +50,6 @@ export default function SolveReadyPage() {
     ));
   };
   const renderEmptyMembers = () => {
-    const currentMembers = nowmembers.length;
     const maxMembers = nowinfo.quizRoomMaxNum;
     const emptyMembers = Array.from(
       { length: 8 - maxMembers },
