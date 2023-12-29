@@ -1,18 +1,23 @@
 import Container from "../components/Container";
 import styles from "./StudyGroupPage.module.css";
-import { useParams, Link } from "react-router-dom";
+import Modal from "react-modal";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   subjectIngroup,
   workbookInsubject,
   userIngroup,
   createSubject,
   userGroup,
+  allquizroomInfo,
+  enterQuizroom,
+  makeQuizroom,
 } from "../api/api";
 import { useEffect, useState } from "react";
 import ex from "../assets/ex.jpeg";
 import arrow from "../assets/arrow.png";
 
 export default function StudyGroupPage() {
+  const navigate = useNavigate(); // useNavigate 훅 추가
   const { groupid } = useParams();
 
   const [subjectG, setSubjectG] = useState([]);
@@ -25,13 +30,110 @@ export default function StudyGroupPage() {
   const [nowGroup, setNowGroup] = useState({});
 
   const [rotation, setRotation] = useState([]);
+  const [allquizroom, setAllquizroom] = useState([]);
 
   const [st, setSubjectTitle] = useState("");
   const [sc, setSubjectContent] = useState("");
 
-  console.log(workbookS);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [quizRoomTitle, setQuizRoomTitle] = useState("");
+  const [quizRoomWorkbookId, setQuizRoomWorkbookId] = useState();
+  const [quizRoomTimeLimit, setQuizRoomTimeLimit] = useState();
+  const [quizRoomMaxNum, setQuizRoomMaxNum] = useState();
+  const modalStyles = {
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    content: {
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "400px",
+      padding: "20px",
+    },
+  };
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    // 모달이 닫힐 때 입력 필드 초기화
+    setQuizRoomTitle("");
+    setQuizRoomWorkbookId();
+    setQuizRoomTimeLimit();
+    setQuizRoomMaxNum();
+  };
+
+  const handleTitleChange = (e) => {
+    setQuizRoomTitle(e.target.value);
+  };
+
+  const handleWorkbookIdChange = (e) => {
+    setQuizRoomWorkbookId(e.target.value);
+  };
+
+  const handleTimeLimitChange = (e) => {
+    setQuizRoomTimeLimit(e.target.value);
+  };
+  const handleMaxChange = (e) => {
+    setQuizRoomMaxNum(e.target.value);
+  };
+
+  const handleMakeQuizroom = async () => {
+    try {
+      // Quizroom을 만들기 위한 정보
+      const newQuizroom = {
+        groupId: groupid,
+        quizRoomTitle,
+        quizRoomWorkbookId,
+        quizRoomTimeLimit,
+        quizRoomCreator: loginUser.userId,
+        quizRoomMaxNum,
+        // 추가로 필요한 정보도 여기에 추가할 수 있음
+      };
+
+      // Quizroom 생성 API 호출
+      const response = await makeQuizroom(newQuizroom);
+
+      // Quizroom 생성 후 필요한 로직 추가 (예: 페이지 새로고침)
+      console.log("Quizroom 생성 완료:", response);
+
+      // 모달 닫기
+      closeModal();
+    } catch (error) {
+      console.error("Quizroom 생성 에러:", error);
+    }
+  };
+  // console.log(workbookS);
 
   const loginUser = JSON.parse(localStorage.getItem("loginUser"));
+
+  // const handlemakeroom = async (newQuizroom) =>{
+  //   try{
+  //     const updateQuizroom ={
+  //       groupId : groupid,
+  //       quizRoomTitle :
+  //     }
+  //   }
+  // }
+
+  const enterRoom = async (userId, quizroomId) => {
+    try {
+      const updateuserQuizroom = {
+        userId: userId,
+        quizRoomId: quizroomId,
+      };
+
+      // await 키워드를 사용하여 Promise 완료를 기다림
+      await enterQuizroom(updateuserQuizroom);
+
+      // Promise가 완료된 후에 navigate 함수 호출
+      navigate(`/study/${groupid}/${quizroomId}/ready`);
+    } catch (error) {
+      console.error("Error updating quizroom:", error);
+    }
+  };
 
   const handleRegist = async (e) => {
     e.preventDefault();
@@ -44,7 +146,7 @@ export default function StudyGroupPage() {
         subjectContent: sc,
       };
       const response = await createSubject(subject);
-      console.log(response);
+      // console.log(response);
 
       // 과목 생성 후 다시 해당 그룹의 과목 목록을 업데이트합니다.
       const updatedSubjects = await subjectIngroup(groupid);
@@ -58,7 +160,7 @@ export default function StudyGroupPage() {
       // 모든 문제집 프로미스가 해결될 때까지 대기하고 상태를 업데이트합니다.
       Promise.all(workbookPromises)
         .then((workbooks) => {
-          console.log("과목별 문제집들:", workbooks);
+          // console.log("과목별 문제집들:", workbooks);
           setWorkbookS(workbooks);
           // 초기에 모든 소문제집을 닫은 상태로 초기화합니다.
           setToggleList(Array(updatedSubjects.length).fill(false));
@@ -93,12 +195,16 @@ export default function StudyGroupPage() {
 
         // 현재 스터디 그룹의 멤버 목록을 가져옵니다.
         const members = await userIngroup(groupid);
-        console.log("스터디내그룹원들:", members);
+        // console.log("스터디내그룹원들:", members);
         setGroupMembers(members);
+
+        const allquiz = await allquizroomInfo(groupid);
+        // console.log("모든퀴즈룸들 :", allquiz);
+        setAllquizroom(allquiz);
 
         // 스터디 그룹의 과목을 가져옵니다.
         const subjects = await subjectIngroup(groupid);
-        console.log("스터디내 과목들:", subjects);
+        // console.log("스터디내 과목들:", subjects);
         setSubjectG(subjects);
 
         // 각 과목에 대한 문제집을 가져오기 위한 프로미스 배열을 생성합니다.
@@ -108,7 +214,7 @@ export default function StudyGroupPage() {
 
         // 모든 문제집 프로미스가 해결될 때까지 대기하고 상태를 업데이트합니다.
         const workbooks = await Promise.all(workbookPromises);
-        console.log("과목별 문제집들:", workbooks);
+        // console.log("과목별 문제집들:", workbooks);
         setWorkbookS(workbooks);
         // 초기에 모든 소문제집을 닫은 상태로 초기화합니다.
         setToggleList(Array(subjects.length).fill(false));
@@ -126,7 +232,7 @@ export default function StudyGroupPage() {
     const newRotation = [...rotation];
     newToggleList[index] = !newToggleList[index];
     newRotation[index] = newRotation[index] + 180;
-    console.log(newRotation);
+    // console.log(newRotation);
     setToggleList(newToggleList);
     setRotation(newRotation);
   };
@@ -190,23 +296,88 @@ export default function StudyGroupPage() {
         <div className={styles.mainbox}>
           <div className={styles.mainleft}>
             <div className={styles.문제방}>
-              <button className={styles.만들기버튼}>문제방 만들기</button>
+              <button onClick={openModal} className={styles.만들기버튼}>
+                문제방 만들기
+              </button>
+              <div>
+                {/* 모달 내용 */}
+                <Modal
+                  isOpen={modalIsOpen}
+                  onRequestClose={closeModal}
+                  style={modalStyles}
+                  contentLabel="Create Quizroom Modal"
+                >
+                  <h2>문제방 만들기</h2>
+                  <div>
+                    <label>방 제목:</label>
+                    <input
+                      type="text"
+                      value={quizRoomTitle}
+                      onChange={handleTitleChange}
+                      placeholder="Quiz Room Title"
+                    />
+                  </div>
+                  <div>
+                    <label>문제집 선택:</label>
+                    <input
+                      type="text"
+                      value={quizRoomWorkbookId}
+                      onChange={handleWorkbookIdChange}
+                      placeholder="문제집 선택"
+                    />
+                  </div>
+                  <div>
+                    <label>한 문제당 제한 시간:</label>
+                    <input
+                      type="text"
+                      value={quizRoomTimeLimit}
+                      onChange={handleTimeLimitChange}
+                      placeholder="한 문제당 제한 시간"
+                    />
+                  </div>
+                  <div>
+                    <label>최대 인원 :</label>
+                    <input
+                      type="text"
+                      value={quizRoomMaxNum}
+                      onChange={handleMaxChange}
+                      placeholder="방 최대 인원"
+                    />
+                  </div>
+                  <button onClick={handleMakeQuizroom}>생성하기</button>
+                </Modal>
+              </div>
               <hr className={styles.hr}></hr>
               <h3>생성된 방 리스트</h3>
-              <div>
-                <div className={styles.room}>
-                  <div className={styles.roomleft}>
-                    <div className={styles.방이름}>방이름</div>
-                    <div className={styles.문제집이름}>문제집이름</div>
-                  </div>
-                  <div className={styles.roomright}>
-                    <div>참여한사람들이미지</div>
-                    <div>
-                      <button className={styles.방버튼}> 4/5 입장하기</button>
+              {allquizroom.map((quizroom, index) => (
+                <div key={index}>
+                  <div className={styles.room}>
+                    <div className={styles.roomleft}>
+                      <div className={styles.방이름}>
+                        {quizroom.quizRoomTitle}
+                      </div>
+                      <div className={styles.문제집이름}>
+                        문제집번호 : {quizroom.quizRoomWorkbookId}
+                      </div>
+                    </div>
+                    <div className={styles.roomright}>
+                      {/* <div>참여한사람들이미지</div> */}
+                      <div>
+                        {/* <Link to={quizroom.quizRoomId + "/ready"}> */}
+                        <button
+                          onClick={() =>
+                            enterRoom(loginUser.userId, quizroom.quizRoomId)
+                          }
+                          className={styles.방버튼}
+                        >
+                          4/{quizroom.quizRoomMaxNum} 입장하기
+                        </button>
+                        {/* </Link> */}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
             <div className={styles.랭킹}>
               <p>랭킹</p>

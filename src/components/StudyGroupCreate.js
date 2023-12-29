@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import { groupCreate } from "../api/api";
+import { groupCreate } from "../api/api";
 import styles from "./StudyGroupCreate.module.css";
 import FileInput from "./FileInput";
 
