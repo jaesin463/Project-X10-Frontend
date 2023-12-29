@@ -308,7 +308,12 @@ export async function userName(userid) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    const data = await response.json();
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -522,8 +527,12 @@ export async function quizreadyroomInfomember(quizRoomId) {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-
-    const data = await response.json();
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -548,7 +557,143 @@ export async function quizroomInfo(quizRoomId) {
     throw error;
   }
 }
+//유저강퇴하기, 나가기
+export async function quizroomexit(quizRoomId, userId) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/userquizroom/" + quizRoomId + "/delete/" + userId,
+      {
+        method: "DELETE",
+      }
+    );
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    // console.log(response);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//퀴즈룸업데이트
+export async function updateQuizroom(quizRoom) {
+  try {
+    const response = await fetch(BASE_URL + "/quizroom/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(quizRoom),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log("잘 업뎃됨ㅋ");
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//준비를해보자
+export async function readyUser(userId) {
+  try {
+    const response = await fetch(BASE_URL + "/userquizroom/isReady/" + userId, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userId),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log("레디완료");
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+//모든퀴즈룸들을다 가져와보자
+export async function allquizroomInfo(groupId) {
+  try {
+    const response = await fetch(BASE_URL + "/quizroom/readAll/" + groupId, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//퀴즈룸입장
+export async function enterQuizroom(userQuizRoom) {
+  try {
+    const response = await fetch(BASE_URL + "/userquizroom/enter", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userQuizRoom),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//퀴즈룸삭제
+export async function quizroomDelete(quizRoomId) {
+  try {
+    const response = await fetch(BASE_URL + "/quizroom/delete/" + quizRoomId, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    // console.log(response);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//퀴즈룸만들기
+export async function makeQuizroom(quizRoom) {
+  try {
+    const response = await fetch(BASE_URL + "/quizroom/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(quizRoom),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
 //유저 프로필 업데이트
 export async function profileUpdate(formData, user) {
   // API 호출 및 응답 처리
