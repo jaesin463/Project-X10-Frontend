@@ -134,6 +134,26 @@ export default function StudyGroupPage() {
     }
   };
 
+  const nFormatter = (num) => {
+    const si = [
+      { value: 1, symbol: '' },
+      { value: 1e3, symbol: 'k' },
+      { value: 1e6, symbol: 'M' },
+      { value: 1e9, symbol: 'G' },
+      { value: 1e12, symbol: 'T' },
+      { value: 1e15, symbol: 'P' },
+      { value: 1e18, symbol: 'E' }
+    ]
+    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/
+    let i
+    for (i = si.length - 1; i > 0; i--) {
+      if (num >= si[i].value) {
+        break
+      }
+    }
+    return (num / si[i].value).toFixed(1).replace(rx, '$1') + si[i].symbol
+  };
+
   const handleRegist = async (e) => {
     e.preventDefault();
 
@@ -388,13 +408,15 @@ export default function StudyGroupPage() {
                 {groupMembers.map((member, index) => (
                   <div key={index}>
                     <div className={styles.랭킹메인}>
-                      <div>
-                        <span>{member.userId}</span>
-                        <span> 사람이름</span>
+                      <div className={styles.랭킹개인정보}>
+                        <span>{member.userId}
+                          {member.isOnline ? (<span className={styles.onDot}></span>) 
+                          : (<span className={styles.offDot}></span>)}
+                        </span>
                       </div>
-                      <div>
-                        <span>레벨</span>
-                        <span> 푼문제수</span>
+                      <div className={styles.랭킹레벨정보}>
+                        <span className={styles.레벨}> Lv.{member.userLevel}</span>
+                        <span className={styles.경험치}> Exp {nFormatter(member.userSolvedQuestion)}</span>
                       </div>
                     </div>
                   </div>
