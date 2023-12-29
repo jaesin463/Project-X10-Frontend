@@ -32,6 +32,11 @@ function Nav() {
         <div>
           {islogin && (
             <div className={styles.menu}>
+              <img
+                src={`http://localhost:8080/upload/${loginUser.userImg}`}
+                alt={loginUser.userImg}
+                width="50"
+              ></img>
               <div>알림</div>
               <div onClick={() => setToggle(!toggle)} className={styles.div}>
                 설정

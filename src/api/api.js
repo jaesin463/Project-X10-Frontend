@@ -248,15 +248,29 @@ export async function deleteToDoList(todo) {
 }
 
 // 그룹생성
-export async function groupCreate(group) {
+export async function groupCreate(group, groupImg) {
   try {
     const response = await fetch(BASE_URL + "/groups/create", {
       method: "POST",
-      body: group,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(group),
     });
+
+    const response2 = await fetch(
+      BASE_URL + "/groups/updateProfile/" + response,
+      {
+        method: "POST",
+        body: groupImg,
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    if (!response2.ok) {
+      throw new Error(`HTTP error! Status: ${response2.status}`);
     }
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -321,6 +335,25 @@ export async function workbookInfo(workbookid) {
   }
 }
 
+//소문제집 생성
+export async function WorkBookCreates(workbook, groupId) {
+  try {
+    const response = await fetch(BASE_URL + "/workbook/create" + groupId, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(workbook),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
 //퀴즈생성
 export async function makeQuestion(question) {
   try {
@@ -513,5 +546,17 @@ export async function quizroomInfo(quizRoomId) {
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
+  }
+}
+
+//유저 프로필 업데이트
+export async function profileUpdate(formData, user) {
+  // API 호출 및 응답 처리
+  const response = await fetch(`${BASE_URL}/users/updateProfile/${user}`, {
+    method: "POST",
+    body: formData,
+  });
+  if (!response.ok) {
+    throw new Error("프로필을 업데이트하는데에 실패했습니다.");
   }
 }
