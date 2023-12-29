@@ -12,8 +12,8 @@ import {
   enterQuizroom,
   makeQuizroom,
 } from "../api/api";
+import WorkBookCreate from "../components/WorkBookCreate";
 import { useEffect, useState } from "react";
-import Modal from "react-modal";
 import ex from "../assets/ex.jpeg";
 import arrow from "../assets/arrow.png";
 
