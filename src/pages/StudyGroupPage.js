@@ -94,7 +94,7 @@ export default function StudyGroupPage() {
       };
 
       // Quizroom 생성 API 호출
-     const response = await makeQuizroom(newQuizroom);
+      const response = await makeQuizroom(newQuizroom);
 
       // Quizroom 생성 후 필요한 로직 추가 (예: 페이지 새로고침)
 
