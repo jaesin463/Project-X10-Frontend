@@ -4,13 +4,15 @@ import Progress from "../components/Progress";
 import styles from "./MyMainPage.module.css";
 import ex from "../assets/ex.jpeg";
 import classNames from "classnames";
-import { userGroup, userIngroup } from "../api/api";
+import { userGroup, userIngroup, getRecentSolvedWorkbooksByUserId, getRecentCreatedWorkbooksByUserId } from "../api/api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import plus from "../assets/plus.png";
 import StudyGroupCreate from "../components/StudyGroupCreate";
 import Slider from "../components/slider";
+import RecentSolvedWorkbook from "../components/RecentSolvedWorkbook";
+import RecentCreatedWorkbook from "../components/RecentCreatedWorkbook";
 
 export default function MyMainPage() {
   const [userGroups, setUserGroups] = useState([]);
@@ -21,6 +23,13 @@ export default function MyMainPage() {
   const [loginUser, setLoginUser] = useState(
     JSON.parse(localStorage.getItem("loginUser"))
   );
+
+  const [selectedTab, setSelectedTab] = useState('recentSolved');
+  const handleTabChange = (tab) => {
+    setSelectedTab(tab);
+  };
+  const [data1, setData1] = useState();
+  const [data2, setData2] = useState();
 
   // 그룹들어가는 함수
 
@@ -65,6 +74,18 @@ export default function MyMainPage() {
       .catch((error) => {
         console.error("에러 발생:", error);
       });
+      const fetchData = async () => {
+        try {
+          const data11 = await getRecentSolvedWorkbooksByUserId(loginUser.userId);
+          const data12 = await getRecentCreatedWorkbooksByUserId(loginUser.userId);
+          setData1(data11);
+          setData2(data12);
+        } catch (error) {
+          console.error("데이터를 불러오는 중 에러:", error);
+        }
+      };
+    
+      fetchData();
   }, [loginUser]);
 
   return (
@@ -77,7 +98,11 @@ export default function MyMainPage() {
           </div>
           <div className={styles.FlexRow}>
             <div className={styles.qustion}>
-              <h3>최근 푼 문제 | 예정 된 문제</h3>
+              <span onClick={() => handleTabChange('recentSolved')}>최근 푼 문제집</span>
+              <span> | </span>
+              <span onClick={() => handleTabChange('recentCreated')}>최근에 만들어진 문제집</span>
+              {selectedTab === 'recentSolved' ? <RecentSolvedWorkbook data={data1} /> : null}
+              {selectedTab === 'recentCreated' ? <RecentCreatedWorkbook data={data2} /> : null}
               <div></div>
             </div>
             <div
