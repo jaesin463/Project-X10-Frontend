@@ -708,3 +708,45 @@ export async function profileUpdate(formData, user) {
     throw new Error("프로필을 업데이트하는데에 실패했습니다.");
   }
 }
+
+//최근에 푼 문제집
+export async function getRecentSolvedWorkbooksByUserId(userId) {
+  try {
+    const response = await fetch(BASE_URL + '/workbook/recentSolved/' + userId, { method: 'GET' });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
+//최근에 만들어진 문제집
+export async function getRecentCreatedWorkbooksByUserId(userId) {
+  try {
+    const response = await fetch(BASE_URL + '/workbook/recentCreated/' + userId, { method: 'GET' });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
