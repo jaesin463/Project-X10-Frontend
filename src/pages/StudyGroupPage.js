@@ -1,6 +1,7 @@
 import Container from "../components/Container";
 import styles from "./StudyGroupPage.module.css";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import Modal from "react-modal";
+import { useParams, Link, useNavigate, Navigate } from "react-router-dom";
 import {
   subjectIngroup,
   workbookInsubject,
@@ -10,6 +11,7 @@ import {
   allquizroomInfo,
   enterQuizroom,
   makeQuizroom,
+  quizroomInfo,
 } from "../api/api";
 import WorkBookCreate from "../components/WorkBookCreate";
 import { useEffect, useState } from "react";
@@ -38,9 +40,9 @@ export default function StudyGroupPage() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalIsOpen2, setModalIsOpen2] = useState(false);
   const [quizRoomTitle, setQuizRoomTitle] = useState("");
-  const [quizRoomWorkbookId, setQuizRoomWorkbookId] = useState();
-  const [quizRoomTimeLimit, setQuizRoomTimeLimit] = useState();
-  const [quizRoomMaxNum, setQuizRoomMaxNum] = useState();
+  const [quizRoomWorkbookId, setQuizRoomWorkbookId] = useState("");
+  const [quizRoomTimeLimit, setQuizRoomTimeLimit] = useState("");
+  const [quizRoomMaxNum, setQuizRoomMaxNum] = useState("");
   const modalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -58,9 +60,9 @@ export default function StudyGroupPage() {
     setModalIsOpen2(false);
     // 모달이 닫힐 때 입력 필드 초기화
     setQuizRoomTitle("");
-    setQuizRoomWorkbookId();
-    setQuizRoomTimeLimit();
-    setQuizRoomMaxNum();
+    setQuizRoomWorkbookId("");
+    setQuizRoomTimeLimit("");
+    setQuizRoomMaxNum("");
   };
 
   const handleTitleChange = (e) => {
@@ -99,6 +101,7 @@ export default function StudyGroupPage() {
 
       // 모달 닫기
       closeModal();
+      navigate(`/study/${groupid}/${response}/ready`);
     } catch (error) {
       console.error("Quizroom 생성 에러:", error);
     }
@@ -372,7 +375,8 @@ export default function StudyGroupPage() {
                           }
                           className={styles.방버튼}
                         >
-                          4/{quizroom.quizRoomMaxNum} 입장하기
+                          {quizroom.quizRoomCurrentP}/{quizroom.quizRoomMaxNum}{" "}
+                          입장하기
                         </button>
                         {/* </Link> */}
                       </div>
