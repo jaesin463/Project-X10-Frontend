@@ -1,6 +1,5 @@
 import Container from "../components/Container";
 import styles from "./StudyGroupPage.module.css";
-import Modal from "react-modal";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   subjectIngroup,
@@ -12,6 +11,7 @@ import {
   enterQuizroom,
   makeQuizroom,
 } from "../api/api";
+import WorkBookCreate from "../components/WorkBookCreate";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import ex from "../assets/ex.jpeg";
@@ -37,6 +37,7 @@ export default function StudyGroupPage() {
   const [sc, setSubjectContent] = useState("");
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpen2, setModalIsOpen2] = useState(false);
   const [quizRoomTitle, setQuizRoomTitle] = useState("");
   const [quizRoomWorkbookId, setQuizRoomWorkbookId] = useState();
   const [quizRoomTimeLimit, setQuizRoomTimeLimit] = useState();
@@ -53,12 +54,9 @@ export default function StudyGroupPage() {
       padding: "20px",
     },
   };
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
 
   const closeModal = () => {
-    setModalIsOpen(false);
+    setModalIsOpen2(false);
     // 모달이 닫힐 때 입력 필드 초기화
     setQuizRoomTitle("");
     setQuizRoomWorkbookId();
@@ -297,13 +295,17 @@ export default function StudyGroupPage() {
         <div className={styles.mainbox}>
           <div className={styles.mainleft}>
             <div className={styles.문제방}>
-              <button onClick={openModal} className={styles.만들기버튼}>
+              <button
+                onClick={() => setModalIsOpen2(true)}
+                className={styles.만들기버튼}
+              >
                 문제방 만들기
               </button>
               <div>
                 {/* 모달 내용 */}
                 <Modal
-                  isOpen={modalIsOpen}
+                  appElement={document.getElementById("root")}
+                  isOpen={modalIsOpen2}
                   onRequestClose={closeModal}
                   style={modalStyles}
                   contentLabel="Create Quizroom Modal"

@@ -694,6 +694,9 @@ export async function makeQuizroom(quizRoom) {
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
+  }
+}
+
 //유저 프로필 업데이트
 export async function profileUpdate(formData, user) {
   // API 호출 및 응답 처리
