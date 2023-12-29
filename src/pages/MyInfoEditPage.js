@@ -1,7 +1,8 @@
 import Container from "../components/Container";
 import styles from "./MyInfoEditPage.module.css";
 import { useState } from "react";
-import { editUser } from "../api/api";
+import { editUser, profileUpdate } from "../api/api";
+import FileInput from "../components/FileInput";
 
 export default function MyInfoEditPage() {
   const loginUser = JSON.parse(localStorage.getItem("loginUser"));
@@ -11,23 +12,50 @@ export default function MyInfoEditPage() {
   const [name, setName] = useState(loginUser.userName);
   const [nickname, setNickname] = useState(loginUser.userNickname);
   const [email, setEmail] = useState(loginUser.userEmail);
-  //   const [img, setImg] = useState(loginUser.userImg);
   const [check, setCheck] = useState(0);
 
   const user = {
-    userId: id,
     userPassword: pw,
-    userName: name,
     userNickname: nickname,
-    userEmail: email,
   };
+
+  const [value, setValue] = useState({
+    userImg: null,
+  });
+
+  const handleChange = (name, value) => {
+    setValue((prevValue) => ({
+      ...prevValue,
+      [name]: value,
+    }));
+  };
+  console.log(value);
+
   const handleEdit = async (e) => {
     e.preventDefault();
     editUser(user);
   };
+
+  const handleProfile = async (e) => {
+    e.preventDefault();
+    const formData2 = new FormData();
+    formData2.append("userImg", value.userImg);
+
+    const result = await profileUpdate(formData2, id);
+    if (!result) return;
+  };
   return (
     <Container>
       <div>회원 정보 수정 페이지입니다.</div>
+      <form onSubmit={handleProfile}>
+        <FileInput
+          className="ReviewForm-preview"
+          name="userImg"
+          value={value.userImg}
+          onChange={handleChange}
+        />
+        <button>수정</button>
+      </form>
       <div className={styles.regist_form}>
         <form onSubmit={handleEdit} className={styles.form}>
           <div className={styles.regist_div}>

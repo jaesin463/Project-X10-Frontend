@@ -1,19 +1,20 @@
 import { useState } from "react";
-import { groupCreate } from "../api/api";
-import styles from "./StudyGroupCreate.module.css";
-import FileInput from "./FileInput";
+import { WorkBookCreates } from "../api/api";
+import styles from "./WorkBookCreate.module.css";
 
-const StudyGroupCreate = ({
-  userId,
+const WorkBookCreate = ({
+  subjectId,
   setModalIsOpen,
-  setUserGroups,
-  userGroups,
+  setWorkbookS,
+  workbookS,
 }) => {
   const [value, setValue] = useState({
-    groupLeaderId: userId,
-    groupName: "",
-    groupDetail: "",
-    groupImg: null,
+    subjectId: subjectId,
+    workbookTitle: "",
+    workbookDetail: "",
+    workbookDate: "",
+    workbookDeadline: "",
+    workbookQuota: 0,
   });
 
   const handleChange = (name, value) => {
@@ -31,32 +32,24 @@ const StudyGroupCreate = ({
   // 폼 제출 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("groupImg", value.groupImg);
-
-    const result = await groupCreate(value, formData);
+    const result = await WorkBookCreates(value);
     if (!result) return;
 
     setModalIsOpen(false);
-    setUserGroups([...userGroups, value]);
+    setWorkbookS([...workbookS, value]);
   };
   console.log(value.groupImg);
 
+  //아래부분 수정해야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   return (
     <>
-      <div className={styles.create}>새로운 스터디그룹 만들기</div>
+      <div className={styles.create}>새로운 문제집 만들기</div>
       <div>
         <form onSubmit={handleSubmit}>
-          <FileInput
-            className="ReviewForm-preview"
-            name="groupImg"
-            value={value.groupImg}
-            onChange={handleChange}
-          />
           <div className={styles.inputs}>
             <div className={styles.flex}>
               <label htmlFor="groupName" className={styles.label}>
-                그룹이름
+                문제집이름
               </label>
               <input
                 placeholder="그룹이름"
@@ -68,7 +61,7 @@ const StudyGroupCreate = ({
             </div>
             <div className={styles.flex}>
               <label htmlFor="groupDetail" className={styles.label}>
-                그룹설명
+                문제집설명
               </label>
               <textarea
                 placeholder="그룹설명"
@@ -77,6 +70,30 @@ const StudyGroupCreate = ({
                 onChange={handleInputChange}
                 className={styles.textarea}
               ></textarea>
+            </div>
+            <div className={styles.flex}>
+              <label htmlFor="groupName" className={styles.label}>
+                출제기한
+              </label>
+              <input
+                placeholder="그룹이름"
+                name="groupName"
+                value={value.groupName}
+                onChange={handleInputChange}
+                className={styles.input}
+              ></input>
+            </div>
+            <div className={styles.flex}>
+              <label htmlFor="groupName" className={styles.label}>
+                문제수
+              </label>
+              <input
+                placeholder="그룹이름"
+                name="groupName"
+                value={value.groupName}
+                onChange={handleInputChange}
+                className={styles.input}
+              ></input>
             </div>
           </div>
           <div className={styles.buttonArea}>
@@ -87,4 +104,4 @@ const StudyGroupCreate = ({
     </>
   );
 };
-export default StudyGroupCreate;
+export default WorkBookCreate;
