@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./RecentSolvedWorkbook.css";
+import styles from "./RecentSolvedWorkbook.css";
 
 const RecentSolvedWorkbook = ({ data }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,8 +23,8 @@ const RecentSolvedWorkbook = ({ data }) => {
           </div>
         )}
       </div>
-      <button onClick={handlePrev}>이전</button>
-      <button onClick={handleNext}>다음</button>
+      <button className={styles.캐러셀버튼} onClick={handlePrev}>이전</button>
+      <button className={styles.캐러셀버튼} onClick={handleNext}>다음</button>
     </div>
   );
 };
