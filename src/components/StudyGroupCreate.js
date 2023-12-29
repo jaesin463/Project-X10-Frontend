@@ -28,9 +28,9 @@ const StudyGroupCreate = ({
     handleChange(name, value);
   };
 
-  // 폼 제출 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
     formData.append("groupImg", value.groupImg);
 

@@ -1,6 +1,7 @@
 import Container from "../components/Container";
 import styles from "./StudyGroupPage.module.css";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import Modal from "react-modal";
+import { useParams, Link, useNavigate, Navigate } from "react-router-dom";
 import {
   subjectIngroup,
   workbookInsubject,
@@ -10,10 +11,10 @@ import {
   allquizroomInfo,
   enterQuizroom,
   makeQuizroom,
+  quizroomInfo,
 } from "../api/api";
 import WorkBookCreate from "../components/WorkBookCreate";
 import { useEffect, useState } from "react";
-import Modal from "react-modal";
 import ex from "../assets/ex.jpeg";
 import arrow from "../assets/arrow.png";
 
@@ -99,6 +100,7 @@ export default function StudyGroupPage() {
 
       // 모달 닫기
       closeModal();
+      navigate(`/study/${groupid}/${response}/ready`);
     } catch (error) {
       console.error("Quizroom 생성 에러:", error);
     }
@@ -371,7 +373,8 @@ export default function StudyGroupPage() {
                           }
                           className={styles.방버튼}
                         >
-                          4/{quizroom.quizRoomMaxNum} 입장하기
+                          {quizroom.quizRoomCurrentP}/{quizroom.quizRoomMaxNum}{" "}
+                          입장하기
                         </button>
                         {/* </Link> */}
                       </div>

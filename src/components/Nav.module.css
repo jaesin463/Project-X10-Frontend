@@ -40,10 +40,27 @@
   position: relative;
 }
 
-.toggle {
-  background-color: var(--bg-300);
-  padding: 20px;
-  position: absolute;
-  top: 50px;
-  right: 10px;
+.pointer {
+  cursor: pointer;
 }
+
+.toggle {
+  background-color: var(--primary-300);
+  padding: 10px;
+  position: absolute;
+  top: 40px;
+  right: 5px;
+  border-radius: 8px; /* 토글 영역에 둥근 테두리를 추가합니다. */
+}
+
+.togglebtn {
+  cursor: pointer;
+  color: var(--primary-200);
+  background-color: var(--bg-100);
+  border-color: var(--primary-200);
+  margin: 5px;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+
