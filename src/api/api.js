@@ -258,13 +258,13 @@ export async function groupCreate(group, groupImg) {
       body: JSON.stringify(group),
     });
 
-    const response2 = await fetch(
-      BASE_URL + "/groups/updateProfile/" + response,
-      {
-        method: "POST",
-        body: groupImg,
-      }
-    );
+    const data = await response.json();
+    console.log(data);
+
+    const response2 = await fetch(BASE_URL + "/groups/updateProfile/" + data, {
+      method: "POST",
+      body: groupImg,
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -343,7 +343,7 @@ export async function workbookInfo(workbookid) {
 //소문제집 생성
 export async function WorkBookCreates(workbook, groupId) {
   try {
-    const response = await fetch(BASE_URL + "/workbook/create" + groupId, {
+    const response = await fetch(BASE_URL + "/workbook/create/" + groupId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

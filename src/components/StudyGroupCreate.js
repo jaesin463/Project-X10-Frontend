@@ -30,7 +30,20 @@ const StudyGroupCreate = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    groupCreate(value);
+
+    const formData = new FormData();
+    formData.append("groupImg", value.groupImg);
+
+    const result = await groupCreate(
+      {
+        groupLeaderId: value.groupLeaderId,
+        groupName: value.groupName,
+        groupDetail: value.groupDetail,
+      },
+      formData
+    );
+    if (!result) return;
+
     setModalIsOpen(false);
     setUserGroups([...userGroups, value]);
   };
