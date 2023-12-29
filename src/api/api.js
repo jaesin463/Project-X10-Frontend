@@ -691,12 +691,13 @@ export async function makeQuizroom(quizRoom) {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
   }
 }
-
 //유저 프로필 업데이트
 export async function profileUpdate(formData, user) {
   // API 호출 및 응답 처리
