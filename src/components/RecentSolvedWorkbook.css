@@ -16,7 +16,7 @@
     margin: 0 auto;
   }
   
-  button {
+  .캐러셀버튼 {
     cursor: pointer;
     font-size: 16px;
     padding: 10px;
