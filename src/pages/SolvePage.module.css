@@ -1,0 +1,70 @@
+.mid {
+  display: flex;
+  width: 130%;
+  height: 700px;
+  justify-content: center;
+}
+.big {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.시계 {
+  width: 100%;
+  height: 40px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border: 2px solid red;
+}
+.사람들이있는곳 {
+  width: 100%;
+  height: 40%;
+  border: 2px solid gold;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* 이 부분을 추가해 줍니다. */
+}
+
+.푸는유저 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid fuchsia;
+  min-width: 20%;
+  max-width: 20%;
+  flex: 1;
+  margin: 12px;
+  box-sizing: border-box; /* margin 값이 포함되도록 box-sizing 추가 */
+}
+.답안제출 {
+  position: absolute;
+  bottom: 7px;
+  right: 6px;
+}
+.문제랑사람들 {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 2px solid green;
+}
+.문제가들어갈곳 {
+  position: relative;
+  width: 100%;
+  height: 70%;
+  border: 2px solid palevioletred;
+}
+
+/* .사람들이있는곳 {
+  width: 100%;
+  height: 40%;
+  border: 2px solid gold;
+  display: flex;
+} */
+.채팅방 {
+  width: 20%;
+  height: 100%;
+  border: 2px solid blue;
+}

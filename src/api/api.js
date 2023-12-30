@@ -258,13 +258,13 @@ export async function groupCreate(group, groupImg) {
       body: JSON.stringify(group),
     });
 
-    const response2 = await fetch(
-      BASE_URL + "/groups/updateProfile/" + response,
-      {
-        method: "POST",
-        body: groupImg,
-      }
-    );
+    const data = await response.json();
+    console.log(data);
+
+    const response2 = await fetch(BASE_URL + "/groups/updateProfile/" + data, {
+      method: "POST",
+      body: groupImg,
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -343,7 +343,7 @@ export async function workbookInfo(workbookid) {
 //소문제집 생성
 export async function WorkBookCreates(workbook, groupId) {
   try {
-    const response = await fetch(BASE_URL + "/workbook/create" + groupId, {
+    const response = await fetch(BASE_URL + "/workbook/create/" + groupId, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -691,12 +691,13 @@ export async function makeQuizroom(quizRoom) {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
   }
 }
-
 //유저 프로필 업데이트
 export async function profileUpdate(formData, user) {
   // API 호출 및 응답 처리
@@ -707,6 +708,9 @@ export async function profileUpdate(formData, user) {
   if (!response.ok) {
     throw new Error("프로필을 업데이트하는데에 실패했습니다.");
   }
+
+  const data = await response.json();
+    return data;
 }
 
 //최근에 푼 문제집

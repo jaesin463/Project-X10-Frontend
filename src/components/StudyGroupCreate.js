@@ -28,13 +28,20 @@ const StudyGroupCreate = ({
     handleChange(name, value);
   };
 
-  // 폼 제출 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
     formData.append("groupImg", value.groupImg);
 
-    const result = await groupCreate(value, formData);
+    const result = await groupCreate(
+      {
+        groupLeaderId: value.groupLeaderId,
+        groupName: value.groupName,
+        groupDetail: value.groupDetail,
+      },
+      formData
+    );
     if (!result) return;
 
     setModalIsOpen(false);
