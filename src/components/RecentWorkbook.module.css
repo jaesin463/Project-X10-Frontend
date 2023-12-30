@@ -12,14 +12,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 0;
 }
 
 .workbook {
   border: 1px solid #ddd;
   padding: 20px;
-  max-width: 300px;
+  max-width: 360px;
   margin: 0 20px;
+  text-align: left;
 }
 
 .캐러셀버튼 {

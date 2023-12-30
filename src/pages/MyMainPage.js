@@ -104,12 +104,26 @@ export default function MyMainPage() {
             <Slider />
           </div>
           <div className={styles.FlexRow}>
-            <div className={styles.qustion}>
-              <span onClick={() => handleTabChange("recentSolved")}>
+            <div className={styles.question}>
+              <span
+                onClick={() => handleTabChange("recentSolved")}
+                className={
+                  selectedTab === "recentSolved"
+                    ? styles.activeTab
+                    : styles.inactiveTab
+                }
+              >
                 최근 푼 문제집
               </span>
-              <span> | </span>
-              <span onClick={() => handleTabChange("recentCreated")}>
+              <span className={styles.separator}> | </span>
+              <span
+                onClick={() => handleTabChange("recentCreated")}
+                className={
+                  selectedTab === "recentCreated"
+                    ? styles.activeTab
+                    : styles.inactiveTab
+                }
+              >
                 최근에 만들어진 문제집
               </span>
               {selectedTab === "recentSolved" ? (
