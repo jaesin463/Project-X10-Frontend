@@ -99,7 +99,7 @@ export default function SolvePage() {
                       <button>X</button>
                     </div>
                   )}
-                  {/*1객관식 2단답형 3OX */}
+                  {/*1객관식 2단답형 3OXdd */}
                   {quiz.questionType === 1 && (
                     <div>
                       {quiz.multipleChoices.map((choice, choiceIndex) => (
