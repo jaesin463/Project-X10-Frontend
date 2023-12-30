@@ -71,13 +71,12 @@ export async function editUser(user) {
     const response = await fetch(BASE_URL + "/users/update", {
       method: "PUT",
       headers: {
-        accept: "*/*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
     });
-    const data = await response.json();
-    console.log(data);
+    // const data = await response.json();
+    // console.log(data);
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);

@@ -11,11 +11,9 @@ import {
   allquizroomInfo,
   enterQuizroom,
   makeQuizroom,
-
   quizroomInfo,
   subjectDelete,
   subjectUpdate,
-
 } from "../api/api";
 import WorkBookCreate from "../components/WorkBookCreate";
 import { useEffect, useState } from "react";
@@ -451,15 +449,19 @@ export default function StudyGroupPage() {
                       {/* <div>참여한사람들이미지</div> */}
                       <div>
                         {/* <Link to={quizroom.quizRoomId + "/ready"}> */}
-                        <button
-                          onClick={() =>
-                            enterRoom(loginUser.userId, quizroom.quizRoomId)
-                          }
-                          className={styles.방버튼}
-                        >
-                          {quizroom.quizRoomCurrentP}/{quizroom.quizRoomMaxNum}{" "}
-                          입장하기
-                        </button>
+                        {quizroom.quizRoomCurrentP < quizroom.quizRoomMaxNum ? (
+                          <button
+                            onClick={() =>
+                              enterRoom(loginUser.userId, quizroom.quizRoomId)
+                            }
+                            className={styles.방버튼}
+                          >
+                            {quizroom.quizRoomCurrentP}/
+                            {quizroom.quizRoomMaxNum} 입장하기
+                          </button>
+                        ) : (
+                          <button className={styles.방버튼}>사람다참</button>
+                        )}
                         {/* </Link> */}
                       </div>
                     </div>

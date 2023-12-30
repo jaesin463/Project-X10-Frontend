@@ -68,11 +68,13 @@ export default function SolveReadyPage() {
     navigate(`/study/${groupid}/${quizroomId}/solve/${time}`);
   };
 
+  //
   const handleReadyUser = async (userId) => {
     await readyUser(userId);
     const updatedMembers = await quizreadyroomInfomember(quizroomId);
     setNowmembers(updatedMembers);
   };
+
   const handleWorkbookChange = async (newWorkbookId) => {
     try {
       // 업데이트할 quizRoom 객체 생성
@@ -80,7 +82,6 @@ export default function SolveReadyPage() {
         ...nowinfo, // 현재 정보 복사
         quizRoomWorkbookId: newWorkbookId, // 변경된 workbookId 할당
       };
-
       // updateQuizroom API 호출
       await updateQuizroom(updatedQuizroom);
 
@@ -93,7 +94,6 @@ export default function SolveReadyPage() {
     } catch (error) {
       console.error("Error updating quizroom:", error);
     }
-
     // 모달 닫기
     setModalIsOpen(false);
   };
@@ -101,17 +101,19 @@ export default function SolveReadyPage() {
     // 컴포넌트가 마운트될 때 실행할 코드 작성
 
     // useEffect 함수 내에서 컴포넌트가 언마운트될 때 실행할 코드 작성
-    return () => {
+    return async () => {
       // 페이지를 벗어나면 실행할 코드 작성
       if (nowmembers.length > 1) {
-        quizroomexit(quizroomId, loginUser.userId);
+        const id = quizroomId;
+        const user = loginUser.userId;
+        await quizroomexit(id, user);
         console.log("컴포넌트가 언마운트될 때 실행할 코드");
-      }
-      if (nowmembers.length === 0) {
-        quizroomDelete(quizroomId);
+        // console.log(nowmembers);
+      } else if (loginUser.userId === nowinfo.quizRoomCreator) {
+        await quizroomDelete(quizroomId);
       }
     };
-  }, [nowmembers.length]); // nowmembers.length를 의존성 배열에 추가하여 nowmembers.length가 변경될 때마다 useEffect가 다시 실행되도록 함
+  }, [nowmembers]); // nowmembers.length를 의존성 배열에 추가하여 nowmembers.length가 변경될 때마다 useEffect가 다시 실행되도록 함
 
   useEffect(() => {
     const fetchData = async () => {
