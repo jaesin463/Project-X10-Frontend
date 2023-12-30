@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { readAllNotice, checkNotice, readGroup } from "../api/api";
+import styles from "./Notification.module.css";
 
 const Notification = ({ userId }) => {
   const [notices, setNotices] = useState([]);
@@ -57,9 +58,11 @@ const Notification = ({ userId }) => {
         return (
           <div
             key={notice.noticeId}
-            className={`notification ${isRead ? "read" : "unread"}`}
+            className={`${styles.notification} ${
+              isRead ? styles.read : styles.unread
+            }`}
           >
-            <p style={{ color: isRead ? "grey" : "black" }}>
+            <p>
               {notice.noticeType === 1
                 ? `${notice.groupName} 그룹에서 초대 요청이 도착했습니다`
                 : notice.noticeType === 2
@@ -68,16 +71,25 @@ const Notification = ({ userId }) => {
             </p>
             {notice.noticeType === 1 && !isRead && (
               <>
-                <button onClick={() => handleAction(notice, "accept")}>
+                <button
+                  onClick={() => handleAction(notice, "accept")}
+                  className={styles.button}
+                >
                   수락
                 </button>
-                <button onClick={() => handleAction(notice, "decline")}>
+                <button
+                  onClick={() => handleAction(notice, "decline")}
+                  className={styles.button}
+                >
                   거절
                 </button>
               </>
             )}
             {notice.noticeType === 2 && !isRead && (
-              <button onClick={() => handleAction(notice, "confirm")}>
+              <button
+                onClick={() => handleAction(notice, "confirm")}
+                className={styles.button}
+              >
                 확인
               </button>
             )}
