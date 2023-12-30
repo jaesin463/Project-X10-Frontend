@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { readAllNotice, checkNotice, readGroup } from "../api/api";
+import {
+  readAllNotice,
+  checkNotice,
+  readGroup,
+  deleteNotice,
+} from "../api/api";
 import styles from "./Notification.module.css";
 
 const Notification = ({ userId }) => {
@@ -50,6 +55,18 @@ const Notification = ({ userId }) => {
     }
   };
 
+  const handleDelete = async (noticeId) => {
+    try {
+      // 서버에 알림 삭제 요청
+      await deleteNotice(noticeId);
+
+      // 알림 목록 상태 업데이트 (삭제된 알림 제거)
+      setNotices(notices.filter((n) => n.noticeId !== noticeId));
+    } catch (error) {
+      console.error("Error deleting notice:", error);
+    }
+  };
+
   return (
     <div>
       {notices.map((notice) => {
@@ -93,6 +110,12 @@ const Notification = ({ userId }) => {
                 확인
               </button>
             )}
+            <button
+              onClick={() => handleDelete(notice.noticeId)}
+              className={styles.button}
+            >
+              삭제
+            </button>
           </div>
         );
       })}
