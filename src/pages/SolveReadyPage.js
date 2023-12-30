@@ -35,6 +35,7 @@ export default function SolveReadyPage() {
   );
 
   const [show, setShow] = useState(false);
+  const [time, setTime] = useState(10);
 
   const { groupid, quizroomId } = useParams();
   //   console.log("섭젝아이디" + groupid);
@@ -64,7 +65,7 @@ export default function SolveReadyPage() {
     // start 버튼 클릭 시 실행될 로직
     setStart(quizroomId);
     // SolvePage로 이동
-    navigate(`/study/${groupid}/${quizroomId}/solve`);
+    navigate(`/study/${groupid}/${quizroomId}/solve/${time}`);
   };
 
   const handleReadyUser = async (userId) => {
@@ -123,6 +124,7 @@ export default function SolveReadyPage() {
         setNowmembers(members);
         setNowinfo(quizroom);
         setNowworkbook(workbookinfo);
+        setTime(quizroom.quizRoomTimeLimit);
         // console.log(workbookinfo);
         const username = await userName(quizroom.quizRoomCreator);
         setNowleadername(username.userNickname);
