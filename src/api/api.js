@@ -710,13 +710,16 @@ export async function profileUpdate(formData, user) {
   }
 
   const data = await response.json();
-    return data;
+  return data;
 }
 
 //최근에 푼 문제집
 export async function getRecentSolvedWorkbooksByUserId(userId) {
   try {
-    const response = await fetch(BASE_URL + '/workbook/recentSolved/' + userId, { method: 'GET' });
+    const response = await fetch(
+      BASE_URL + "/workbook/recentSolved/" + userId,
+      { method: "GET" }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -729,15 +732,18 @@ export async function getRecentSolvedWorkbooksByUserId(userId) {
     }
     return data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error("Error fetching data:", error);
     throw error;
   }
-};
+}
 
 //최근에 만들어진 문제집
 export async function getRecentCreatedWorkbooksByUserId(userId) {
   try {
-    const response = await fetch(BASE_URL + '/workbook/recentCreated/' + userId, { method: 'GET' });
+    const response = await fetch(
+      BASE_URL + "/workbook/recentCreated/" + userId,
+      { method: "GET" }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -750,7 +756,65 @@ export async function getRecentCreatedWorkbooksByUserId(userId) {
     }
     return data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error("Error fetching data:", error);
     throw error;
   }
-};
+}
+
+//멤버검색
+export async function searchMember(keyword) {
+  try {
+    const response = await fetch(BASE_URL + "/users/search/" + keyword, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+//하나의 그룹 가져오기
+export async function readGroup(groupId) {
+  try {
+    const response = await fetch(BASE_URL + "/groups/read/" + groupId, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//그룹초대
+export async function groupInvite(userid, groupid) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/groups/" + groupid + "/invite/" + userid,
+      {
+        method: "POST",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}

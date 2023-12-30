@@ -1,7 +1,22 @@
 import Container from "../components/Container";
 import styles from "./StudyGroupEditPage.module.css";
+import AddMember from "../components/AddMember";
+import Modal from "react-modal";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { readGroup } from "../api/api";
 
 export default function StudyGroupEditPage() {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [group, setGroup] = useState([]);
+  const { groupid } = useParams();
+  console.log(groupid);
+
+  useEffect(() => {
+    setGroup(readGroup(groupid));
+    console.log(group);
+  }, []);
+
   return (
     <>
       <Container>
@@ -32,7 +47,31 @@ export default function StudyGroupEditPage() {
         </div>
         <div className={styles.그룹멤버디브}>
           <div>
-            <button>멤버추가</button>
+            <button onClick={() => setModalIsOpen(true)}>멤버추가</button>
+            <Modal
+              appElement={document.getElementById("root")}
+              isOpen={modalIsOpen}
+              onRequestClose={() => setModalIsOpen(false)}
+              style={{
+                overlay: { backgroundColor: "rgba(0, 0, 0, 0.2)" },
+                content: {
+                  boxShadow: "0 0 15px 0px var(--bg-500)",
+                  backgroundColor: "var(--bg-400)",
+                  border: "solid 2.5px var(--bg-400)",
+                  borderRadius: "10px",
+                  width: "600px",
+                  height: "400px",
+                  margin: "auto",
+                  position: "fixed",
+                  top: "0",
+                  bottom: "0",
+                  left: "0",
+                  right: "0",
+                },
+              }}
+            >
+              <AddMember setModalIsOpen={setModalIsOpen} groupid={groupid} />
+            </Modal>
           </div>
         </div>
         <div className={styles.멤버들디브}>
