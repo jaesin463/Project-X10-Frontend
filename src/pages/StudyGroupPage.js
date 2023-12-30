@@ -19,6 +19,8 @@ import ex from "../assets/ex.jpeg";
 import arrow from "../assets/arrow.png";
 
 export default function StudyGroupPage() {
+  const now = new Date();
+  console.log(now);
   const navigate = useNavigate(); // useNavigate 훅 추가
   const { groupid } = useParams();
 
@@ -449,6 +451,10 @@ export default function StudyGroupPage() {
                       </div>
                     </div>
                     <div className={styles.열고닫기}>
+                      <div>
+                        <button>수정</button>
+                        <button>삭제</button>
+                      </div>
                       <img
                         className={styles.여닫이}
                         src={arrow}
@@ -481,14 +487,16 @@ export default function StudyGroupPage() {
                               <span>총 {workbook.workbookQuota}문제</span>
                             </div>
                             <div className={styles.보이거나안보이거나}>
-                              <Link to={`${workbook.workbookId}`}>
-                                <button>문제내러가기버튼</button>
-                              </Link>
+                              {new Date(workbook.workbookDeadline) > now && (
+                                <Link to={`${workbook.workbookId}`}>
+                                  <button>문제내러가기버튼</button>
+                                </Link>
+                              )}
                               <div>
-                                <span>
+                                {/* <span>
                                   문제를 냈거나 마우스를 올리지 않으면 이미지가
                                   보일거임
-                                </span>
+                                </span> */}
                               </div>
                             </div>
                           </div>
