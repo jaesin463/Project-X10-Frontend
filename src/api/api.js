@@ -799,11 +799,14 @@ export async function getUserquizrecord(workbookId, userId) {
   }
 }
 //멤버검색
-export async function searchMember(keyword) {
+export async function searchMember(keyword, groupid) {
   try {
-    const response = await fetch(BASE_URL + "/users/search/" + keyword, {
-      method: "GET",
-    });
+    const response = await fetch(
+      BASE_URL + "/users/search/" + keyword + "/" + groupid,
+      {
+        method: "GET",
+      }
+    );
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -895,6 +898,27 @@ export async function groupInvite(userid, groupid) {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//답안 보내기
+export async function AddAnswer(answer) {
+  try {
+    const response = await fetch(BASE_URL + "/userquestionrecord/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(answer),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log("답보냄");
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;

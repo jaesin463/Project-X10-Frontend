@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Container from "../components/Container";
 import styles from "./SolvePage.module.css";
 import {
@@ -7,7 +7,9 @@ import {
   quizroomInfo,
   getUserquizrecord,
   getTime,
+  AddAnswer,
 } from "../api/api";
+import Modal from "react-modal";
 import { useParams } from "react-router-dom";
 
 const PAGE_SIZE = 1; // 페이지당 퀴즈 수
@@ -16,11 +18,17 @@ export default function SolvePage() {
   const loginUser = JSON.parse(localStorage.getItem("loginUser"));
   const [solveusers, setSolveusers] = useState([]);
   const [allquestion, setAllquestion] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [currentTime, setCurrentTime] = useState("");
 
-  const { groupid, quizroomId } = useParams();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const [ans, setAns] = useState("");
+  const [anss, setAnss] = useState(0);
+
+  const { groupid, quizroomId, time } = useParams();
+  const timerRef = useRef();
+  const len = allquestion.length;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,17 +36,17 @@ export default function SolvePage() {
         const members = await quizreadyroomInfomember(quizroomId);
         const nowquizroom = await quizroomInfo(quizroomId);
         const allQ = await questionInworkbook(nowquizroom.quizRoomWorkbookId);
-        // const nowtime = await getTime(loginUser.userId);
+        const time = await getTime(loginUser.userId);
+        setCurrentTime(time);
         setSolveusers(members);
         setAllquestion(allQ);
-        // console.log(nowtime);
         console.log(allQ);
         console.log(members);
+        console.log(nowquizroom.quizRoomTimeLimit);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, [quizroomId]);
 
@@ -50,7 +58,73 @@ export default function SolvePage() {
   //     recordTime: currentTime,
   //   };
 
-  const handlesubmit = () => {};
+  const handleCount = () => {
+    setCurrentPage(currentPage + 1);
+    console.log(currentPage);
+  };
+
+  const handleRestart = () => {
+    if (!timerRef.current) {
+      timerRef.current = setInterval(handleCount, 1000);
+    }
+  };
+
+  const handleStop = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      handleCount();
+    }, time * 1000);
+    // console.log(count);
+    if (currentPage === len + 1 && timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+      console.log("끝남");
+      setModalIsOpen(true);
+    }
+    return () => {
+      clearInterval(timerRef.current);
+    };
+  }, [currentPage]);
+
+  const handleSubmitOx = (questionId) => {
+    const anss = {
+      questionId: questionId,
+      userId: loginUser.userId,
+      recordTime: currentTime,
+      correct: allquestion[currentPage - 1].questionA === ans ? true : false,
+    };
+    console.log(anss);
+    AddAnswer(anss);
+    setAns("");
+  };
+  const handleSubmitG = (questionId) => {
+    const anssd = {
+      questionId: questionId,
+      userId: loginUser.userId,
+      recordTime: currentTime,
+      correct: allquestion[currentPage - 1].multipleChoices[anss].answer,
+    };
+    console.log(anssd);
+    AddAnswer(anssd);
+    setAnss(-1);
+  };
+  const handleSubmitD = (questionId) => {
+    const anss = {
+      questionId: questionId,
+      userId: loginUser.userId,
+      recordTime: currentTime,
+      correct: allquestion[currentPage - 1].questionA === ans ? true : false,
+    };
+    console.log(anss);
+    AddAnswer(anss);
+    setAns("");
+  };
 
   // 전체 퀴즈를 페이지 단위로 자르는 함수
   const paginateQuestions = () => {
@@ -65,7 +139,7 @@ export default function SolvePage() {
 
   const handelTime = async (userId) => {
     console.log(userId);
-    const time = await getTime(userId);
+    const time = await getTime(loginUser.userId);
     setCurrentTime(time);
     console.log(time);
   };
@@ -78,27 +152,10 @@ export default function SolvePage() {
           <button onClick={() => handelTime(loginUser.userId)}>시작</button>
           <div className={styles.mid}>
             <div className={styles.문제랑사람들}>
-              {paginateQuestions().map((quiz, index) => (
+              {paginateQuestions().map((quiz) => (
                 <div className={styles.문제가들어갈곳} key={quiz.questionId}>
-                  <button className={styles.답안제출}>답안제출</button>
-                  <div>{index + 1} 번 문제</div>
+                  <div>{currentPage} 번 문제</div>
                   <div>문제 : {quiz.questionQ}</div>
-                  {quiz.questionType === 2 && (
-                    <div>
-                      <input
-                        type="text"
-                        id="shortAnswer"
-                        name="shortAnswer"
-                        placeholder="답을 입력하세요"
-                      />
-                    </div>
-                  )}
-                  {quiz.questionType === 3 && (
-                    <div>
-                      <button>O</button>
-                      <button>X</button>
-                    </div>
-                  )}
                   {/*1객관식 2단답형 3OXdd */}
                   {quiz.questionType === 1 && (
                     <div>
@@ -109,12 +166,52 @@ export default function SolvePage() {
                             id={`choice_${choiceIndex}`}
                             name="multipleChoice"
                             value={choice.choiceContent}
+                            onClick={() => {
+                              console.log(choiceIndex);
+                              setAnss(choiceIndex);
+                            }}
                           />
                           <label htmlFor={`choice_${choiceIndex}`}>
                             {choiceIndex + 1}. {choice.choiceContent}
                           </label>
                         </div>
                       ))}
+                      <button
+                        className={styles.답안제출}
+                        onClick={() => handleSubmitG(quiz.questionId)}
+                      >
+                        답안제출
+                      </button>
+                    </div>
+                  )}
+                  {quiz.questionType === 2 && (
+                    <div>
+                      <input
+                        type="text"
+                        id="shortAnswer"
+                        name="shortAnswer"
+                        value={ans}
+                        onChange={(e) => setAns(e.target.value)}
+                        placeholder="답을 입력하세요"
+                      />
+                      <button
+                        className={styles.답안제출}
+                        onClick={() => handleSubmitD(quiz.questionId)}
+                      >
+                        답안제출
+                      </button>
+                    </div>
+                  )}
+                  {quiz.questionType === 3 && (
+                    <div>
+                      <button onClick={() => setAns("1")}>O</button>
+                      <button onClick={() => setAns("2")}>X</button>
+                      <button
+                        className={styles.답안제출}
+                        onClick={() => handleSubmitOx(quiz.questionId)}
+                      >
+                        답안제출
+                      </button>
                     </div>
                   )}
                 </div>
@@ -148,6 +245,30 @@ export default function SolvePage() {
             <div className={styles.채팅방}>채팅방</div>
           </div>
         </div>
+        <Modal
+          appElement={document.getElementById("root")}
+          isOpen={modalIsOpen}
+          onRequestClose={() => setModalIsOpen(false)}
+          style={{
+            overlay: { backgroundColor: "rgba(0, 0, 0, 0.2)" },
+            content: {
+              boxShadow: "0 0 15px 0px var(--bg-500)",
+              backgroundColor: "var(--bg-400)",
+              border: "solid 2.5px var(--bg-400)",
+              borderRadius: "10px",
+              width: "600px",
+              height: "400px",
+              margin: "auto",
+              position: "fixed",
+              top: "0",
+              bottom: "0",
+              left: "0",
+              right: "0",
+            },
+          }}
+        >
+          <div>수고하셨어요ㅋ</div>
+        </Modal>
       </Container>
     </>
   );
