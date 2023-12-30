@@ -23,6 +23,25 @@ export async function loginUser(user) {
   }
 }
 
+// 로그아웃
+export async function logoutUser() {
+  try {
+    const response = await fetch(BASE_URL + "/users/logout", {
+      method: "POST",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
 // 회원가입
 export async function signupUser(user) {
   try {
@@ -777,10 +796,10 @@ export async function subjectDelete(subjectId) {
 }
 
 //유저퀴즈답안지 조회
-export async function getUserquizrecord(questionId, userId) {
+export async function getUserquizrecord(workbookId, userId) {
   try {
     const response = await fetch(
-      BASE_URL + "/userquestionrecord/read/" + questionId + "/user/" + userId,
+      BASE_URL + "/userquestionrecord/read/" + workbookId + "/user/" + userId,
       { method: "GET" }
     );
     if (!response.ok) {
@@ -799,11 +818,14 @@ export async function getUserquizrecord(questionId, userId) {
   }
 }
 //멤버검색
-export async function searchMember(keyword) {
+export async function searchMember(keyword, groupId) {
   try {
-    const response = await fetch(BASE_URL + "/users/search/" + keyword, {
-      method: "GET",
-    });
+    const response = await fetch(
+      BASE_URL + "/users/search/" + keyword + "/" + groupId,
+      {
+        method: "GET",
+      }
+    );
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -912,6 +934,101 @@ export async function subjectUpdate(subject) {
       },
       body: JSON.stringify(subject),
     });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//답안 보내기
+export async function AddAnswer(answer) {
+  try {
+    const response = await fetch(BASE_URL + "/userquestionrecord/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(answer),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log("답보냄");
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+// notice
+export async function createNotice(notice) {
+  try {
+    const response = await fetch(BASE_URL + "/notice/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(notice),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error create data", error);
+    throw error;
+  }
+}
+
+export async function readAllNotice(userId) {
+  try {
+    const response = await fetch(BASE_URL + "/notice/read/" + userId, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+export async function checkNotice(notice) {
+  try {
+    const response = await fetch(BASE_URL + "/notice/check", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(notice),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+export async function deleteNotice(noticeId) {
+  try {
+    const response = await fetch(BASE_URL + "/notice/delete/" + noticeId, {
+      method: "DELETE",
+    });
+
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

@@ -13,12 +13,12 @@ import {
   setStart,
 } from "../api/api";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Modal from "react-modal";
 
 export default function SolveReadyPage() {
   const navigate = useNavigate(); // useNavigate 훅 추가
+  const location = useLocation();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -35,6 +35,7 @@ export default function SolveReadyPage() {
   );
 
   const [show, setShow] = useState(false);
+  const [time, setTime] = useState(10);
 
   const { groupid, quizroomId } = useParams();
   //   console.log("섭젝아이디" + groupid);
@@ -64,7 +65,7 @@ export default function SolveReadyPage() {
     // start 버튼 클릭 시 실행될 로직
     setStart(quizroomId);
     // SolvePage로 이동
-    navigate(`/study/${groupid}/${quizroomId}/solve`);
+    navigate(`/study/${groupid}/${quizroomId}/solve/${time}`);
   };
 
   const handleReadyUser = async (userId) => {
@@ -105,7 +106,9 @@ export default function SolveReadyPage() {
       if (nowmembers.length > 1) {
         quizroomexit(quizroomId, loginUser.userId);
         console.log("컴포넌트가 언마운트될 때 실행할 코드");
-        // 예시: history.push("/somepage"); // 페이지 이동 등의 로직을 추가할 수 있음
+      }
+      if (nowmembers.length === 0) {
+        quizroomDelete(quizroomId);
       }
     };
   }, [nowmembers.length]); // nowmembers.length를 의존성 배열에 추가하여 nowmembers.length가 변경될 때마다 useEffect가 다시 실행되도록 함
@@ -123,6 +126,7 @@ export default function SolveReadyPage() {
         setNowmembers(members);
         setNowinfo(quizroom);
         setNowworkbook(workbookinfo);
+        setTime(quizroom.quizRoomTimeLimit);
         // console.log(workbookinfo);
         const username = await userName(quizroom.quizRoomCreator);
         setNowleadername(username.userNickname);
