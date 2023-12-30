@@ -710,13 +710,16 @@ export async function profileUpdate(formData, user) {
   }
 
   const data = await response.json();
-    return data;
+  return data;
 }
 
 //최근에 푼 문제집
 export async function getRecentSolvedWorkbooksByUserId(userId) {
   try {
-    const response = await fetch(BASE_URL + '/workbook/recentSolved/' + userId, { method: 'GET' });
+    const response = await fetch(
+      BASE_URL + "/workbook/recentSolved/" + userId,
+      { method: "GET" }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -729,15 +732,18 @@ export async function getRecentSolvedWorkbooksByUserId(userId) {
     }
     return data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error("Error fetching data:", error);
     throw error;
   }
-};
+}
 
 //최근에 만들어진 문제집
 export async function getRecentCreatedWorkbooksByUserId(userId) {
   try {
-    const response = await fetch(BASE_URL + '/workbook/recentCreated/' + userId, { method: 'GET' });
+    const response = await fetch(
+      BASE_URL + "/workbook/recentCreated/" + userId,
+      { method: "GET" }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -750,7 +756,23 @@ export async function getRecentCreatedWorkbooksByUserId(userId) {
     }
     return data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error("Error fetching data:", error);
     throw error;
   }
-};
+}
+
+// 과목 삭제
+export async function subjectDelete(subjectId) {
+  try {
+    const response = await fetch(BASE_URL + "/subject/delete/" + subjectId, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}

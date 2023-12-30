@@ -12,6 +12,7 @@ import {
   enterQuizroom,
   makeQuizroom,
   quizroomInfo,
+  subjectDelete,
 } from "../api/api";
 import WorkBookCreate from "../components/WorkBookCreate";
 import { useEffect, useState } from "react";
@@ -43,6 +44,7 @@ export default function StudyGroupPage() {
   const [quizRoomWorkbookId, setQuizRoomWorkbookId] = useState("");
   const [quizRoomTimeLimit, setQuizRoomTimeLimit] = useState("");
   const [quizRoomMaxNum, setQuizRoomMaxNum] = useState("");
+
   const modalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -137,22 +139,22 @@ export default function StudyGroupPage() {
 
   const nFormatter = (num) => {
     const si = [
-      { value: 1, symbol: '' },
-      { value: 1e3, symbol: 'k' },
-      { value: 1e6, symbol: 'M' },
-      { value: 1e9, symbol: 'G' },
-      { value: 1e12, symbol: 'T' },
-      { value: 1e15, symbol: 'P' },
-      { value: 1e18, symbol: 'E' }
-    ]
-    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/
-    let i
+      { value: 1, symbol: "" },
+      { value: 1e3, symbol: "k" },
+      { value: 1e6, symbol: "M" },
+      { value: 1e9, symbol: "G" },
+      { value: 1e12, symbol: "T" },
+      { value: 1e15, symbol: "P" },
+      { value: 1e18, symbol: "E" },
+    ];
+    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    let i;
     for (i = si.length - 1; i > 0; i--) {
       if (num >= si[i].value) {
-        break
+        break;
       }
     }
-    return (num / si[i].value).toFixed(1).replace(rx, '$1') + si[i].symbol
+    return (num / si[i].value).toFixed(1).replace(rx, "$1") + si[i].symbol;
   };
 
   const handleRegist = async (e) => {
@@ -254,6 +256,16 @@ export default function StudyGroupPage() {
     // console.log(newRotation);
     setToggleList(newToggleList);
     setRotation(newRotation);
+  };
+
+  const handleDeleteSubject = (deletedSubject) => {
+    const updatedSubjectList = subjectG.filter(
+      (item) => item.subjectId !== deletedSubject.subjectId
+    );
+    setSubjectG(updatedSubjectList);
+
+    // 서버에서도 삭제
+    subjectDelete(deletedSubject.subjectId);
   };
 
   return (
@@ -410,14 +422,24 @@ export default function StudyGroupPage() {
                   <div key={index}>
                     <div className={styles.랭킹메인}>
                       <div className={styles.랭킹개인정보}>
-                        <span>{member.userId}
-                          {member.isOnline ? (<span className={styles.onDot}></span>) 
-                          : (<span className={styles.offDot}></span>)}
+                        <span>
+                          {member.userId}
+                          {member.isOnline ? (
+                            <span className={styles.onDot}></span>
+                          ) : (
+                            <span className={styles.offDot}></span>
+                          )}
                         </span>
                       </div>
                       <div className={styles.랭킹레벨정보}>
-                        <span className={styles.레벨}> Lv.{member.userLevel}</span>
-                        <span className={styles.경험치}> Exp {nFormatter(member.userSolvedQuestion)}</span>
+                        <span className={styles.레벨}>
+                          {" "}
+                          Lv.{member.userLevel}
+                        </span>
+                        <span className={styles.경험치}>
+                          {" "}
+                          Exp {nFormatter(member.userSolvedQuestion)}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -439,6 +461,23 @@ export default function StudyGroupPage() {
                       </div>
                     </div>
                     <div className={styles.열고닫기}>
+                      <div>
+                        {nowGroup.groupLeaderId === loginUser.userId ? (
+                          <div>
+                            <Link to={"edit"}>
+                              <button className={styles.subjecteditBtn}>
+                                수정
+                              </button>
+                            </Link>
+                            <button
+                              onClick={() => handleDeleteSubject(subject)}
+                              className={styles.subjecteditBtn}
+                            >
+                              삭제
+                            </button>
+                          </div>
+                        ) : null}
+                      </div>
                       <img
                         className={styles.여닫이}
                         src={arrow}

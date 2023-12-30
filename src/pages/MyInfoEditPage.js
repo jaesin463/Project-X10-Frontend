@@ -155,7 +155,9 @@ export default function MyInfoEditPage() {
               className={styles.input}
             />
           </div>
-          <button type="submit" className={styles.button}>회원정보수정</button>
+          <button type="submit" className={styles.button}>
+            회원정보수정
+          </button>
         </form>
       </div>
     </Container>
