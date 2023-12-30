@@ -1,0 +1,56 @@
+.회차고르기 {
+  height: 20px;
+  width: 200px;
+  border: 2px solid red;
+}
+.이번회차정보 {
+  height: 120px;
+  width: 100%;
+  border: solid 2px orange;
+}
+.틀린문제만보기 {
+  height: 20px;
+  width: 300px;
+  border: solid 2px yellow;
+}
+.문제들공간 {
+  height: 200px;
+  width: 100%;
+  border: 2px solid green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.중앙정렬 {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  border: 2px solid plum;
+}
+.끝으로보내기 {
+  display: flex;
+  justify-content: end;
+}
+.이번회차결과 {
+  height: 20%;
+  width: 100%;
+  border: solid 2px blue;
+}
+.회차정보미드 {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border: solid 2px tomato;
+}
+.correctQuestion {
+  color: blue; /* 파란색 */
+}
+
+.incorrectQuestion {
+  color: red; /* 빨간색 */
+}
+
+.defaultQuestion {
+  color: black; /* 검정색 */
+}
