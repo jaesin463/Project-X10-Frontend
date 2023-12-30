@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { userIngroup } from "../api/api";
+import { useNavigate } from "react-router-dom";
+import { userIngroup, changeLeader, deleteMember } from "../api/api";
 import styles from "./GroupMember.module.css";
 
 export default function GroupMember({ groupid }) {
   const [groupUsers, setGroupUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const navigate = useNavigate(); // useNavigate 훅 추가
 
   useEffect(() => {
     const fetchGroupUsers = async () => {
@@ -21,6 +23,17 @@ export default function GroupMember({ groupid }) {
 
   const handleUserClick = (user) => {
     setSelectedUser(user); // 사용자 클릭 시 선택된 사용자 상태 업데이트
+  };
+
+  const handleDelete = async (groupid, userId) => {
+    await deleteMember(groupid, userId);
+
+    setGroupUsers(groupUsers.filter((g) => g.userId !== userId));
+  };
+
+  const handleAction = async (groupid, userId) => {
+    await changeLeader(groupid, userId);
+    navigate(`../`); // 여기서 페이지 이동
   };
 
   return (
@@ -48,8 +61,18 @@ export default function GroupMember({ groupid }) {
             </div>
           </div>
           <div className={styles.인포바텀}>
-            <button className={styles.방장위임}>방장위임</button>
-            <button className={styles.추방하기}>추방하기</button>
+            <button
+              className={styles.방장위임}
+              onClick={() => handleAction(groupid, selectedUser.userId)}
+            >
+              방장위임
+            </button>
+            <button
+              className={styles.추방하기}
+              onClick={() => handleDelete(groupid, selectedUser.userId)}
+            >
+              추방하기
+            </button>
           </div>
         </div>
       )}

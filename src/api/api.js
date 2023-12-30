@@ -1037,3 +1037,43 @@ export async function deleteNotice(noticeId) {
     throw error;
   }
 }
+
+export async function changeLeader(groupId, userId) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/groups/leader/" + groupId + "/" + userId,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(groupId, userId),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+export async function deleteMember(groupId, userId) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/groups/" + groupId + "/delete/" + userId,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
