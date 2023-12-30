@@ -23,6 +23,25 @@ export async function loginUser(user) {
   }
 }
 
+// 로그아웃
+export async function logoutUser() {
+  try {
+    const response = await fetch(BASE_URL + "/users/logout", {
+      method: "POST",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
 // 회원가입
 export async function signupUser(user) {
   try {
