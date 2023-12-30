@@ -25,7 +25,6 @@ export async function loginUser(user) {
 
 // 로그아웃
 export async function logoutUser(user) {
-  console.log(user);
   try {
     const response = await fetch(BASE_URL + "/users/logout", {
       method: "POST",
