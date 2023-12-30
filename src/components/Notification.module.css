@@ -1,0 +1,25 @@
+/* notification.module.css */
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px; /* 각 알림 사이의 간격 */
+}
+
+.notification p {
+  margin: 0;
+  flex-grow: 1; /* 내용이 가변 너비를 가짐 */
+}
+
+.read {
+  color: grey;
+  /* 읽은 알림에 대한 추가 스타일 */
+}
+
+.unread {
+  /* 안 읽은 알림에 대한 추가 스타일 */
+}
+
+.button {
+  margin-left: 10px; /* 버튼 사이의 간격 */
+}
