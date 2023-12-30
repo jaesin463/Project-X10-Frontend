@@ -11,10 +11,8 @@ import {
   allquizroomInfo,
   enterQuizroom,
   makeQuizroom,
-
   quizroomInfo,
   subjectDelete,
-
 } from "../api/api";
 import WorkBookCreate from "../components/WorkBookCreate";
 import { useEffect, useState } from "react";
@@ -403,15 +401,19 @@ export default function StudyGroupPage() {
                       {/* <div>참여한사람들이미지</div> */}
                       <div>
                         {/* <Link to={quizroom.quizRoomId + "/ready"}> */}
-                        <button
-                          onClick={() =>
-                            enterRoom(loginUser.userId, quizroom.quizRoomId)
-                          }
-                          className={styles.방버튼}
-                        >
-                          {quizroom.quizRoomCurrentP}/{quizroom.quizRoomMaxNum}{" "}
-                          입장하기
-                        </button>
+                        {quizroom.quizRoomCurrentP < quizroom.quizRoomMaxNum ? (
+                          <button
+                            onClick={() =>
+                              enterRoom(loginUser.userId, quizroom.quizRoomId)
+                            }
+                            className={styles.방버튼}
+                          >
+                            {quizroom.quizRoomCurrentP}/
+                            {quizroom.quizRoomMaxNum} 입장하기
+                          </button>
+                        ) : (
+                          <button className={styles.방버튼}>사람다참</button>
+                        )}
                         {/* </Link> */}
                       </div>
                     </div>
@@ -466,7 +468,6 @@ export default function StudyGroupPage() {
                     </div>
                     <div className={styles.열고닫기}>
                       <div>
-
                         {nowGroup.groupLeaderId === loginUser.userId ? (
                           <div>
                             <Link to={"edit"}>
@@ -482,7 +483,6 @@ export default function StudyGroupPage() {
                             </button>
                           </div>
                         ) : null}
-
                       </div>
                       <img
                         className={styles.여닫이}
