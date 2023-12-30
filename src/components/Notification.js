@@ -10,22 +10,28 @@ const Notification = ({ userId }) => {
       .catch((error) => console.error("Error handling notices:", error));
   }, [userId]);
 
-  const handleAction = (noticeId) => {
-    // 알림을 읽은 상태로 변경
-    checkNotice(noticeId);
+  const handleAction = async (noticedata) => {
+    try {
+      // 알림을 읽은 상태로 변경하고 서버 응답을 기다림
+      await checkNotice(noticedata);
 
-    // 상태 업데이트
-    setNotices(
-      notices.map((notice) =>
-        notice.noticeId === noticeId ? { ...notice, checkNotice: 1 } : notice
-      )
-    );
+      // 상태 업데이트
+      setNotices(
+        notices.map((notice) =>
+          notice.noticeId === noticedata.noticeId
+            ? { ...notice, checkNotice: 1 }
+            : notice
+        )
+      );
+    } catch (error) {
+      console.error("Error updating notice:", error);
+    }
   };
 
   return (
     <div>
       {notices.map((notice) => {
-        const isRead = notice.checkNotice === 1;
+        const isRead = notice.noticeCheck === 1;
 
         return (
           <div
@@ -41,18 +47,12 @@ const Notification = ({ userId }) => {
             </p>
             {notice.noticeType === 1 && !isRead && (
               <>
-                <button onClick={() => handleAction(notice.noticeId)}>
-                  수락
-                </button>
-                <button onClick={() => handleAction(notice.noticeId)}>
-                  거절
-                </button>
+                <button onClick={() => handleAction(notice)}>수락</button>
+                <button onClick={() => handleAction(notice)}>거절</button>
               </>
             )}
             {notice.noticeType === 2 && !isRead && (
-              <button onClick={() => handleAction(notice.noticeId)}>
-                확인
-              </button>
+              <button onClick={() => handleAction(notice)}>확인</button>
             )}
           </div>
         );
