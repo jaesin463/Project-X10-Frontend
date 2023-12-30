@@ -30,14 +30,14 @@ export default function GroupMember({ group }) {
     setSelectedUser(user); // 사용자 클릭 시 선택된 사용자 상태 업데이트
   };
 
-  const handleDelete = async (groupid, userId) => {
-    await deleteMember(groupid, userId);
+  const handleDelete = async (groupId, userId) => {
+    await deleteMember(groupId, userId);
 
     setGroupUsers(groupUsers.filter((g) => g.userId !== userId));
   };
 
-  const handleAction = async (groupid, userId) => {
-    await changeLeader(groupid, userId);
+  const handleAction = async (groupId, userId) => {
+    await changeLeader(groupId, userId);
     navigate(`../`); // 여기서 페이지 이동
   };
 
@@ -67,13 +67,13 @@ export default function GroupMember({ group }) {
           <div className={styles.인포바텀}>
             <button
               className={styles.방장위임}
-              onClick={() => handleAction(groupid, selectedUser.userId)}
+              onClick={() => handleAction(group.groupId, selectedUser.userId)}
             >
               방장위임
             </button>
             <button
               className={styles.추방하기}
-              onClick={() => handleDelete(groupid, selectedUser.userId)}
+              onClick={() => handleDelete(group.groupId, selectedUser.userId)}
             >
               추방하기
             </button>
