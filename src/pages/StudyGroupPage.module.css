@@ -306,6 +306,7 @@
 }
 .소문제집틀 {
   display: flex;
+  flex-direction: column;
   border: solid 2.5px var(--primary-300);
   border-radius: 10px;
   box-shadow: 0 0 15px 0px var(--bg-500);
@@ -327,11 +328,20 @@
 .소문제집메인 {
   flex: 5;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-around;
+  flex-direction: column;
+  padding: 5px;
+}
+.소문제집헤더 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px 0;
 }
 .보이거나안보이거나 {
   display: flex;
   flex-direction: column;
   flex: 1;
+  align-items: flex-end;
 }

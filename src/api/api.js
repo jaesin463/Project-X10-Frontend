@@ -767,7 +767,7 @@ export async function subjectDelete(subjectId) {
     const response = await fetch(BASE_URL + "/subject/delete/" + subjectId, {
       method: "DELETE",
     });
-   if (!response.ok) {
+    if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
   } catch (error) {
@@ -783,7 +783,7 @@ export async function getUserquizrecord(questionId, userId) {
       BASE_URL + "/userquestionrecord/read/" + questionId + "/user/" + userId,
       { method: "GET" }
     );
-if (!response.ok) {
+    if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     let data;
@@ -859,7 +859,7 @@ export async function getTime(userId) {
     // .json() 메서드 사용하지 않음
     const data = await response.text();
     // 문자열로 데이터를 받아옴
-        return data;
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
@@ -892,6 +892,26 @@ export async function groupInvite(userid, groupid) {
         method: "POST",
       }
     );
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+// 과목 수정
+export async function subjectUpdate(subject) {
+  try {
+    const response = await fetch(BASE_URL + "/subject/update", {
+      method: "PUT",
+      headers: {
+        accept: "*/*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(subject),
+    });
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

@@ -13,6 +13,7 @@ import {
   makeQuizroom,
   quizroomInfo,
   subjectDelete,
+  subjectUpdate,
 } from "../api/api";
 import WorkBookCreate from "../components/WorkBookCreate";
 import { useEffect, useState } from "react";
@@ -42,6 +43,8 @@ export default function StudyGroupPage() {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalIsOpen2, setModalIsOpen2] = useState(false);
+  const [modalIsOpen3, setModalIsOpen3] = useState(false);
+  const [modalIsOpen4, setModalIsOpen4] = useState(false);
   const [quizRoomTitle, setQuizRoomTitle] = useState("");
   const [quizRoomWorkbookId, setQuizRoomWorkbookId] = useState("");
   const [quizRoomTimeLimit, setQuizRoomTimeLimit] = useState("");
@@ -61,12 +64,26 @@ export default function StudyGroupPage() {
   };
 
   const closeModal = () => {
-    setModalIsOpen2(false);
     // 모달이 닫힐 때 입력 필드 초기화
+    setModalIsOpen2(false); // 문제방 만들기
     setQuizRoomTitle("");
     setQuizRoomWorkbookId("");
     setQuizRoomTimeLimit("");
     setQuizRoomMaxNum("");
+  };
+
+  const closeSubjectUpdateModal = () => {
+    setModalIsOpen3(false); // 과목 수정
+    setSubjectTitle("");
+    setSubjectContent("");
+  };
+
+  const subjectTitleChange = (e) => {
+    setSubjectTitle(e.target.value);
+  };
+
+  const subjectContentChange = (e) => {
+    setSubjectContent(e.target.value);
   };
 
   const handleTitleChange = (e) => {
@@ -82,6 +99,21 @@ export default function StudyGroupPage() {
   };
   const handleMaxChange = (e) => {
     setQuizRoomMaxNum(e.target.value);
+  };
+
+  // subject 수정하기 제출버튼
+  const subjectUpdateSubmit = (subjectId) => {
+    const newSubject = {
+      subjectId: subjectId,
+      groupId: groupid,
+      subjectTitle: st,
+      subjectContent: sc,
+    };
+
+    console.log(newSubject);
+    console.log(subjectId);
+    subjectUpdate(newSubject);
+    closeSubjectUpdateModal();
   };
 
   const handleMakeQuizroom = async () => {
@@ -464,14 +496,50 @@ export default function StudyGroupPage() {
                     </div>
                     <div className={styles.열고닫기}>
                       <div>
-
                         {nowGroup.groupLeaderId === loginUser.userId ? (
                           <div>
-                            <Link to={"edit"}>
-                              <button className={styles.subjecteditBtn}>
-                                수정
-                              </button>
-                            </Link>
+                            <button
+                              onClick={() => setModalIsOpen3(true)}
+                              className={styles.subjecteditBtn}
+                            >
+                              수정
+                            </button>
+                            <div>
+                              <Modal
+                                appElement={document.getElementById("root")}
+                                isOpen={modalIsOpen3}
+                                onRequestClose={closeSubjectUpdateModal}
+                                style={modalStyles}
+                                contentLabel="Update Subject Modal"
+                              >
+                                <h2>과목 수정하기</h2>
+                                <div>
+                                  <label>과목 제목:</label>
+                                  <input
+                                    type="text"
+                                    value={st}
+                                    onChange={subjectTitleChange}
+                                    placeholder="Subject Title"
+                                  />
+                                </div>
+                                <div>
+                                  <label>과목 설명:</label>
+                                  <input
+                                    type="text"
+                                    value={sc}
+                                    onChange={subjectContentChange}
+                                    placeholder="Subject Content"
+                                  />
+                                </div>
+                                <button
+                                  onClick={() =>
+                                    subjectUpdateSubmit(subject.subjectId)
+                                  }
+                                >
+                                  수정하기
+                                </button>
+                              </Modal>
+                            </div>
                             <button
                               onClick={() => handleDeleteSubject(subject)}
                               className={styles.subjecteditBtn}
@@ -480,7 +548,6 @@ export default function StudyGroupPage() {
                             </button>
                           </div>
                         ) : null}
-
                       </div>
                       <img
                         className={styles.여닫이}
@@ -508,10 +575,14 @@ export default function StudyGroupPage() {
                             className={styles.소문제집틀}
                           >
                             <div className={styles.소문제집메인}>
-                              <span>{workbook.workbookTitle}</span>
-                              <span>{workbook.workbookDetail}</span>
-                              <span>{workbook.workbookDeadline}까지</span>
-                              <span>총 {workbook.workbookQuota}문제</span>
+                              <div className={styles.소문제집헤더}>
+                                <div>{workbook.workbookTitle}</div>
+                                <div>{workbook.workbookDeadline}까지</div>
+                                <div>총 {workbook.workbookQuota}문제</div>
+                              </div>
+                              <div className={styles.소문제집바디}>
+                                {workbook.workbookDetail}
+                              </div>
                             </div>
                             <div className={styles.보이거나안보이거나}>
                               {new Date(workbook.workbookDeadline) > now && (
@@ -603,6 +674,14 @@ export default function StudyGroupPage() {
                   value="문제집생성"
                 />
               </form>
+            </div>
+            <div>
+              <button
+                onClick={() => setModalIsOpen4(true)}
+                className={styles.WorkBookCreateModal}
+              >
+                문제집 생성하기
+              </button>
             </div>
           </div>
         </div>
