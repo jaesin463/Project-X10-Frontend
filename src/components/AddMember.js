@@ -9,7 +9,7 @@ export default function AddMember({ setModalIsOpen, groupid }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (search.trim() !== "") {
-      const result = await searchMember(search);
+      const result = await searchMember(search, groupid);
       if (!result) return;
       setMember(result);
     }
