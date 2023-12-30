@@ -13,9 +13,9 @@ import {
   makeQuizroom,
   quizroomInfo,
   subjectDelete,
-  subjectUpdate,
 } from "../api/api";
 import WorkBookCreate from "../components/WorkBookCreate";
+import UpdateSubject from "../components/updateSubject";
 import { useEffect, useState } from "react";
 import ex from "../assets/ex.jpeg";
 import arrow from "../assets/arrow.png";
@@ -43,7 +43,6 @@ export default function StudyGroupPage() {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalIsOpen2, setModalIsOpen2] = useState(false);
-  const [modalIsOpen3, setModalIsOpen3] = useState(false);
   const [modalIsOpen4, setModalIsOpen4] = useState(false);
   const [quizRoomTitle, setQuizRoomTitle] = useState("");
   const [quizRoomWorkbookId, setQuizRoomWorkbookId] = useState("");
@@ -73,24 +72,10 @@ export default function StudyGroupPage() {
     setQuizRoomMaxNum("");
   };
 
-  const closeSubjectUpdateModal = () => {
-    setModalIsOpen3(false); // 과목 수정
-    setSubjectTitle("");
-    setSubjectContent("");
-  };
-
   const closeSubjectCreateModal = () => {
     setModalIsOpen4(false);
     setSubjectTitle("");
     setSubjectContent("");
-  };
-
-  const subjectTitleChange = (e) => {
-    setSubjectTitle(e.target.value);
-  };
-
-  const subjectContentChange = (e) => {
-    setSubjectContent(e.target.value);
   };
 
   const handleTitleChange = (e) => {
@@ -106,19 +91,6 @@ export default function StudyGroupPage() {
   };
   const handleMaxChange = (e) => {
     setQuizRoomMaxNum(e.target.value);
-  };
-
-  // subject 수정하기 제출버튼
-  const subjectUpdateSubmit = (subjectId) => {
-    const newSubject = {
-      subjectId: subjectId,
-      groupId: groupid,
-      subjectTitle: st,
-      subjectContent: sc,
-    };
-
-    subjectUpdate(newSubject);
-    closeSubjectUpdateModal();
   };
 
   const handleMakeQuizroom = async () => {
@@ -518,51 +490,13 @@ export default function StudyGroupPage() {
                       <div>
                         {nowGroup.groupLeaderId === loginUser.userId ? (
                           <div>
-                            <button
-                              onClick={() => setModalIsOpen3(true)}
-                              className={styles.subjecteditBtn1}
-                            >
-                              수정
-                            </button>
-                            <div>
-                              <Modal
-                                appElement={document.getElementById("root")}
-                                isOpen={modalIsOpen3}
-                                onRequestClose={closeSubjectUpdateModal}
-                                style={modalStyles}
-                                contentLabel="Update Subject Modal"
-                              >
-                                <h2>과목 수정하기</h2>
-                                <div className={styles.modalcol}>
-                                  <label>과목 제목</label>
-                                  <input
-                                    type="text"
-                                    value={st}
-                                    onChange={subjectTitleChange}
-                                    placeholder="Subject Title"
-                                    className={styles.inputtxt}
-                                  />
-                                </div>
-                                <div className={styles.modalcol}>
-                                  <label>과목 설명</label>
-                                  <input
-                                    type="text"
-                                    value={sc}
-                                    onChange={subjectContentChange}
-                                    placeholder="Subject Content"
-                                    className={styles.inputtxt}
-                                  />
-                                </div>
-                                <button
-                                  onClick={() =>
-                                    subjectUpdateSubmit(subject.subjectId)
-                                  }
-                                  className={styles.subjecteditBtn1}
-                                >
-                                  수정하기
-                                </button>
-                              </Modal>
-                            </div>
+                            <UpdateSubject
+                              subjectId={subject.subjectId}
+                              groupid={groupid}
+                              subjectG={subjectG}
+                              setSubjectG={setSubjectG}
+                              subjectIndex={subjectIndex}
+                            />
                             <button
                               onClick={() => handleDeleteSubject(subject)}
                               className={styles.subjecteditBtn2}
@@ -686,7 +620,7 @@ export default function StudyGroupPage() {
                         <input
                           type="text"
                           value={st}
-                          onChange={subjectTitleChange}
+                          onChange={(e) => setSubjectTitle(e.target.value)}
                           placeholder="Subject Title"
                           className={styles.inputtxt}
                         />
@@ -696,7 +630,7 @@ export default function StudyGroupPage() {
                         <input
                           type="text"
                           value={sc}
-                          onChange={subjectContentChange}
+                          onChange={(e) => setSubjectContent(e.target.value)}
                           placeholder="Subject Content"
                           className={styles.inputtxt}
                         />
