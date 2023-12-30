@@ -961,7 +961,7 @@ export async function checkNotice(notice) {
   }
 }
 
-export async function deleteToDoList(noticeId) {
+export async function deleteNotice(noticeId) {
   try {
     const response = await fetch(BASE_URL + "/notice/delete/" + noticeId, {
       method: "DELETE",
