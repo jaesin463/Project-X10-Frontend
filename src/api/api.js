@@ -73,13 +73,12 @@ export async function editUser(user) {
     const response = await fetch(BASE_URL + "/users/update", {
       method: "PUT",
       headers: {
-        accept: "*/*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
     });
-    const data = await response.json();
-    console.log(data);
+    // const data = await response.json();
+    // console.log(data);
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -925,6 +924,26 @@ export async function groupInvite(userid, groupid) {
   }
 }
 
+// 과목 수정
+export async function subjectUpdate(subject) {
+  try {
+    const response = await fetch(BASE_URL + "/subject/update", {
+      method: "PUT",
+      headers: {
+        accept: "*/*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(subject),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
 //답안 보내기
 export async function AddAnswer(answer) {
   try {
@@ -996,7 +1015,6 @@ export async function checkNotice(notice) {
       },
       body: JSON.stringify(notice),
     });
-
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

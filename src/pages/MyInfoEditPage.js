@@ -3,8 +3,10 @@ import styles from "./MyInfoEditPage.module.css";
 import { useState } from "react";
 import { editUser, profileUpdate } from "../api/api";
 import FileInput from "../components/FileInput";
+import { useNavigate } from "react-router-dom";
 
 export default function MyInfoEditPage() {
+  const navigate = useNavigate();
   const loginUser = JSON.parse(localStorage.getItem("loginUser"));
   const [id, setId] = useState(loginUser.userId);
   const [pw, setPw] = useState("");
@@ -15,8 +17,12 @@ export default function MyInfoEditPage() {
   const [check, setCheck] = useState(0);
 
   const user = {
+    userId: id,
     userPassword: pw,
     userNickname: nickname,
+    // userEmail: email,
+    // userName: name,
+    // userImg: null,
   };
 
   const [value, setValue] = useState({
@@ -29,11 +35,13 @@ export default function MyInfoEditPage() {
       [name]: value,
     }));
   };
-  console.log(value);
+  console.log(user);
 
-  const handleEdit = async (e) => {
+  const handleEdit = (e) => {
     e.preventDefault();
     editUser(user);
+    navigate(`../`);
+    alert("잘 수정됨ㅋ");
   };
 
   const handleProfile = async (e) => {
@@ -44,6 +52,8 @@ export default function MyInfoEditPage() {
     const result = await profileUpdate(formData2, id);
     localStorage.setItem("loginUser", JSON.stringify(result));
     if (!result) return;
+    navigate(`../`);
+    alert("잘 수정됨ㅋ");
   };
   return (
     <Container className={styles.container}>
