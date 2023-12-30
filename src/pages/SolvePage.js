@@ -43,12 +43,12 @@ export default function SolvePage() {
   }, [quizroomId]);
 
   //문제제출을 눌렀을떄 가져온 starttime을 넣고 포스트보내면된다
-  const quizrecord = {
-    questionId,
-    userId: loginUser,
-    isCorrect: "이거는 맞았는지 틀렸는지 또 확인값을 넣어야함",
-    recordTime: currentTime,
-  };
+  //   const quizrecord = {
+  //     questionId,
+  //     userId: loginUser,
+  //     isCorrect: "이거는 맞았는지 틀렸는지 또 확인값을 넣어야함",
+  //     recordTime: currentTime,
+  //   };
 
   const handlesubmit = () => {};
 
