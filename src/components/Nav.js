@@ -3,6 +3,8 @@ import styles from "./Nav.module.css";
 import logo from "../assets/logo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import userpic from "../assets/user.png";
+import bell from "../assets/bell.png";
 
 function Nav() {
   const loginUser = JSON.parse(localStorage.getItem("loginUser"));
@@ -45,7 +47,12 @@ function Nav() {
                 width="30"
                 height="30"
               ></img>
-              <div onClick={() => setNToggle(!ntoggle)}>알림</div>
+              <img
+                src={bell}
+                alt="알림"
+                onClick={() => setNToggle(!ntoggle)}
+                className={`${styles.navimg} ${styles.div} ${styles.pointer}`}
+              />
               {ntoggle && (
                 <div className={styles.toggle}>
                   <Link to={`my/${loginUser.userId}/edit`}>
@@ -61,12 +68,12 @@ function Nav() {
                   </button>
                 </div>
               )}
-              <div
+              <img
+                src={userpic}
+                alt="설정"
                 onClick={() => setToggle(!toggle)}
-                className={`${styles.div} ${styles.pointer}`}
-              >
-                설정
-              </div>
+                className={`${styles.navimg} ${styles.div} ${styles.pointer}`}
+              />
               {toggle && (
                 <div className={styles.toggle}>
                   <div>{loginUser.userNickname}님</div>

@@ -69,3 +69,7 @@
 .togglebtn:hover {
   background-color: var(--bg-200);
 }
+
+.navimg {
+  width: 20px;
+}
