@@ -10,7 +10,7 @@ import {
   AddAnswer,
 } from "../api/api";
 import Modal from "react-modal";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PAGE_SIZE = 1; // 페이지당 퀴즈 수
 
@@ -22,11 +22,12 @@ export default function SolvePage() {
   const [currentTime, setCurrentTime] = useState("");
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
+  const navigate = useNavigate();
   const [ans, setAns] = useState("");
   const [anss, setAnss] = useState(0);
+  const [workId, setWorkId] = useState("");
 
-  const { groupid, quizroomId, time } = useParams();
+  const { groupid, quizroomId, timea } = useParams();
   const timerRef = useRef();
   const len = allquestion.length;
   useEffect(() => {
@@ -39,6 +40,7 @@ export default function SolvePage() {
         const time = await getTime(loginUser.userId);
         setCurrentTime(time);
         setSolveusers(members);
+        setWorkId(nowquizroom.quizRoomWorkbookId);
         setAllquestion(allQ);
         console.log(allQ);
         console.log(members);
@@ -79,7 +81,7 @@ export default function SolvePage() {
   useEffect(() => {
     timerRef.current = setInterval(() => {
       handleCount();
-    }, time * 1000);
+    }, timea * 1000);
     // console.log(count);
     if (currentPage === len + 1 && timerRef.current) {
       clearInterval(timerRef.current);
@@ -91,6 +93,9 @@ export default function SolvePage() {
       clearInterval(timerRef.current);
     };
   }, [currentPage]);
+  const go = () => {
+    navigate(`/study/${loginUser.userId}/${workId}/1/solveexplane`);
+  };
 
   const handleSubmitOx = (questionId) => {
     const anss = {
@@ -268,6 +273,7 @@ export default function SolvePage() {
           }}
         >
           <div>수고하셨어요ㅋ</div>
+          <button onClick={() => go()}>해설보러가자</button>
         </Modal>
       </Container>
     </>
