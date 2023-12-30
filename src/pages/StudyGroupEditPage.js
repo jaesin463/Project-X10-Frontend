@@ -77,7 +77,7 @@ export default function StudyGroupEditPage() {
           </div>
         </div>
         <div className={styles.멤버들디브}>
-          <GroupMember />
+          <GroupMember groupid={groupid} />
         </div>
       </Container>
     </>

@@ -4,6 +4,7 @@
   border: solid 2px black;
   border-radius: 10px;
   width: 140px;
+  cursor: pointer;
 }
 .userList {
   border: 2px solid purple;
