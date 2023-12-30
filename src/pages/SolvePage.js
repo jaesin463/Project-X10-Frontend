@@ -5,26 +5,33 @@ import {
   quizreadyroomInfomember,
   questionInworkbook,
   quizroomInfo,
+  getUserquizrecord,
+  getTime,
 } from "../api/api";
 import { useParams } from "react-router-dom";
 
 const PAGE_SIZE = 1; // 페이지당 퀴즈 수
 
 export default function SolvePage() {
+  const loginUser = JSON.parse(localStorage.getItem("loginUser"));
   const [solveusers, setSolveusers] = useState([]);
   const [allquestion, setAllquestion] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentTime, setCurrentTime] = useState("");
 
   const { groupid, quizroomId } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // const loginUser = JSON.parse(localStorage.getItem("loginUser"));
         const members = await quizreadyroomInfomember(quizroomId);
         const nowquizroom = await quizroomInfo(quizroomId);
         const allQ = await questionInworkbook(nowquizroom.quizRoomWorkbookId);
+        // const nowtime = await getTime(loginUser.userId);
         setSolveusers(members);
         setAllquestion(allQ);
+        // console.log(nowtime);
         console.log(allQ);
         console.log(members);
       } catch (error) {
@@ -34,6 +41,16 @@ export default function SolvePage() {
 
     fetchData();
   }, [quizroomId]);
+
+  //문제제출을 눌렀을떄 가져온 starttime을 넣고 포스트보내면된다
+  const quizrecord = {
+    questionId,
+    userId: loginUser,
+    isCorrect: "이거는 맞았는지 틀렸는지 또 확인값을 넣어야함",
+    recordTime: currentTime,
+  };
+
+  const handlesubmit = () => {};
 
   // 전체 퀴즈를 페이지 단위로 자르는 함수
   const paginateQuestions = () => {
@@ -46,11 +63,19 @@ export default function SolvePage() {
     setCurrentPage(newPage);
   };
 
+  const handelTime = async (userId) => {
+    console.log(userId);
+    const time = await getTime(userId);
+    setCurrentTime(time);
+    console.log(time);
+  };
+
   return (
     <>
       <Container>
         <div className={styles.big}>
           <div className={styles.시계}>시계</div>
+          <button onClick={() => handelTime(loginUser.userId)}>시작</button>
           <div className={styles.mid}>
             <div className={styles.문제랑사람들}>
               {paginateQuestions().map((quiz, index) => (
@@ -74,6 +99,7 @@ export default function SolvePage() {
                       <button>X</button>
                     </div>
                   )}
+                  {/*1객관식 2단답형 3OX */}
                   {quiz.questionType === 1 && (
                     <div>
                       {quiz.multipleChoices.map((choice, choiceIndex) => (

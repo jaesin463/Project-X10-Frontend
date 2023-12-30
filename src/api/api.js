@@ -710,13 +710,16 @@ export async function profileUpdate(formData, user) {
   }
 
   const data = await response.json();
-    return data;
+  return data;
 }
 
 //최근에 푼 문제집
 export async function getRecentSolvedWorkbooksByUserId(userId) {
   try {
-    const response = await fetch(BASE_URL + '/workbook/recentSolved/' + userId, { method: 'GET' });
+    const response = await fetch(
+      BASE_URL + "/workbook/recentSolved/" + userId,
+      { method: "GET" }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -729,15 +732,18 @@ export async function getRecentSolvedWorkbooksByUserId(userId) {
     }
     return data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error("Error fetching data:", error);
     throw error;
   }
-};
+}
 
 //최근에 만들어진 문제집
 export async function getRecentCreatedWorkbooksByUserId(userId) {
   try {
-    const response = await fetch(BASE_URL + '/workbook/recentCreated/' + userId, { method: 'GET' });
+    const response = await fetch(
+      BASE_URL + "/workbook/recentCreated/" + userId,
+      { method: "GET" }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -750,7 +756,78 @@ export async function getRecentCreatedWorkbooksByUserId(userId) {
     }
     return data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error("Error fetching data:", error);
     throw error;
   }
-};
+}
+
+//유저퀴즈답안지 조회
+export async function getUserquizrecord(questionId, userId) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/userquestionrecord/read/" + questionId + "/user/" + userId,
+      { method: "GET" }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//문제집스타트했을때 시작시간넣자
+export async function setStart(quizRoomId) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/userquizroom/setStartTime/" + quizRoomId,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(quizRoomId),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    console.log("레디완료");
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+//userquizroom에서 시간을 가져오자
+export async function getTime(userId) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/userquizroom/getStartTime/" + userId,
+      { method: "GET" }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // .json() 메서드 사용하지 않음
+    const data = await response.text();
+    // 문자열로 데이터를 받아옴
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
