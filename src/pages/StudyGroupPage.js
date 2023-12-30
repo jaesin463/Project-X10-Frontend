@@ -13,6 +13,7 @@ import {
   makeQuizroom,
   quizroomInfo,
   subjectDelete,
+  deleteMember,
 } from "../api/api";
 import WorkBookCreate from "../components/WorkBookCreate";
 import UpdateSubject from "../components/updateSubject";
@@ -207,6 +208,12 @@ export default function StudyGroupPage() {
     }
   };
 
+  const handleExit = async (groupid, userId) => {
+    await deleteMember(groupid, userId);
+
+    navigate(`/my/${loginUser.userId}`); // 여기서 페이지 이동
+  };
+
   useEffect(() => {
     userGroup(loginUser.userId)
       .then((groups) => {
@@ -331,7 +338,12 @@ export default function StudyGroupPage() {
                 <button className={styles.editBtn}>그룹설정</button>
               </Link>
             ) : (
-              <button className={styles.exitBtn}>그룹나가기</button>
+              <button
+                className={styles.exitBtn}
+                onClick={() => handleExit(groupid, loginUser.userId)}
+              >
+                그룹나가기
+              </button>
             )}
           </div>
         </div>
