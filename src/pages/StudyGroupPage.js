@@ -12,6 +12,7 @@ import {
   enterQuizroom,
   makeQuizroom,
   quizroomInfo,
+  subjectDelete,
 } from "../api/api";
 import WorkBookCreate from "../components/WorkBookCreate";
 import { useEffect, useState } from "react";
@@ -45,6 +46,7 @@ export default function StudyGroupPage() {
   const [quizRoomWorkbookId, setQuizRoomWorkbookId] = useState("");
   const [quizRoomTimeLimit, setQuizRoomTimeLimit] = useState("");
   const [quizRoomMaxNum, setQuizRoomMaxNum] = useState("");
+
   const modalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -258,6 +260,16 @@ export default function StudyGroupPage() {
     setRotation(newRotation);
   };
 
+  const handleDeleteSubject = (deletedSubject) => {
+    const updatedSubjectList = subjectG.filter(
+      (item) => item.subjectId !== deletedSubject.subjectId
+    );
+    setSubjectG(updatedSubjectList);
+
+    // 서버에서도 삭제
+    subjectDelete(deletedSubject.subjectId);
+  };
+
   return (
     <>
       <div className={styles.header}>
@@ -452,8 +464,23 @@ export default function StudyGroupPage() {
                     </div>
                     <div className={styles.열고닫기}>
                       <div>
-                        <button>수정</button>
-                        <button>삭제</button>
+
+                        {nowGroup.groupLeaderId === loginUser.userId ? (
+                          <div>
+                            <Link to={"edit"}>
+                              <button className={styles.subjecteditBtn}>
+                                수정
+                              </button>
+                            </Link>
+                            <button
+                              onClick={() => handleDeleteSubject(subject)}
+                              className={styles.subjecteditBtn}
+                            >
+                              삭제
+                            </button>
+                          </div>
+                        ) : null}
+
                       </div>
                       <img
                         className={styles.여닫이}
