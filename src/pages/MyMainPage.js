@@ -105,34 +105,37 @@ export default function MyMainPage() {
           </div>
           <div className={styles.FlexRow}>
             <div className={styles.question}>
-              <span
-                onClick={() => handleTabChange("recentSolved")}
-                className={
-                  selectedTab === "recentSolved"
-                    ? styles.activeTab
-                    : styles.inactiveTab
-                }
-              >
-                최근 푼 문제집
-              </span>
-              <span className={styles.separator}> | </span>
-              <span
-                onClick={() => handleTabChange("recentCreated")}
-                className={
-                  selectedTab === "recentCreated"
-                    ? styles.activeTab
-                    : styles.inactiveTab
-                }
-              >
-                최근에 만들어진 문제집
-              </span>
-              {selectedTab === "recentSolved" ? (
-                <RecentSolvedWorkbook data={data1} />
-              ) : null}
-              {selectedTab === "recentCreated" ? (
-                <RecentCreatedWorkbook data={data2} />
-              ) : null}
-              <div></div>
+              <div>
+                <span
+                  onClick={() => handleTabChange("recentSolved")}
+                  className={
+                    selectedTab === "recentSolved"
+                      ? styles.activeTab
+                      : styles.inactiveTab
+                  }
+                >
+                  최근 푼 문제집
+                </span>
+                <span className={styles.separator}> | </span>
+                <span
+                  onClick={() => handleTabChange("recentCreated")}
+                  className={
+                    selectedTab === "recentCreated"
+                      ? styles.activeTab
+                      : styles.inactiveTab
+                  }
+                >
+                  최근에 만들어진 문제집
+                </span>
+              </div>
+              <div className={styles.recent}>
+                {selectedTab === "recentSolved" ? (
+                  <RecentSolvedWorkbook data={data1} />
+                ) : null}
+                {selectedTab === "recentCreated" ? (
+                  <RecentCreatedWorkbook data={data2} />
+                ) : null}
+              </div>
             </div>
             <div
               className={styles.level}

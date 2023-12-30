@@ -146,6 +146,13 @@
   color: var(--text-300); /* 구분선 색상 */
 }
 
+.recent {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* 레벨 표시 스타일링 */
 .level {
   width: 200px;

@@ -15,10 +15,6 @@
   --header2: #eef1f5;
 }
 
-.recentworkbook {
-  text-align: center;
-}
-
 .carouselContainer {
   display: flex;
   justify-content: space-around;
