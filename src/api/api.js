@@ -767,7 +767,7 @@ export async function subjectDelete(subjectId) {
     const response = await fetch(BASE_URL + "/subject/delete/" + subjectId, {
       method: "DELETE",
     });
-   if (!response.ok) {
+    if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
   } catch (error) {
@@ -783,7 +783,7 @@ export async function getUserquizrecord(questionId, userId) {
       BASE_URL + "/userquestionrecord/read/" + questionId + "/user/" + userId,
       { method: "GET" }
     );
-if (!response.ok) {
+    if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     let data;
@@ -799,11 +799,14 @@ if (!response.ok) {
   }
 }
 //멤버검색
-export async function searchMember(keyword) {
+export async function searchMember(keyword, groupId) {
   try {
-    const response = await fetch(BASE_URL + "/users/search/" + keyword, {
-      method: "GET",
-    });
+    const response = await fetch(
+      BASE_URL + "/users/search/" + keyword + "/" + groupId,
+      {
+        method: "GET",
+      }
+    );
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -859,7 +862,7 @@ export async function getTime(userId) {
     // .json() 메서드 사용하지 않음
     const data = await response.text();
     // 문자열로 데이터를 받아옴
-        return data;
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
