@@ -59,7 +59,8 @@ export default function StudyGroupPage() {
       left: "50%",
       transform: "translate(-50%, -50%)",
       width: "400px",
-      padding: "20px",
+      padding: "4em",
+      gap: "2em",
     },
   };
 
@@ -74,6 +75,12 @@ export default function StudyGroupPage() {
 
   const closeSubjectUpdateModal = () => {
     setModalIsOpen3(false); // 과목 수정
+    setSubjectTitle("");
+    setSubjectContent("");
+  };
+
+  const closeSubjectCreateModal = () => {
+    setModalIsOpen4(false);
     setSubjectTitle("");
     setSubjectContent("");
   };
@@ -110,8 +117,6 @@ export default function StudyGroupPage() {
       subjectContent: sc,
     };
 
-    console.log(newSubject);
-    console.log(subjectId);
     subjectUpdate(newSubject);
     closeSubjectUpdateModal();
   };
@@ -223,6 +228,8 @@ export default function StudyGroupPage() {
         .catch((error) => {
           console.error("Error fetching workbooks:", error);
         });
+
+      closeSubjectCreateModal();
     } catch (error) {
       console.error("에러:", error);
     }
@@ -377,43 +384,52 @@ export default function StudyGroupPage() {
                   contentLabel="Create Quizroom Modal"
                 >
                   <h2>문제방 만들기</h2>
-                  <div>
-                    <label>방 제목:</label>
+                  <div className={styles.modalcol}>
+                    <label>방 제목 </label>
                     <input
                       type="text"
                       value={quizRoomTitle}
                       onChange={handleTitleChange}
                       placeholder="Quiz Room Title"
+                      className={styles.inputtxt}
                     />
                   </div>
-                  <div>
-                    <label>문제집 선택:</label>
+                  <div className={styles.modalcol}>
+                    <label>문제집 선택 </label>
                     <input
                       type="text"
                       value={quizRoomWorkbookId}
                       onChange={handleWorkbookIdChange}
                       placeholder="문제집 선택"
+                      className={styles.inputtxt}
                     />
                   </div>
-                  <div>
-                    <label>한 문제당 제한 시간:</label>
+                  <div className={styles.modalcol}>
+                    <label>한 문제당 제한 시간 </label>
                     <input
                       type="text"
                       value={quizRoomTimeLimit}
                       onChange={handleTimeLimitChange}
                       placeholder="한 문제당 제한 시간"
+                      className={styles.inputtxt}
                     />
                   </div>
-                  <div>
-                    <label>최대 인원 :</label>
+                  <div className={styles.modalcol}>
+                    <label>최대 인원 </label>
                     <input
                       type="text"
                       value={quizRoomMaxNum}
                       onChange={handleMaxChange}
                       placeholder="방 최대 인원"
+                      className={styles.inputtxt}
                     />
                   </div>
-                  <button onClick={handleMakeQuizroom}>생성하기</button>
+                  <button
+                    onClick={handleMakeQuizroom}
+                    className={styles.subjecteditBtn1}
+                  >
+                    생성하기
+                  </button>
                 </Modal>
               </div>
               <hr className={styles.hr}></hr>
@@ -500,7 +516,7 @@ export default function StudyGroupPage() {
                           <div>
                             <button
                               onClick={() => setModalIsOpen3(true)}
-                              className={styles.subjecteditBtn}
+                              className={styles.subjecteditBtn1}
                             >
                               수정
                             </button>
@@ -513,28 +529,31 @@ export default function StudyGroupPage() {
                                 contentLabel="Update Subject Modal"
                               >
                                 <h2>과목 수정하기</h2>
-                                <div>
-                                  <label>과목 제목:</label>
+                                <div className={styles.modalcol}>
+                                  <label>과목 제목</label>
                                   <input
                                     type="text"
                                     value={st}
                                     onChange={subjectTitleChange}
                                     placeholder="Subject Title"
+                                    className={styles.inputtxt}
                                   />
                                 </div>
-                                <div>
-                                  <label>과목 설명:</label>
+                                <div className={styles.modalcol}>
+                                  <label>과목 설명</label>
                                   <input
                                     type="text"
                                     value={sc}
                                     onChange={subjectContentChange}
                                     placeholder="Subject Content"
+                                    className={styles.inputtxt}
                                   />
                                 </div>
                                 <button
                                   onClick={() =>
                                     subjectUpdateSubmit(subject.subjectId)
                                   }
+                                  className={styles.subjecteditBtn1}
                                 >
                                   수정하기
                                 </button>
@@ -542,7 +561,7 @@ export default function StudyGroupPage() {
                             </div>
                             <button
                               onClick={() => handleDeleteSubject(subject)}
-                              className={styles.subjecteditBtn}
+                              className={styles.subjecteditBtn2}
                             >
                               삭제
                             </button>
@@ -640,48 +659,54 @@ export default function StudyGroupPage() {
                 </div>
               ))}
             </div>
-            <div className={styles.문제집생성}>
-              <form onSubmit={handleRegist} className={styles.form}>
-                <div className={styles.regist_div}>
-                  <input
-                    placeholder=" "
-                    type="text"
-                    name="subjectTitle"
-                    value={st}
-                    onChange={(e) => setSubjectTitle(e.target.value)}
-                    className={styles.input}
-                  />
-                  <label htmlFor=" " className={styles.label}>
-                    문제집이름
-                  </label>
+            <div className={styles.과목생성하기}>
+              {nowGroup.groupLeaderId === loginUser.userId ? (
+                <div className={styles.WorkBookCreateModal}>
+                  <button
+                    onClick={() => setModalIsOpen4(true)}
+                    className={styles.WorkBookCreatebtn}
+                  >
+                    과목 생성하기
+                  </button>
+                  <div>
+                    <Modal
+                      appElement={document.getElementById("root")}
+                      isOpen={modalIsOpen4}
+                      onRequestClose={closeSubjectCreateModal} // 모달을 닫을때 실행시키는 함수
+                      style={modalStyles}
+                      contentLabel="Create Subject Modal"
+                    >
+                      <h2>과목 생성하기</h2>
+                      <div className={styles.modalcol}>
+                        <label>과목 제목</label>
+                        <input
+                          type="text"
+                          value={st}
+                          onChange={subjectTitleChange}
+                          placeholder="Subject Title"
+                          className={styles.inputtxt}
+                        />
+                      </div>
+                      <div className={styles.modalcol}>
+                        <label>과목 설명</label>
+                        <input
+                          type="text"
+                          value={sc}
+                          onChange={subjectContentChange}
+                          placeholder="Subject Content"
+                          className={styles.inputtxt}
+                        />
+                      </div>
+                      <button
+                        onClick={handleRegist}
+                        className={styles.subjecteditBtn1}
+                      >
+                        생성하기
+                      </button>
+                    </Modal>
+                  </div>
                 </div>
-                <div className={styles.regist_div}>
-                  <textarea
-                    placeholder=" "
-                    type="text"
-                    name="subjectContent"
-                    value={sc}
-                    onChange={(e) => setSubjectContent(e.target.value)}
-                    className={styles.input}
-                  />
-                  <label htmlFor=" " className={styles.label}>
-                    문제집설명
-                  </label>
-                </div>
-                <input
-                  type="submit"
-                  className={styles.button}
-                  value="문제집생성"
-                />
-              </form>
-            </div>
-            <div>
-              <button
-                onClick={() => setModalIsOpen4(true)}
-                className={styles.WorkBookCreateModal}
-              >
-                문제집 생성하기
-              </button>
+              ) : null}
             </div>
           </div>
         </div>
