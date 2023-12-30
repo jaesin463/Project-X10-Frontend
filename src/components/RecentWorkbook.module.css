@@ -20,7 +20,14 @@
   padding: 20px;
   max-width: 360px;
   margin: 0 20px;
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+.workbook div {
+  display: flex;
+  align-items: center;
 }
 
 .캐러셀버튼 {
