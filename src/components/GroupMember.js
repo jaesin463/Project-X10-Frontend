@@ -4,8 +4,6 @@ import styles from "./GroupMember.module.css";
 import { userIngroup } from "../api/api"; // API 호출 함수로 수정
 
 export default function Login() {
-  const [user, setUser] = useState;
-
   return (
     <>
       <div className={styles.userList}>
