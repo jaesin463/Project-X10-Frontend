@@ -53,6 +53,15 @@
   text-align: center;
 }
 
+.ntoggle {
+  background-color: var(--primary-300);
+  padding: 10px;
+  position: absolute;
+  top: 45px;
+  border-radius: 10px;
+  text-align: center;
+}
+
 .togglebtn {
   cursor: pointer;
   color: var(--primary-200);

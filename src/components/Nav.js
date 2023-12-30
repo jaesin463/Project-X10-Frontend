@@ -1,10 +1,11 @@
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Container from "./Container";
 import styles from "./Nav.module.css";
 import logo from "../assets/logo.png";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import userpic from "../assets/user.png";
 import bell from "../assets/bell.png";
+import Notification from "./Notification";
 
 function Nav() {
   const loginUser = JSON.parse(localStorage.getItem("loginUser"));
@@ -21,12 +22,15 @@ function Nav() {
     localStorage.removeItem("loginUser");
     navigate("/");
   };
+
   useEffect(() => {
-    if (loginUser) setIslogin(true);
-    else setIslogin(false);
+    if (loginUser) {
+      setIslogin(true);
+    } else {
+      setIslogin(false);
+    }
   }, [loginUser, location.pathname]);
 
-  // 페이지 이동 시 토글 닫기
   useEffect(() => {
     setToggle(false);
     setNToggle(false);
@@ -54,9 +58,8 @@ function Nav() {
                 className={`${styles.navimg} ${styles.div} ${styles.pointer}`}
               />
               {ntoggle && (
-                <div className={styles.toggle}>
-                  <button className={styles.togglebtn}>알림</button>
-                  <button className={styles.togglebtn}>기능</button>
+                <div className={styles.ntoggle}>
+                  <Notification userId={loginUser.userId} />
                 </div>
               )}
               <img
