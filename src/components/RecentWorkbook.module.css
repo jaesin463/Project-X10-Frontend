@@ -1,0 +1,61 @@
+:root {
+  --primary-100: #2563eb;
+  --primary-200: #598ef3;
+  --primary-300: #d3e6fe;
+  --accent-100: #d946ef;
+  --accent-200: #fae8ff;
+  --text-100: #000000;
+  --text-200: #2c2c2c;
+  --text-300: #666666;
+  --bg-100: #f8fbff;
+  --bg-200: #eef1f5;
+  --bg-300: #c5c8cc;
+  --bg-400: #ffffff;
+  --bg-500: #d8d8d8;
+  --header2: #eef1f5;
+}
+
+.carouselContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+
+.carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.workbook {
+  border: 1px solid var(--accent-200);
+  padding: 20px;
+  max-width: 360px;
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  transition: background-color 0.3s;
+  background-color: var(--bg-100);
+  box-shadow: 0px 4px 8px rgba(0.1, 0.1, 0.1, 0.1);
+  border-radius: 8px;
+}
+
+.workbook:hover {
+  background-color: var(--accent-200);
+  box-shadow: 0px 8px 16px rgba(0.1, 0.1, 0.1, 0.1);
+}
+
+.workbook div {
+  display: flex;
+  align-items: center;
+}
+
+.캐러셀버튼 {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+}

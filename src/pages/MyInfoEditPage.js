@@ -50,7 +50,7 @@ export default function MyInfoEditPage() {
       <div className={styles.title}>회원 정보 수정</div>
       <form onSubmit={handleProfile}>
         <FileInput
-          className="ReviewForm-preview"
+          className="info"
           name="userImg"
           value={value.userImg}
           onChange={handleChange}
