@@ -23,7 +23,6 @@ const RecentSolvedWorkbook = ({ data }) => {
 
   return (
     <div className={styles.recentworkbook}>
-      <h3>최근에 푼 문제집 목록</h3>
       <div className={styles.carouselContainer}>
         <div>
           <img

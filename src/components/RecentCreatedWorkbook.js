@@ -25,7 +25,6 @@ const RecentCreatedWorkbook = ({ data }) => {
 
   return (
     <div className={styles.recentworkbook}>
-      <h3>최근에 만들어진 문제집 목록</h3>
       <div className={styles.carouselContainer}>
         <div>
           <img
