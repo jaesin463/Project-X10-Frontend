@@ -767,7 +767,7 @@ export async function subjectDelete(subjectId) {
     const response = await fetch(BASE_URL + "/subject/delete/" + subjectId, {
       method: "DELETE",
     });
-   if (!response.ok) {
+    if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
   } catch (error) {
@@ -799,10 +799,10 @@ export async function getUserquizrecord(workbookId, userId) {
   }
 }
 //멤버검색
-export async function searchMember(keyword, groupid) {
+export async function searchMember(keyword, groupId) {
   try {
     const response = await fetch(
-      BASE_URL + "/users/search/" + keyword + "/" + groupid,
+      BASE_URL + "/users/search/" + keyword + "/" + groupId,
       {
         method: "GET",
       }
