@@ -10,6 +10,7 @@ import {
   updateQuizroom,
   readyUser,
   quizroomDelete,
+  setStart,
 } from "../api/api";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -56,6 +57,14 @@ export default function SolveReadyPage() {
       await quizroomDelete(quizroomId);
     }
     navigate(`/study/${groupid}`);
+  };
+
+  //스타트누르면 문제푸는페이지로가고 시간을 넘겨줘야함
+  const handleStart = async (quizroomId) => {
+    // start 버튼 클릭 시 실행될 로직
+    setStart(quizroomId);
+    // SolvePage로 이동
+    navigate(`/study/${groupid}/${quizroomId}/solve`);
   };
 
   const handleReadyUser = async (userId) => {
@@ -258,7 +267,9 @@ export default function SolveReadyPage() {
                 ))}
               </>
             </Modal>
-            {show && <button>start</button>}
+            {show && (
+              <button onClick={() => handleStart(quizroomId)}>start</button>
+            )}
             {!show && (
               <button onClick={() => handleReadyUser(loginUser.userId)}>
                 ready
