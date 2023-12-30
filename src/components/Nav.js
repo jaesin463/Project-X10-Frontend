@@ -6,6 +6,7 @@ import logo from "../assets/logo.png";
 import userpic from "../assets/user.png";
 import bell from "../assets/bell.png";
 import Notification from "./Notification";
+import { logoutUser } from "../api/api";
 
 function Nav() {
   const loginUser = JSON.parse(localStorage.getItem("loginUser"));
@@ -15,7 +16,13 @@ function Nav() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const logout = () => {
+  const logout = async (e) => {
+    e.preventDefault();
+
+    const user = {
+      userId: loginUser.userId,
+    };
+    logoutUser(user);
     alert("로그아웃!");
     setIslogin(false);
     setToggle(false);
