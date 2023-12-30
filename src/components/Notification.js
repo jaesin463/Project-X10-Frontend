@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { readAllNotice, checkNotice } from "../api/api";
+import { readAllNotice, checkNotice, readGroup } from "../api/api";
 
 const Notification = ({ userId }) => {
   const [notices, setNotices] = useState([]);
@@ -10,17 +10,17 @@ const Notification = ({ userId }) => {
       .catch((error) => console.error("Error handling notices:", error));
   }, [userId]);
 
-  const handleAction = async (noticedata) => {
+  const handleAction = async (notice, actionType) => {
     try {
-      // 알림을 읽은 상태로 변경하고 서버 응답을 기다림
-      await checkNotice(noticedata);
+      const updatedCheckNotice = actionType === "decline" ? 0 : 1;
 
-      // 상태 업데이트
+      // 서버에 알림 상태 업데이트 요청
+      await checkNotice({ ...notice, noticeCheck: updatedCheckNotice });
+
+      // 알림 목록 상태 업데이트
       setNotices(
-        notices.map((notice) =>
-          notice.noticeId === noticedata.noticeId
-            ? { ...notice, checkNotice: 1 }
-            : notice
+        notices.map((n) =>
+          n.noticeId === notice.noticeId ? { ...n, noticeCheck: 1 } : n
         )
       );
     } catch (error) {
@@ -40,19 +40,25 @@ const Notification = ({ userId }) => {
           >
             <p style={{ color: isRead ? "grey" : "black" }}>
               {notice.noticeType === 1
-                ? `${notice.sendGroup} 그룹에 초대되셨습니다`
+                ? `${notice.sendGroup} 그룹에서 초대 요청이 도착했습니다`
                 : notice.noticeType === 2
                 ? `${notice.sendGroup} 그룹의 그룹장이 되셨습니다`
                 : "알림"}
             </p>
             {notice.noticeType === 1 && !isRead && (
               <>
-                <button onClick={() => handleAction(notice)}>수락</button>
-                <button onClick={() => handleAction(notice)}>거절</button>
+                <button onClick={() => handleAction(notice, "accept")}>
+                  수락
+                </button>
+                <button onClick={() => handleAction(notice, "decline")}>
+                  거절
+                </button>
               </>
             )}
             {notice.noticeType === 2 && !isRead && (
-              <button onClick={() => handleAction(notice)}>확인</button>
+              <button onClick={() => handleAction(notice, "confirm")}>
+                확인
+              </button>
             )}
           </div>
         );
