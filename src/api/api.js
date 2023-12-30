@@ -761,6 +761,21 @@ export async function getRecentCreatedWorkbooksByUserId(userId) {
   }
 }
 
+// 과목 삭제
+export async function subjectDelete(subjectId) {
+  try {
+    const response = await fetch(BASE_URL + "/subject/delete/" + subjectId, {
+      method: "DELETE",
+    });
+   if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
 //유저퀴즈답안지 조회
 export async function getUserquizrecord(workbookId, userId) {
   try {
@@ -877,7 +892,6 @@ export async function groupInvite(userid, groupid) {
         method: "POST",
       }
     );
-
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

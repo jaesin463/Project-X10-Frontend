@@ -8,6 +8,7 @@ function Nav() {
   const loginUser = JSON.parse(localStorage.getItem("loginUser"));
   const [islogin, setIslogin] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const [ntoggle, setNToggle] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -26,6 +27,7 @@ function Nav() {
   // 페이지 이동 시 토글 닫기
   useEffect(() => {
     setToggle(false);
+    setNToggle(false);
   }, [location.pathname]);
 
   return (
@@ -43,7 +45,22 @@ function Nav() {
                 width="30"
                 height="30"
               ></img>
-              <div>알림</div>
+              <div onClick={() => setNToggle(!ntoggle)}>알림</div>
+              {ntoggle && (
+                <div className={styles.toggle}>
+                  <Link to={`my/${loginUser.userId}/edit`}>
+                    <button
+                      onClick={() => setToggle(false)}
+                      className={styles.togglebtn}
+                    >
+                      알림
+                    </button>
+                  </Link>
+                  <button onClick={logout} className={styles.togglebtn}>
+                    기능
+                  </button>
+                </div>
+              )}
               <div
                 onClick={() => setToggle(!toggle)}
                 className={`${styles.div} ${styles.pointer}`}
