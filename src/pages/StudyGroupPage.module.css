@@ -116,22 +116,22 @@
   margin: 2px 0 2px 0;
   background-color: #d3e6fe;
 }
-.랭킹개인정보{
+.랭킹개인정보 {
   display: flex;
   flex-direction: row;
   margin: 0 5px 0 5px;
 }
-.랭킹레벨정보{
+.랭킹레벨정보 {
   width: 50%;
   display: flex;
   justify-content: end;
   flex-direction: row;
   margin: 0 5px 0 5px;
 }
-.레벨{
+.레벨 {
   width: 40%;
 }
-.경험치{
+.경험치 {
   width: 50%;
 }
 .onDot {
