@@ -768,7 +768,27 @@ export async function getUserquizrecord(questionId, userId) {
       BASE_URL + "/userquestionrecord/read/" + questionId + "/user/" + userId,
       { method: "GET" }
     );
-
+if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+//멤버검색
+export async function searchMember(keyword) {
+  try {
+    const response = await fetch(BASE_URL + "/users/search/" + keyword, {
+      method: "GET",
+    });
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -824,8 +844,43 @@ export async function getTime(userId) {
     // .json() 메서드 사용하지 않음
     const data = await response.text();
     // 문자열로 데이터를 받아옴
+        return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
 
+//하나의 그룹 가져오기
+export async function readGroup(groupId) {
+  try {
+    const response = await fetch(BASE_URL + "/groups/read/" + groupId, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
     return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+//그룹초대
+export async function groupInvite(userid, groupid) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/groups/" + groupid + "/invite/" + userid,
+      {
+        method: "POST",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
