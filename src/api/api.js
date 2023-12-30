@@ -762,13 +762,13 @@ export async function getRecentCreatedWorkbooksByUserId(userId) {
 }
 
 //유저퀴즈답안지 조회
-export async function getUserquizrecord(questionId, userId) {
+export async function getUserquizrecord(workbookId, userId) {
   try {
     const response = await fetch(
-      BASE_URL + "/userquestionrecord/read/" + questionId + "/user/" + userId,
+      BASE_URL + "/userquestionrecord/read/" + workbookId + "/user/" + userId,
       { method: "GET" }
     );
-if (!response.ok) {
+    if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     let data;
@@ -844,7 +844,7 @@ export async function getTime(userId) {
     // .json() 메서드 사용하지 않음
     const data = await response.text();
     // 문자열로 데이터를 받아옴
-        return data;
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;

@@ -1,7 +1,7 @@
 import Container from "../components/Container";
 import styles from "./StudyGroupPage.module.css";
 import Modal from "react-modal";
-import { useParams, Link, useNavigate, Navigate } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   subjectIngroup,
   workbookInsubject,
@@ -11,7 +11,6 @@ import {
   allquizroomInfo,
   enterQuizroom,
   makeQuizroom,
-  quizroomInfo,
 } from "../api/api";
 import WorkBookCreate from "../components/WorkBookCreate";
 import { useEffect, useState } from "react";
@@ -20,7 +19,7 @@ import arrow from "../assets/arrow.png";
 
 export default function StudyGroupPage() {
   const now = new Date();
-  console.log(now);
+  // console.log(now);
   const navigate = useNavigate(); // useNavigate 훅 추가
   const { groupid } = useParams();
 
