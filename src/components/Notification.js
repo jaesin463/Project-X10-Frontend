@@ -5,10 +5,31 @@ const Notification = ({ userId }) => {
   const [notices, setNotices] = useState([]);
 
   useEffect(() => {
-    readAllNotice(userId)
-      .then(setNotices)
-      .catch((error) => console.error("Error handling notices:", error));
-  }, [userId]);
+    // fetchNotices 함수는 비동기로 작동하여 모든 알림과 관련 그룹 정보를 가져옵니다.
+    const fetchNotices = async () => {
+      try {
+        // 사용자의 모든 알림을 가져옵니다.
+        const fetchedNotices = await readAllNotice(userId);
+
+        // 각 알림에 대해 추가 정보를 가져오기 위해 Promise.all을 사용합니다.
+        const noticesWithGroupName = await Promise.all(
+          fetchedNotices.map(async (notice) => {
+            const groupInfo = await readGroup(notice.sendGroup);
+            // 가져온 그룹 정보를 기존 알림 객체에 추가합니다.
+            return { ...notice, groupName: groupInfo.groupName };
+          })
+        );
+        // 완성된 알림 목록을 상태에 저장합니다.
+        setNotices(noticesWithGroupName);
+      } catch (error) {
+        // 오류 발생 시 콘솔에 로그를 출력합니다.
+        console.error("Error handling notices:", error);
+      }
+    };
+
+    // fetchNotices 함수를 호출합니다.
+    fetchNotices();
+  }, [userId]); // useEffect 훅은 userId가 변경될 때마다 실행됩니다.
 
   const handleAction = async (notice, actionType) => {
     try {
@@ -40,9 +61,9 @@ const Notification = ({ userId }) => {
           >
             <p style={{ color: isRead ? "grey" : "black" }}>
               {notice.noticeType === 1
-                ? `${notice.sendGroup} 그룹에서 초대 요청이 도착했습니다`
+                ? `${notice.groupName} 그룹에서 초대 요청이 도착했습니다`
                 : notice.noticeType === 2
-                ? `${notice.sendGroup} 그룹의 그룹장이 되셨습니다`
+                ? `${notice.groupName} 그룹의 그룹장이 되셨습니다`
                 : "알림"}
             </p>
             {notice.noticeType === 1 && !isRead && (
