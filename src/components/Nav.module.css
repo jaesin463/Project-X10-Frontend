@@ -53,6 +53,15 @@
   text-align: center;
 }
 
+.ntoggle {
+  background-color: var(--primary-300);
+  padding: 10px;
+  position: absolute;
+  top: 45px;
+  border-radius: 10px;
+  text-align: center;
+}
+
 .togglebtn {
   cursor: pointer;
   color: var(--primary-200);
@@ -68,4 +77,8 @@
 
 .togglebtn:hover {
   background-color: var(--bg-200);
+}
+
+.navimg {
+  width: 20px;
 }

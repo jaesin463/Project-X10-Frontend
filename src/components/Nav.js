@@ -1,8 +1,11 @@
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Container from "./Container";
 import styles from "./Nav.module.css";
 import logo from "../assets/logo.png";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import userpic from "../assets/user.png";
+import bell from "../assets/bell.png";
+import Notification from "./Notification";
 
 function Nav() {
   const loginUser = JSON.parse(localStorage.getItem("loginUser"));
@@ -19,12 +22,15 @@ function Nav() {
     localStorage.removeItem("loginUser");
     navigate("/");
   };
+
   useEffect(() => {
-    if (loginUser) setIslogin(true);
-    else setIslogin(false);
+    if (loginUser) {
+      setIslogin(true);
+    } else {
+      setIslogin(false);
+    }
   }, [loginUser, location.pathname]);
 
-  // 페이지 이동 시 토글 닫기
   useEffect(() => {
     setToggle(false);
     setNToggle(false);
@@ -45,28 +51,23 @@ function Nav() {
                 width="30"
                 height="30"
               ></img>
-              <div onClick={() => setNToggle(!ntoggle)}>알림</div>
+              <img
+                src={bell}
+                alt="알림"
+                onClick={() => setNToggle(!ntoggle)}
+                className={`${styles.navimg} ${styles.div} ${styles.pointer}`}
+              />
               {ntoggle && (
-                <div className={styles.toggle}>
-                  <Link to={`my/${loginUser.userId}/edit`}>
-                    <button
-                      onClick={() => setToggle(false)}
-                      className={styles.togglebtn}
-                    >
-                      알림
-                    </button>
-                  </Link>
-                  <button onClick={logout} className={styles.togglebtn}>
-                    기능
-                  </button>
+                <div className={styles.ntoggle}>
+                  <Notification userId={loginUser.userId} />
                 </div>
               )}
-              <div
+              <img
+                src={userpic}
+                alt="설정"
                 onClick={() => setToggle(!toggle)}
-                className={`${styles.div} ${styles.pointer}`}
-              >
-                설정
-              </div>
+                className={`${styles.navimg} ${styles.div} ${styles.pointer}`}
+              />
               {toggle && (
                 <div className={styles.toggle}>
                   <div>{loginUser.userNickname}님</div>
