@@ -306,6 +306,7 @@
 }
 .소문제집틀 {
   display: flex;
+  flex-direction: column;
   border: solid 2.5px var(--primary-300);
   border-radius: 10px;
   box-shadow: 0 0 15px 0px var(--bg-500);
@@ -327,11 +328,87 @@
 .소문제집메인 {
   flex: 5;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-around;
+  flex-direction: column;
+  padding: 5px;
+}
+.소문제집헤더 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px 0;
 }
 .보이거나안보이거나 {
   display: flex;
   flex-direction: column;
   flex: 1;
+  align-items: flex-end;
+}
+.WorkBookCreateModal {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
+}
+.WorkBookCreatebtn {
+  cursor: pointer;
+  color: var(--primary-200);
+  background-color: var(--bg-100);
+  border: none;
+  border: solid 1px var(--primary-100);
+  outline: none;
+  margin-top: 10px;
+  border-radius: 8px;
+  width: 100%;
+  padding: 10px;
+}
+.subjecteditBtn1 {
+  cursor: pointer;
+  color: var(--primary-200);
+  background-color: var(--bg-100);
+  border: solid 1px var(--primary-100);
+  margin-top: 5px;
+  border-radius: 8px;
+  width: 100%;
+  padding: 5px;
+  text-align: center;
+}
+.subjecteditBtn2 {
+  cursor: pointer;
+  color: var(--accent-100);
+  background-color: var(--bg-100);
+  border: solid 1px var(--accent-100);
+  margin-top: 5px;
+  border-radius: 8px;
+  width: 100%;
+  padding: 5px;
+  text-align: center;
+}
+/* .modalStyles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 4em;
+  background-color: var(--text-300);
+  border: solid 2px var(--primary-200);
+  border-radius: 10px;
+  backdrop-filter: blur(25px);
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  z-index: 10;
+  color: var(--bg-100);
+} */
+.modalcol {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding-bottom: 1em;
+}
+.inputtxt {
+  text-align: center;
+  padding-top: 0.5em;
+  margin-top: 0.2em;
 }

@@ -23,6 +23,25 @@ export async function loginUser(user) {
   }
 }
 
+// 로그아웃
+export async function logoutUser() {
+  try {
+    const response = await fetch(BASE_URL + "/users/logout", {
+      method: "POST",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
 // 회원가입
 export async function signupUser(user) {
   try {
@@ -903,6 +922,26 @@ export async function groupInvite(userid, groupid) {
   }
 }
 
+// 과목 수정
+export async function subjectUpdate(subject) {
+  try {
+    const response = await fetch(BASE_URL + "/subject/update", {
+      method: "PUT",
+      headers: {
+        accept: "*/*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(subject),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
 //답안 보내기
 export async function AddAnswer(answer) {
   try {
@@ -974,7 +1013,6 @@ export async function checkNotice(notice) {
       },
       body: JSON.stringify(notice),
     });
-
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
