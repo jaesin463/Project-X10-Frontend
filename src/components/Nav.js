@@ -55,17 +55,8 @@ function Nav() {
               />
               {ntoggle && (
                 <div className={styles.toggle}>
-                  <Link to={`my/${loginUser.userId}/edit`}>
-                    <button
-                      onClick={() => setToggle(false)}
-                      className={styles.togglebtn}
-                    >
-                      알림
-                    </button>
-                  </Link>
-                  <button onClick={logout} className={styles.togglebtn}>
-                    기능
-                  </button>
+                  <button className={styles.togglebtn}>알림</button>
+                  <button className={styles.togglebtn}>기능</button>
                 </div>
               )}
               <img

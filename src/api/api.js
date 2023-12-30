@@ -767,7 +767,7 @@ export async function subjectDelete(subjectId) {
     const response = await fetch(BASE_URL + "/subject/delete/" + subjectId, {
       method: "DELETE",
     });
-   if (!response.ok) {
+    if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
   } catch (error) {
@@ -783,7 +783,7 @@ export async function getUserquizrecord(questionId, userId) {
       BASE_URL + "/userquestionrecord/read/" + questionId + "/user/" + userId,
       { method: "GET" }
     );
-if (!response.ok) {
+    if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     let data;
@@ -859,7 +859,7 @@ export async function getTime(userId) {
     // .json() 메서드 사용하지 않음
     const data = await response.text();
     // 문자열로 데이터를 받아옴
-        return data;
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
@@ -892,6 +892,81 @@ export async function groupInvite(userid, groupid) {
         method: "POST",
       }
     );
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+// notice
+export async function createNotice(notice) {
+  try {
+    const response = await fetch(BASE_URL + "/notice/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(notice),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error create data", error);
+    throw error;
+  }
+}
+
+export async function readAllNotice(userId) {
+  try {
+    const response = await fetch(BASE_URL + "/notice/read/" + userId, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+export async function checkNotice(notice) {
+  try {
+    const response = await fetch(BASE_URL + "/notice/check", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(notice),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+export async function deleteToDoList(noticeId) {
+  try {
+    const response = await fetch(BASE_URL + "/notice/delete/" + noticeId, {
+      method: "DELETE",
+    });
+
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
