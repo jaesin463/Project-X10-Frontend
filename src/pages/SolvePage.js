@@ -8,6 +8,7 @@ import {
   getUserquizrecord,
   getTime,
   AddAnswer,
+  quizroomDelete,
 } from "../api/api";
 import Modal from "react-modal";
 import { useNavigate, useParams } from "react-router-dom";
@@ -22,6 +23,7 @@ export default function SolvePage() {
   const [currentTime, setCurrentTime] = useState("");
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [togglebtn, setTogglebtn] = useState(true);
   const navigate = useNavigate();
   const [ans, setAns] = useState("");
   const [anss, setAnss] = useState(0);
@@ -63,6 +65,7 @@ export default function SolvePage() {
   const handleCount = () => {
     setCurrentPage(currentPage + 1);
     console.log(currentPage);
+    setTogglebtn(true);
   };
 
   const handleRestart = () => {
@@ -94,6 +97,8 @@ export default function SolvePage() {
     };
   }, [currentPage]);
   const go = () => {
+    const Id = quizroomId;
+    quizroomDelete(Id);
     navigate(`/study/${loginUser.userId}/${workId}/1/solveexplane`);
   };
 
@@ -107,6 +112,7 @@ export default function SolvePage() {
     console.log(anss);
     AddAnswer(anss);
     setAns("");
+    setTogglebtn(false);
   };
   const handleSubmitG = (questionId) => {
     const anssd = {
@@ -118,6 +124,7 @@ export default function SolvePage() {
     console.log(anssd);
     AddAnswer(anssd);
     setAnss(-1);
+    setTogglebtn(false);
   };
   const handleSubmitD = (questionId) => {
     const anss = {
@@ -129,6 +136,7 @@ export default function SolvePage() {
     console.log(anss);
     AddAnswer(anss);
     setAns("");
+    setTogglebtn(false);
   };
 
   // 전체 퀴즈를 페이지 단위로 자르는 함수
@@ -181,12 +189,14 @@ export default function SolvePage() {
                           </label>
                         </div>
                       ))}
-                      <button
-                        className={styles.답안제출}
-                        onClick={() => handleSubmitG(quiz.questionId)}
-                      >
-                        답안제출
-                      </button>
+                      {togglebtn && (
+                        <button
+                          className={styles.답안제출}
+                          onClick={() => handleSubmitG(quiz.questionId)}
+                        >
+                          답안제출
+                        </button>
+                      )}
                     </div>
                   )}
                   {quiz.questionType === 2 && (
@@ -199,24 +209,28 @@ export default function SolvePage() {
                         onChange={(e) => setAns(e.target.value)}
                         placeholder="답을 입력하세요"
                       />
-                      <button
-                        className={styles.답안제출}
-                        onClick={() => handleSubmitD(quiz.questionId)}
-                      >
-                        답안제출
-                      </button>
+                      {togglebtn && (
+                        <button
+                          className={styles.답안제출}
+                          onClick={() => handleSubmitD(quiz.questionId)}
+                        >
+                          답안제출
+                        </button>
+                      )}
                     </div>
                   )}
                   {quiz.questionType === 3 && (
                     <div>
                       <button onClick={() => setAns("1")}>O</button>
                       <button onClick={() => setAns("2")}>X</button>
-                      <button
-                        className={styles.답안제출}
-                        onClick={() => handleSubmitOx(quiz.questionId)}
-                      >
-                        답안제출
-                      </button>
+                      {togglebtn && (
+                        <button
+                          className={styles.답안제출}
+                          onClick={() => handleSubmitOx(quiz.questionId)}
+                        >
+                          답안제출
+                        </button>
+                      )}
                     </div>
                   )}
                 </div>
