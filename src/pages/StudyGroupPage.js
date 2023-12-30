@@ -137,22 +137,22 @@ export default function StudyGroupPage() {
 
   const nFormatter = (num) => {
     const si = [
-      { value: 1, symbol: '' },
-      { value: 1e3, symbol: 'k' },
-      { value: 1e6, symbol: 'M' },
-      { value: 1e9, symbol: 'G' },
-      { value: 1e12, symbol: 'T' },
-      { value: 1e15, symbol: 'P' },
-      { value: 1e18, symbol: 'E' }
-    ]
-    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/
-    let i
+      { value: 1, symbol: "" },
+      { value: 1e3, symbol: "k" },
+      { value: 1e6, symbol: "M" },
+      { value: 1e9, symbol: "G" },
+      { value: 1e12, symbol: "T" },
+      { value: 1e15, symbol: "P" },
+      { value: 1e18, symbol: "E" },
+    ];
+    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    let i;
     for (i = si.length - 1; i > 0; i--) {
       if (num >= si[i].value) {
-        break
+        break;
       }
     }
-    return (num / si[i].value).toFixed(1).replace(rx, '$1') + si[i].symbol
+    return (num / si[i].value).toFixed(1).replace(rx, "$1") + si[i].symbol;
   };
 
   const handleRegist = async (e) => {
@@ -410,14 +410,24 @@ export default function StudyGroupPage() {
                   <div key={index}>
                     <div className={styles.랭킹메인}>
                       <div className={styles.랭킹개인정보}>
-                        <span>{member.userId}
-                          {member.isOnline ? (<span className={styles.onDot}></span>) 
-                          : (<span className={styles.offDot}></span>)}
+                        <span>
+                          {member.userId}
+                          {member.isOnline ? (
+                            <span className={styles.onDot}></span>
+                          ) : (
+                            <span className={styles.offDot}></span>
+                          )}
                         </span>
                       </div>
                       <div className={styles.랭킹레벨정보}>
-                        <span className={styles.레벨}> Lv.{member.userLevel}</span>
-                        <span className={styles.경험치}> Exp {nFormatter(member.userSolvedQuestion)}</span>
+                        <span className={styles.레벨}>
+                          {" "}
+                          Lv.{member.userLevel}
+                        </span>
+                        <span className={styles.경험치}>
+                          {" "}
+                          Exp {nFormatter(member.userSolvedQuestion)}
+                        </span>
                       </div>
                     </div>
                   </div>
