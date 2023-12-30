@@ -33,7 +33,11 @@ const Notification = ({ userId }) => {
             className={`notification ${isRead ? "read" : "unread"}`}
           >
             <p style={{ color: isRead ? "grey" : "black" }}>
-              {`${notice.sendGroup} 그룹에 초대되셨습니다`}
+              {notice.noticeType === 1
+                ? `${notice.sendGroup} 그룹에 초대되셨습니다`
+                : notice.noticeType === 2
+                ? `${notice.sendGroup} 그룹의 그룹장이 되셨습니다`
+                : "알림"}
             </p>
             {notice.noticeType === 1 && !isRead && (
               <>
