@@ -924,3 +924,78 @@ export async function AddAnswer(answer) {
     throw error;
   }
 }
+
+// notice
+export async function createNotice(notice) {
+  try {
+    const response = await fetch(BASE_URL + "/notice/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(notice),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error create data", error);
+    throw error;
+  }
+}
+
+export async function readAllNotice(userId) {
+  try {
+    const response = await fetch(BASE_URL + "/notice/read/" + userId, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+export async function checkNotice(notice) {
+  try {
+    const response = await fetch(BASE_URL + "/notice/check", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(notice),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
+
+export async function deleteNotice(noticeId) {
+  try {
+    const response = await fetch(BASE_URL + "/notice/delete/" + noticeId, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
