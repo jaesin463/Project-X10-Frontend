@@ -2,6 +2,7 @@ import Container from "../components/Container";
 import styles from "./StudyGroupEditPage.module.css";
 import AddMember from "../components/AddMember";
 import Modal from "react-modal";
+import ex from "../assets/ex.jpeg";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { readGroup } from "../api/api";
@@ -22,7 +23,7 @@ export default function StudyGroupEditPage() {
       <Container>
         <div className={styles.그룹이미지디브}>
           <div className={styles.이미지}>
-            그룹이미지가 들어갈공간입니다
+            <img src={ex} alt="dd" className={styles.groupimg}></img>
             <div className={styles.수정버튼위치}>
               <button>수정</button>
             </div>
