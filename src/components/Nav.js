@@ -42,7 +42,8 @@ function Nav() {
               <img
                 src={`http://localhost:8080/upload/${loginUser.userImg}`}
                 alt={loginUser.userImg}
-                width="50"
+                width="30"
+                height="30"
               ></img>
               <div onClick={() => setNToggle(!ntoggle)}>알림</div>
               {ntoggle && (
@@ -68,6 +69,7 @@ function Nav() {
               </div>
               {toggle && (
                 <div className={styles.toggle}>
+                  <div>{loginUser.userNickname}님</div>
                   <Link to={`my/${loginUser.userId}/edit`}>
                     <button
                       onClick={() => setToggle(false)}

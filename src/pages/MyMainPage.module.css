@@ -122,13 +122,35 @@
 }
 
 /* 최근 푼 문제 스타일링 */
-.qustion {
+.question {
   flex: 3;
   border: solid 2.5px var(--primary-300);
   border-radius: 10px;
   box-shadow: 0 0 15px 0px var(--bg-500);
-  padding: 0 20px;
+  padding: 20px;
   background-color: var(--bg-400);
+}
+
+/* 최근 푼 문제집 | 최근에 만들어진 문제집 탭 스타일링 */
+.activeTab {
+  color: var(--accent-100); /* 활성화된 탭 색상 */
+}
+
+.inactiveTab {
+  color: var(--text-300); /* 비활성화된 탭 색상 */
+  cursor: pointer;
+}
+
+.separator {
+  margin: 0 10px;
+  color: var(--text-300); /* 구분선 색상 */
+}
+
+.recent {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 레벨 표시 스타일링 */

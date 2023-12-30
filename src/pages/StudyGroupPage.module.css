@@ -101,7 +101,9 @@
 }
 .열고닫기 {
   display: flex;
+  flex-direction: column;
   align-items: flex-end;
+  gap: 30px;
 }
 .여닫이 {
   margin: 0 15px;
