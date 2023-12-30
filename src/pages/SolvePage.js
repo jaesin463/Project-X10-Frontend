@@ -68,7 +68,7 @@ export default function SolvePage() {
                       />
                     </div>
                   )}
-                  {quiz.questionType == 3 && (
+                  {quiz.questionType === 3 && (
                     <div>
                       <button>O</button>
                       <button>X</button>
