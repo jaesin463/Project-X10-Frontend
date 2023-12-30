@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import { userIngroup } from "../api/api";
 import styles from "./GroupMember.module.css";
 
-export default function GroupMember({ groupid }) {
+export default function GroupMember({ group }) {
   const [groupUsers, setGroupUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     const fetchGroupUsers = async () => {
       try {
-        const users = await userIngroup(groupid);
+        if (!group || !group.groupId) {
+          console.error("Group information is not provided");
+          return;
+        }
+        let users = await userIngroup(group.groupId);
+        users = users.filter((user) => user.userId !== group.groupLeaderId);
         setGroupUsers(users);
       } catch (error) {
         console.error("Error fetching group users:", error);
@@ -17,7 +22,7 @@ export default function GroupMember({ groupid }) {
     };
 
     fetchGroupUsers();
-  }, []); // 의존성 배열에 그룹 ID가 포함되어야 할 수도 있음
+  }, [group, group?.groupId]); // 의존성 배열 업데이트
 
   const handleUserClick = (user) => {
     setSelectedUser(user); // 사용자 클릭 시 선택된 사용자 상태 업데이트
@@ -40,8 +45,7 @@ export default function GroupMember({ groupid }) {
       {selectedUser && (
         <div className={styles.userInfo}>
           <div className={styles.인포탑}>
-            <div className={styles.userImg}>이미지: {selectedUser.userId}</div>{" "}
-            {/* 예시로 userId를 사용했습니다 */}
+            <div className={styles.userImg}>이미지: {selectedUser.userImg}</div>{" "}
             <div className={styles.레벨과이름디브}>
               <span>레벨: {selectedUser.userLevel}</span>
               <span>{selectedUser.userName}</span>

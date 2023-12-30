@@ -15,9 +15,17 @@ export default function StudyGroupEditPage() {
   console.log(groupid);
 
   useEffect(() => {
-    setGroup(readGroup(groupid));
-    console.log(group);
-  }, []);
+    const fetchGroup = async () => {
+      try {
+        const groupData = await readGroup(groupid);
+        setGroup(groupData);
+      } catch (error) {
+        console.error("Error fetching group data:", error);
+      }
+    };
+
+    fetchGroup();
+  }, [groupid]); // groupId가 변경될 때마다 실행
 
   return (
     <>
@@ -77,7 +85,7 @@ export default function StudyGroupEditPage() {
           </div>
         </div>
         <div className={styles.멤버들디브}>
-          <GroupMember groupid={groupid} />
+          <GroupMember group={group} />
         </div>
       </Container>
     </>
