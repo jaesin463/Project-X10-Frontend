@@ -98,8 +98,12 @@ export async function userGroup(userid) {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-
-    const data = await response.json();
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -138,7 +142,12 @@ export async function subjectIngroup(groupid) {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    const data = await response.json();
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -308,7 +317,12 @@ export async function questionInworkbook(workbookid) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    const data = await response.json();
+    let data;
+    if (response.status === 204) {
+      data = [];
+    } else {
+      data = await response.json();
+    }
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
