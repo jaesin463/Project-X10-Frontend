@@ -131,10 +131,9 @@ export default function MyMainPage() {
               <div className={styles.recent}>
                 {selectedTab === "recentSolved" ? (
                   <RecentSolvedWorkbook data={data1} />
-                ) : null}
-                {selectedTab === "recentCreated" ? (
+                ) : (
                   <RecentCreatedWorkbook data={data2} />
-                ) : null}
+                )}
               </div>
             </div>
             <div
@@ -169,7 +168,7 @@ export default function MyMainPage() {
                 <div className={styles.studylist}>
                   <div className={styles.groupimgCover}>
                     <img
-                      src={ex}
+                      src={`http://localhost:8080/upload/${group.groupImg}`}
                       alt={group.groupName}
                       className={styles.groupimg}
                     ></img>

@@ -304,7 +304,7 @@ export default function StudyGroupPage() {
                 <div>내그룹</div>
                 {userGroups.map((group, index) => (
                   <div key={index}>
-                    {group.groupName !== nowGroup.groupName ? (
+                    {group.groupId !== nowGroup.groupId ? (
                       <Link
                         to={`../../study/${group.groupId}`}
                         onClick={() => setToggle(false)}
