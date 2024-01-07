@@ -1073,6 +1073,23 @@ export async function changeLeader(groupId, userId) {
     throw error;
   }
 }
+export async function updateExp(userId, exp) {
+  try {
+    const response = await fetch(
+      BASE_URL + "/users/" + userId + "/expup/" + exp,
+      {
+        method: "PUT",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+}
 
 export async function deleteMember(groupId, userId) {
   try {

@@ -23,7 +23,6 @@ import arrow from "../assets/arrow.png";
 
 export default function StudyGroupPage() {
   const now = new Date();
-  // console.log(now);
   const navigate = useNavigate(); // useNavigate 훅 추가
   const { groupid } = useParams();
 
