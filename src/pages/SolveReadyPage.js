@@ -109,9 +109,10 @@ export default function SolveReadyPage() {
         await quizroomexit(id, user);
         console.log("컴포넌트가 언마운트될 때 실행할 코드");
         // console.log(nowmembers);
-      } else if (loginUser.userId === nowinfo.quizRoomCreator) {
-        await quizroomDelete(quizroomId);
       }
+      // else if (loginUser.userId === nowinfo.quizRoomCreator) {
+      //   await quizroomDelete(quizroomId);
+      // }
     };
   }, [nowmembers]); // nowmembers.length를 의존성 배열에 추가하여 nowmembers.length가 변경될 때마다 useEffect가 다시 실행되도록 함
 

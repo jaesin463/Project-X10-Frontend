@@ -9,6 +9,7 @@ import {
   getTime,
   AddAnswer,
   quizroomDelete,
+  updateExp,
 } from "../api/api";
 import Modal from "react-modal";
 import { useNavigate, useParams } from "react-router-dom";
@@ -28,6 +29,7 @@ export default function SolvePage() {
   const [ans, setAns] = useState("");
   const [anss, setAnss] = useState(0);
   const [workId, setWorkId] = useState("");
+  const [exp, setExp] = useState(0);
 
   const { groupid, quizroomId, timea } = useParams();
   const timerRef = useRef();
@@ -99,6 +101,10 @@ export default function SolvePage() {
   const go = () => {
     const Id = quizroomId;
     quizroomDelete(Id);
+    updateExp(loginUser.userId, exp);
+    loginUser.userSolvedQuestion += exp;
+    localStorage.setItem("loginUser", JSON.stringify(loginUser));
+    console.log("총" + exp);
     navigate(`/study/${loginUser.userId}/${workId}/1/solveexplane`);
   };
 
@@ -109,7 +115,8 @@ export default function SolvePage() {
       recordTime: currentTime,
       correct: allquestion[currentPage - 1].questionA === ans ? true : false,
     };
-    console.log(anss);
+    setExp(exp + (anss.correct ? 1 : 0));
+    console.log("현재" + exp);
     AddAnswer(anss);
     setAns("");
     setTogglebtn(false);
@@ -121,7 +128,8 @@ export default function SolvePage() {
       recordTime: currentTime,
       correct: allquestion[currentPage - 1].multipleChoices[anss].answer,
     };
-    console.log(anssd);
+    setExp(exp + (anssd.correct ? 1 : 0));
+    console.log("현재" + exp);
     AddAnswer(anssd);
     setAnss(-1);
     setTogglebtn(false);
@@ -133,7 +141,8 @@ export default function SolvePage() {
       recordTime: currentTime,
       correct: allquestion[currentPage - 1].questionA === ans ? true : false,
     };
-    console.log(anss);
+    setExp(exp + (anss.correct ? 1 : 0));
+    console.log("현재" + exp);
     AddAnswer(anss);
     setAns("");
     setTogglebtn(false);
